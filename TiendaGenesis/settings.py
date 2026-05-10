@@ -157,12 +157,12 @@ WSGI_APPLICATION = 'TiendaGenesis.wsgi.application'
 # DATABASE
 # ==================================================
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+import dj_database_url
 
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+    )
 }
 
 # ==================================================
@@ -286,3 +286,12 @@ SOCIALACCOUNT_PROVIDERS = {
 # ==================================================
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://tiendagenesis.onrender.com"
+]
+
+SECURE_PROXY_SSL_HEADER = (
+    'HTTP_X_FORWARDED_PROTO',
+    'https'
+)
