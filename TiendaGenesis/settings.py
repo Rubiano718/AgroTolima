@@ -21,7 +21,7 @@ DEBUG = os.getenv("DEBUG", "True") == "True"
 ALLOWED_HOSTS = [
     "127.0.0.1",
     "localhost",
-    "tiendagenesis.onrender.com",
+    "agrotolima.onrender.com",
 ]
 
 # ==================================================
@@ -288,7 +288,7 @@ SOCIALACCOUNT_PROVIDERS = {
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://tiendagenesis.onrender.com"
+    "https://agrotolima.onrender.com"
 ]
 
 SECURE_PROXY_SSL_HEADER = (
