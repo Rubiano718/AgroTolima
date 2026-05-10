@@ -2131,3 +2131,54 @@ textarea:focus {
 
     color: white;
 }
+/* =========================================
+ FIX RENDER PRODUCCION
+========================================= */
+
+.navbar {
+
+    min-height: 78px;
+
+    display: flex;
+
+    align-items: center;
+}
+
+.navbar-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.navbar-brand img {
+
+    width: 42px !important;
+
+    height: 42px !important;
+
+    object-fit: contain;
+
+    border-radius: 0;
+}
+
+.navbar-collapse {
+
+    flex-grow: 0;
+}
+
+.hero-marketplace {
+
+    min-height: 100vh;
+}
+
+.hero-overlay {
+
+    display: flex;
+
+    align-items: center;
+
+    min-height: 100vh;
+}
