@@ -1,0 +1,25 @@
+{% extends "admin/base_site.html" %}
+
+{% block content %}
+    <div id="content-main">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <fieldset class="module aligned">
+                {{ form.as_p }}
+            </fieldset>
+
+            <div class="submit-row">
+                <input type="submit" value="Importar productos" class="default">
+                <a href="../">Volver</a>
+            </div>
+        </form>
+
+        <section class="module" style="margin-top: 24px; padding: 16px;">
+            <h2>Formato del archivo</h2>
+            <p>Guarda el archivo como CSV UTF-8 con estas columnas:</p>
+            <pre>nombre,descripcion,precio,stock,disponible,categoria,productor,municipio_productor,telefono_productor,whatsapp_productor,correo_productor
+Cafe especial,Cafe cultivado en las montanas del Tolima,35000,20,si,Cafe,Finca El Paraiso,Ibague,3001234567,+57 3157556596,productor@ejemplo.com</pre>
+        </section>
+    </div>
+{% endblock %}

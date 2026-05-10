@@ -1,0 +1,31 @@
+{% extends "TiendaGenesisApp/base.html" %}
+
+{% block content %}
+
+<section class="auth-page" aria-labelledby="social-login-title">
+    <div class="auth-panel">
+        <span class="eyebrow">Acceso externo</span>
+        <h1 id="social-login-title">Continuar con Google</h1>
+        <p>
+            Vas a iniciar sesion en AgroTolima usando tu cuenta de Google.
+            Esto permite entrar mas rapido sin crear otra contrasena.
+        </p>
+
+        {% if GOOGLE_LOGIN_ENABLED %}
+            <form method="post">
+                {% csrf_token %}
+                <button class="auth-google auth-google--submit" type="submit">
+                    <i class="bi bi-google" aria-hidden="true"></i>
+                    Continuar con Google
+                </button>
+            </form>
+        {% else %}
+            <div class="auth-note">
+                Google Login no esta configurado. Agrega GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET en el archivo .env.
+            </div>
+            <a class="auth-link-button" href="{% url 'account_login' %}">Volver al inicio de sesion</a>
+        {% endif %}
+    </div>
+</section>
+
+{% endblock %}

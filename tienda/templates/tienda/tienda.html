@@ -1,0 +1,223 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load static %}
+{% load precios %}
+
+{% block content %}
+
+<section class="market-hero" aria-labelledby="market-title">
+    <div class="container">
+        <div class="market-hero__content">
+            <span class="eyebrow">Marketplace Regional del Tolima</span>
+
+            <h1 id="market-title">
+                Compra directo al productor, sin intermediarios
+            </h1>
+
+            <p>
+                Encuentra cafe, arroz, cacao, frutas, artesanias y productos locales
+                ofrecidos por emprendedores y campesinos del Tolima.
+            </p>
+
+            <form class="market-search" method="get" action="{% url 'tienda:Tienda' %}" role="search">
+                <label class="visually-hidden" for="buscar-producto">Buscar productos o productores</label>
+                <input
+                    id="buscar-producto"
+                    type="search"
+                    name="q"
+                    value="{{ filtros.q }}"
+                    placeholder="Buscar productos, categorias, municipios o productores">
+
+                <button type="submit">
+                    <i class="bi bi-search" aria-hidden="true"></i>
+                    Buscar
+                </button>
+            </form>
+
+            <div class="quick-categories" aria-label="Categorias destacadas">
+                <a href="{% url 'tienda:Tienda' %}">Todos</a>
+                {% for categoria in categorias|slice:":6" %}
+                    <a href="{% url 'tienda:Tienda' %}?categoria={{ categoria.id }}">
+                        {{ categoria.nombre }}
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="market-layout container" aria-label="Catalogo de productos">
+    <aside class="market-filters" aria-labelledby="filters-title">
+        <h2 id="filters-title">Filtros</h2>
+
+        <form method="get" action="{% url 'tienda:Tienda' %}">
+            <div class="filter-group">
+                <label for="filtro-q">Busqueda</label>
+                <input id="filtro-q" type="search" name="q" value="{{ filtros.q }}" placeholder="Cafe, arroz, cacao...">
+            </div>
+
+            <div class="filter-group">
+                <label for="filtro-categoria">Categoria</label>
+                <select id="filtro-categoria" name="categoria">
+                    <option value="">Todas las categorias</option>
+                    {% for categoria in categorias %}
+                        <option value="{{ categoria.id }}" {% if filtros.categoria == categoria.id|stringformat:"s" %}selected{% endif %}>
+                            {{ categoria.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="filtro-productor">Productor</label>
+                <select id="filtro-productor" name="productor">
+                    <option value="">Todos los productores</option>
+                    {% for productor in productores %}
+                        <option value="{{ productor.id }}" {% if filtros.productor == productor.id|stringformat:"s" %}selected{% endif %}>
+                            {{ productor.nombre }} - {{ productor.municipio }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label>Rango de precio</label>
+                <div class="price-fields">
+                    <input type="number" name="precio_min" value="{{ filtros.precio_min }}" min="0" placeholder="Minimo">
+                    <input type="number" name="precio_max" value="{{ filtros.precio_max }}" min="0" placeholder="Maximo">
+                </div>
+            </div>
+
+            <button class="filter-submit" type="submit">Aplicar filtros</button>
+            <a class="filter-clear" href="{% url 'tienda:Tienda' %}">Limpiar</a>
+        </form>
+    </aside>
+
+    <div class="market-results">
+        <div class="results-header">
+            <div>
+                <span class="eyebrow">Catalogo</span>
+                <h2>Productos disponibles</h2>
+            </div>
+            <p>{{ productos|length }} resultado{{ productos|length|pluralize }}</p>
+        </div>
+
+        {% if productos %}
+            <div class="product-grid">
+                {% for producto in productos %}
+                    <article class="product-card">
+                        <button class="product-image image-zoom-trigger" type="button" data-image="{% if producto.imagen %}{{ producto.imagen.url }}{% else %}{% static 'TiendaGenesisApp/img/fondo-marketplace.jpg' %}{% endif %}" data-title="{{ producto.nombre }}">
+                            {% if producto.imagen %}
+                                <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+                            {% else %}
+                                <img src="{% static 'TiendaGenesisApp/img/fondo-marketplace.jpg' %}" alt="">
+                            {% endif %}
+
+                            <span class="seller-chip">
+                                {{ producto.productor.nombre }}
+                            </span>
+                            <span class="zoom-hint">
+                                <i class="bi bi-zoom-in" aria-hidden="true"></i>
+                                Ampliar
+                            </span>
+                        </button>
+
+                        <div class="product-body">
+                            <div>
+                                <p class="product-location">
+                                    <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                                    {{ producto.productor.municipio }}, Tolima
+                                </p>
+
+                                <h3>{{ producto.nombre }}</h3>
+
+                                <p class="product-description">
+                                    {{ producto.descripcion|truncatechars:95 }}
+                                </p>
+                            </div>
+
+                            <div class="product-meta">
+                                <span>{{ producto.categoria.nombre }}</span>
+                                {% if producto.disponible and producto.stock > 0 %}
+                                    <span class="status-ok">Disponible</span>
+                                {% else %}
+                                    <span class="status-empty">Agotado</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="product-buy">
+                                <strong>{{ producto.precio|precio_colombiano }}</strong>
+
+                                <form method="post" action="{% url 'carrito:agregar_carrito' producto.id %}">
+                                    {% csrf_token %}
+                                    <label class="visually-hidden" for="cantidad-{{ producto.id }}">Cantidad</label>
+                                    <input id="cantidad-{{ producto.id }}" type="number" name="cantidad" value="1" min="1" max="{{ producto.stock }}">
+                                    <button type="submit" {% if not producto.disponible or producto.stock <= 0 %}disabled{% endif %}>
+                                        <i class="bi bi-cart-plus" aria-hidden="true"></i>
+                                        Agregar
+                                    </button>
+                                </form>
+
+                                {% with whatsapp_url=producto|whatsapp_producto_url %}
+                                    {% if whatsapp_url %}
+                                        <a class="product-whatsapp" href="{{ whatsapp_url }}" target="_blank" rel="noopener">
+                                            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+                                            Preguntar al productor
+                                        </a>
+                                    {% endif %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <h3>No encontramos productos con esos filtros</h3>
+                <p>Prueba con otra categoria, municipio o rango de precio.</p>
+                <a href="{% url 'tienda:Tienda' %}">Ver todo el catalogo</a>
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<div class="image-modal" id="image-modal" aria-hidden="true">
+    <div class="image-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="image-modal-title">
+        <button class="image-modal__close" type="button" aria-label="Cerrar imagen ampliada">
+            <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+        <h2 id="image-modal-title">Imagen del producto</h2>
+        <img src="" alt="">
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll(".image-zoom-trigger").forEach((button) => {
+        button.addEventListener("click", () => {
+            const modal = document.getElementById("image-modal");
+            const image = modal.querySelector("img");
+            const title = modal.querySelector("h2");
+
+            image.src = button.dataset.image;
+            image.alt = button.dataset.title;
+            title.textContent = button.dataset.title;
+            modal.classList.add("is-open");
+            modal.setAttribute("aria-hidden", "false");
+            modal.querySelector(".image-modal__close").focus();
+        });
+    });
+
+    document.querySelector(".image-modal__close").addEventListener("click", () => {
+        const modal = document.getElementById("image-modal");
+        modal.classList.remove("is-open");
+        modal.setAttribute("aria-hidden", "true");
+    });
+
+    document.getElementById("image-modal").addEventListener("click", (event) => {
+        if (event.target.id === "image-modal") {
+            event.currentTarget.classList.remove("is-open");
+            event.currentTarget.setAttribute("aria-hidden", "true");
+        }
+    });
+</script>
+
+{% endblock %}

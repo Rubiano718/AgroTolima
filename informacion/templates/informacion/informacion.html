@@ -1,0 +1,230 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<section class="region-hero" aria-labelledby="region-title">
+
+    <div class="container">
+
+        <div class="region-hero__text">
+
+            <span class="eyebrow">
+                Tolima productivo
+            </span>
+
+            <h1 id="region-title">
+                Un marketplace pensado para productores reales
+            </h1>
+
+            <p>
+
+                AgroTolima conecta campesinos, emprendedores y compradores sin depender
+                de intermediarios. La plataforma prioriza celulares sencillos, bajo consumo
+                de datos, texto claro y contacto directo por WhatsApp.
+
+            </p>
+
+            <div class="region-actions">
+
+                <a href="{% url 'tienda:Tienda' %}">
+                    Explorar productos
+                </a>
+
+                <a href="{% url 'Contacto' %}">
+                    Quiero vender
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+ HISTORIA CAMPESINA
+========================================= -->
+
+<section class="container region-section">
+
+    <div class="row align-items-center g-5">
+
+        <!-- IMAGEN -->
+
+        <div class="col-lg-6">
+
+            <div class="campesino-img">
+
+                <img
+                    src="{% static 'TiendaGenesisApp/img/campesino.jpg' %}"
+                    alt="Campesino del Tolima">
+
+            </div>
+
+        </div>
+
+        <!-- TEXTO -->
+
+        <div class="col-lg-6">
+
+            <span class="eyebrow">
+                Nuestra inspiración
+            </span>
+
+            <h2 class="campesino-title">
+                El campo merece precios justos
+            </h2>
+
+            <p class="campesino-text">
+
+                Muchos campesinos trabajan desde muy temprano para producir
+                alimentos frescos y de calidad, pero en muchas ocasiones
+                sus productos terminan siendo revendidos a precios mucho más altos.
+
+            </p>
+
+            <p class="campesino-text">
+
+                AgroTolima nace para conectar directamente a productores
+                y compradores, apoyando el comercio justo, fortaleciendo
+                la economía regional y dando mayor visibilidad al trabajo rural.
+
+            </p>
+
+            <div class="campesino-box">
+
+                <i class="bi bi-heart-fill"></i>
+
+                <span>
+                    Apoyamos el trabajo campesino y el comercio justo.
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+ IMPACTO SOCIAL
+========================================= -->
+
+<section class="region-band">
+
+    <div class="container">
+
+        <div class="impacto-section text-center">
+
+            <span class="eyebrow">
+                Impacto social
+            </span>
+
+            <h2 class="impacto-title">
+                Detrás de cada producto hay una historia
+            </h2>
+
+            <p class="impacto-text">
+
+                Cada cultivo representa esfuerzo, dedicación y años de trabajo.
+                AgroTolima busca darle mayor visibilidad a los productores rurales,
+                facilitando ventas más directas y oportunidades para el campo tolimense.
+
+            </p>
+
+        </div>
+
+        <div class="impacto-grid">
+
+            <div class="impacto-card">
+
+                <h3>+47</h3>
+
+                <p>
+                    Municipios del Tolima con potencial agrícola y comercial.
+                </p>
+
+            </div>
+
+            <div class="impacto-card">
+
+                <h3>100%</h3>
+
+                <p>
+                    Enfoque orientado al comercio justo y apoyo regional.
+                </p>
+
+            </div>
+
+            <div class="impacto-card">
+
+                <h3>24/7</h3>
+
+                <p>
+                    Plataforma accesible desde cualquier lugar y dispositivo.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% if posts %}
+
+<section class="container region-section" aria-labelledby="posts-title">
+
+    <div class="section-heading">
+
+        <span class="eyebrow">
+            Actualidad
+        </span>
+
+        <h2 id="posts-title">
+            Historias y noticias regionales
+        </h2>
+
+    </div>
+
+    <div class="region-posts">
+
+        {% for post in posts %}
+
+            <article>
+
+                {% if post.imagen %}
+
+                    <img
+                        src="{{ post.imagen.url }}"
+                        alt="{{ post.titulo }}">
+
+                {% endif %}
+
+                <div>
+
+                    <h3>
+                        {{ post.titulo }}
+                    </h3>
+
+                    <p>
+                        {{ post.contenido|truncatechars:180 }}
+                    </p>
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+{% endblock %}

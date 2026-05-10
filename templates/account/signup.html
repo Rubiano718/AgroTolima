@@ -1,0 +1,65 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load socialaccount %}
+{% block content %}
+
+<section class="auth-page" aria-labelledby="signup-title">
+    <div class="auth-panel">
+        <span class="eyebrow">Nuevo usuario</span>
+        <h1 id="signup-title">Crear cuenta</h1>
+        <p>Regístrate para comprar productos del Tolima o iniciar tu proceso como productor.</p>
+
+        <form method="post" action="{% url 'account_signup' %}" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="field-error" role="alert">{{ form.non_field_errors|striptags }}</div>
+            {% endif %}
+
+            <div class="field-group">
+                <label for="id_email">Correo electronico</label>
+                <input id="id_email" type="email" name="email" value="{{ form.email.value|default:'' }}" autocomplete="email" required placeholder="correo@ejemplo.com">
+                {% if form.email.errors %}
+                    <p class="field-error">{{ form.email.errors|striptags }}</p>
+                {% endif %}
+            </div>
+
+            <div class="field-group">
+                <label for="id_password1">Contraseña</label>
+                <input id="id_password1" type="password" name="password1" autocomplete="new-password" required placeholder="Minimo 6 caracteres">
+                {% if form.password1.errors %}
+                    <p class="field-error">{{ form.password1.errors|striptags }}</p>
+                {% endif %}
+            </div>
+
+            <div class="field-group">
+                <label for="id_password2">Repetir contraseña</label>
+                <input id="id_password2" type="password" name="password2" autocomplete="new-password" required placeholder="Confirma tu contrasena">
+                {% if form.password2.errors %}
+                    <p class="field-error">{{ form.password2.errors|striptags }}</p>
+                {% endif %}
+            </div>
+
+            <button type="submit">Crear cuenta</button>
+        </form>
+
+        <div class="auth-divider"><span>o</span></div>
+
+        {% if GOOGLE_LOGIN_ENABLED %}
+            <a class="auth-google" href="{% provider_login_url 'google' %}">
+                <i class="bi bi-google" aria-hidden="true"></i>
+                Registrarse con Google
+            </a>
+        {% else %}
+            <div class="auth-note">
+                Google Login esta pendiente de configurar. Agrega GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET en .env.
+            </div>
+        {% endif %}
+
+        <p class="auth-switch">
+            Ya tienes cuenta?
+            <a href="{% url 'account_login' %}">Iniciar sesión</a>
+        </p>
+    </div>
+</section>
+
+{% endblock %}

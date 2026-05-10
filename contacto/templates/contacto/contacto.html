@@ -1,0 +1,138 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load precios %}
+
+{% block content %}
+
+<section class="contact-hero" aria-labelledby="contact-title">
+    <div class="container">
+        <div class="contact-hero__grid">
+            <div>
+                <span class="eyebrow">Atencion AgroTolima</span>
+                <h1 id="contact-title">Habla con la persona correcta</h1>
+                <p>
+                    Si tienes una duda sobre un producto, contacta directamente al productor.
+                    Si necesitas soporte con la plataforma, registro, pedidos o publicaciones,
+                    escribe al equipo de AgroTolima.
+                </p>
+            </div>
+
+            <div class="contact-card contact-card--highlight">
+                <h2>Ruta rapida</h2>
+                <ul>
+                    <li><strong>Duda de producto:</strong> usa WhatsApp del productor.</li>
+                    <li><strong>Problema con pedido:</strong> escribe a soporte AgroTolima.</li>
+                    <li><strong>Quiero vender:</strong> completa el formulario o contactanos.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container contact-section" aria-labelledby="channels-title">
+    <div class="section-heading">
+        <span class="eyebrow">Canales</span>
+        <h2 id="channels-title">Opciones de contacto</h2>
+    </div>
+
+    <div class="contact-channel-grid">
+        <article class="contact-card">
+            <i class="bi bi-whatsapp" aria-hidden="true"></i>
+            <h3>WhatsApp productores</h3>
+            <p>Ideal para preguntar por disponibilidad, entrega, cantidades o precio de un producto puntual.</p>
+            <a href="#directorio-productores">Ver productores</a>
+        </article>
+
+        <article class="contact-card">
+            <i class="bi bi-headset" aria-hidden="true"></i>
+            <h3>Soporte AgroTolima</h3>
+            <p>Para problemas con la cuenta, compras, publicaciones o recomendaciones generales de la plataforma.</p>
+            <a href="#formulario-contacto">Enviar mensaje</a>
+        </article>
+
+        <article class="contact-card">
+            <i class="bi bi-shop" aria-hidden="true"></i>
+            <h3>Quiero vender</h3>
+            <p>Si eres productor o comerciante del Tolima, te orientamos para registrar tus productos.</p>
+            <a href="#formulario-contacto">Solicitar ayuda</a>
+        </article>
+    </div>
+</section>
+
+<section class="contact-band" id="directorio-productores" aria-labelledby="directory-title">
+    <div class="container">
+        <div class="section-heading">
+            <span class="eyebrow">Directorio comercial</span>
+            <h2 id="directory-title">Productores disponibles</h2>
+            <p>
+                Cada consulta llega al productor correspondiente. Esto evita que una duda
+                sobre arroz, cafe o frutas termine en manos de otro vendedor.
+            </p>
+        </div>
+
+        <div class="producer-directory">
+            {% for productor in productores %}
+                <article class="producer-card">
+                    <div>
+                        <h3>{{ productor.nombre }}</h3>
+                        <p>
+                            <i class="bi bi-geo-alt" aria-hidden="true"></i>
+                            {{ productor.municipio }}, Tolima
+                        </p>
+                        <span>{{ productor.total_productos }} producto{{ productor.total_productos|pluralize }}</span>
+                    </div>
+
+                    {% firstof productor.whatsapp productor.telefono as contacto_whatsapp %}
+                    {% with telefono=contacto_whatsapp|telefono_whatsapp %}
+                        {% if telefono %}
+                            <a href="https://wa.me/{{ telefono }}?text=Hola,%20vi%20tu%20perfil%20en%20AgroTolima%20y%20quiero%20hacer%20una%20consulta." target="_blank" rel="noopener">
+                                <i class="bi bi-whatsapp" aria-hidden="true"></i>
+                                Escribir
+                            </a>
+                        {% else %}
+                            <span class="producer-card__empty">Sin WhatsApp</span>
+                        {% endif %}
+                    {% endwith %}
+                </article>
+            {% empty %}
+                <div class="empty-state">
+                    <h3>Aun no hay productores registrados</h3>
+                    <p>Cuando registres productores, apareceran en este directorio.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="container contact-section" id="formulario-contacto" aria-labelledby="form-title">
+    <div class="contact-form-layout">
+        <div>
+            <span class="eyebrow">Soporte general</span>
+            <h2 id="form-title">Escríbenos</h2>
+            <p>
+                Este formulario llega al equipo administrador de AgroTolima. No reemplaza
+                el contacto directo con productores cuando la pregunta es sobre un producto especifico.
+            </p>
+        </div>
+
+        <form action="" method="post" class="contact-form-card">
+            {% csrf_token %}
+
+            {% for field in formulario %}
+                <div class="field-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="field-error">{{ field.errors|striptags }}</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit">
+                <i class="bi bi-send" aria-hidden="true"></i>
+                Enviar mensaje
+            </button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,466 @@
+/* ==================================================
+   VARIABLES GLOBALES
+================================================== */
+
+:root {
+
+    --primary-color: #2e7d32;
+    --secondary-color: #4caf50;
+    --accent-color: #81c784;
+
+    --background-color: #f4f7f1;
+    --card-color: #ffffff;
+
+    --text-color: #1b1b1b;
+    --text-light: #ffffff;
+
+    --shadow: 0 4px 15px rgba(0,0,0,0.08);
+
+    --border-radius: 16px;
+}
+
+/* ==================================================
+   RESET GENERAL
+================================================== */
+
+body {
+
+    font-family: "PT Serif", serif;
+
+    background-color: var(--background-color);
+
+    color: var(--text-color);
+
+    margin: 0;
+
+    padding: 0;
+
+    line-height: 1.7;
+}
+
+/* ==================================================
+   TIPOGRAFÍA
+================================================== */
+
+h1, h2, h3, h4 {
+
+    font-weight: 700;
+
+    color: var(--text-color);
+}
+
+h1 {
+
+    font-size: clamp(2.5rem, 5vw, 5rem);
+}
+
+h2 {
+
+    font-size: clamp(2rem, 4vw, 3rem);
+}
+
+p {
+
+    font-size: 1.1rem;
+}
+
+/* ==================================================
+   NAVBAR
+================================================== */
+
+.navbar {
+
+    background: var(--primary-color) !important;
+
+    box-shadow: var(--shadow);
+}
+
+.navbar-brand {
+
+    font-size: 2rem;
+
+    font-weight: bold;
+}
+
+.nav-link {
+
+    font-size: 1.1rem;
+
+    font-weight: 600;
+
+    margin-left: 12px;
+
+    transition: 0.3s ease;
+}
+
+.nav-link:hover {
+
+    color: #dcedc8 !important;
+}
+
+/* ==================================================
+   BOTONES
+================================================== */
+
+.btn {
+
+    border-radius: 12px;
+
+    padding: 12px 24px;
+
+    font-size: 1.1rem;
+
+    font-weight: 600;
+}
+
+.btn-success {
+
+    background-color: var(--secondary-color);
+
+    border: none;
+}
+
+.btn-success:hover {
+
+    background-color: #388e3c;
+}
+
+.btn-outline-light:hover {
+
+    color: var(--primary-color);
+}
+
+/* ==================================================
+   HERO SECTION
+================================================== */
+
+.hero-section {
+
+    text-align: center;
+
+    padding: 80px 20px;
+}
+
+/* ==================================================
+   TARJETAS
+================================================== */
+
+.card {
+
+    border: none;
+
+    border-radius: var(--border-radius);
+
+    box-shadow: var(--shadow);
+
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+
+    transform: translateY(-5px);
+}
+
+.card-body {
+
+    padding: 2rem;
+}
+
+/* ==================================================
+   IMÁGENES
+================================================== */
+
+img {
+
+    max-width: 100%;
+
+    border-radius: 16px;
+}
+
+/* ==================================================
+   SECCIONES
+================================================== */
+
+section {
+
+    margin-top: 80px;
+
+    margin-bottom: 80px;
+}
+
+/* ==================================================
+   FORMULARIO CONTACTO
+================================================== */
+
+.contacto-form {
+
+    max-width: 900px;
+
+    margin: auto;
+}
+
+.containerFormulario {
+
+    width: 100%;
+
+    background: white;
+
+    border-radius: 20px;
+
+    padding: 2rem;
+
+    box-shadow: var(--shadow);
+}
+
+.containerFormulario th {
+
+    color: var(--text-color);
+
+    font-size: 1.1rem;
+
+    padding-right: 1rem;
+}
+
+.containerFormulario td {
+
+    padding: 10px;
+}
+
+.containerFormulario input,
+.containerFormulario textarea,
+.containerFormulario select {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border-radius: 12px;
+
+    border: 1px solid #ccc;
+
+    font-size: 1rem;
+}
+
+.containerFormulario textarea {
+
+    min-height: 220px;
+}
+
+.containerFormulario input:focus,
+.containerFormulario textarea:focus {
+
+    outline: none;
+
+    border-color: var(--secondary-color);
+
+    box-shadow: 0 0 0 4px rgba(76,175,80,.2);
+}
+
+.contacto-submit {
+
+    background-color: var(--primary-color);
+
+    color: white;
+
+    border: none;
+
+    padding: 14px 28px;
+
+    border-radius: 12px;
+
+    font-size: 1.1rem;
+
+    font-weight: bold;
+}
+
+.contacto-submit:hover {
+
+    background-color: #1b5e20;
+}
+
+/* ==================================================
+   PRODUCTOS
+================================================== */
+
+.producto-card {
+
+    background: white;
+
+    border-radius: 18px;
+
+    overflow: hidden;
+
+    box-shadow: var(--shadow);
+
+    transition: 0.3s ease;
+}
+
+.producto-card:hover {
+
+    transform: translateY(-5px);
+}
+
+.producto-img {
+
+    background: #f1f8e9;
+
+    padding: 20px;
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    height: 260px;
+}
+
+.producto-img img {
+
+    object-fit: contain;
+
+    max-height: 220px;
+}
+
+.producto-info {
+
+    padding: 1rem;
+}
+
+.producto-nombre {
+
+    font-size: 1.2rem;
+
+    font-weight: bold;
+}
+
+.producto-precio {
+
+    color: var(--primary-color);
+
+    font-size: 1.1rem;
+
+    font-weight: bold;
+}
+
+.producto-add-btn {
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 50%;
+
+    border: none;
+
+    background-color: var(--secondary-color);
+
+    color: white;
+
+    font-size: 1.5rem;
+
+    transition: 0.3s ease;
+}
+
+.producto-add-btn:hover {
+
+    background-color: #2e7d32;
+}
+
+/* ==================================================
+   BADGES
+================================================== */
+
+.categoria-badge {
+
+    background-color: #e8f5e9 !important;
+
+    color: #1b5e20 !important;
+
+    border-radius: 30px !important;
+
+    padding: 8px 16px !important;
+
+    font-weight: bold !important;
+
+    text-decoration: none !important;
+}
+
+/* ==================================================
+   FOOTER
+================================================== */
+
+footer {
+
+    background: #1b1b1b;
+
+    color: white;
+}
+
+/* ==================================================
+   ACCESIBILIDAD
+================================================== */
+
+a,
+button,
+input,
+textarea {
+
+    transition: all 0.2s ease;
+}
+
+a:focus,
+button:focus,
+input:focus,
+textarea:focus {
+
+    outline: 3px solid #81c784;
+
+    outline-offset: 2px;
+}
+
+/* ==================================================
+   RESPONSIVE
+================================================== */
+
+@media (max-width: 768px) {
+
+    .navbar-brand {
+
+        font-size: 1.5rem;
+    }
+
+    .nav-link {
+
+        margin-left: 0;
+    }
+
+    h1 {
+
+        font-size: 2.8rem;
+    }
+
+    h2 {
+
+        font-size: 2rem;
+    }
+
+    p {
+
+        font-size: 1rem;
+    }
+
+    .btn {
+
+        width: 100%;
+
+        margin-bottom: 10px;
+    }
+
+    section {
+
+        margin-top: 50px;
+
+        margin-bottom: 50px;
+    }
+}

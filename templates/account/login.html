@@ -1,0 +1,59 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load socialaccount %}
+{% block content %}
+
+<section class="auth-page" aria-labelledby="login-title">
+    <div class="auth-panel">
+        <span class="eyebrow">Cuenta AgroTolima</span>
+        <h1 id="login-title">Iniciar sesion</h1>
+        <p>Accede para comprar productos, revisar pedidos o gestionar publicaciones.</p>
+
+        <form method="post" action="{% url 'account_login' %}" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="field-error" role="alert">{{ form.non_field_errors|striptags }}</div>
+            {% endif %}
+
+            <div class="field-group">
+                <label for="id_login">Correo electronico</label>
+                <input id="id_login" type="email" name="login" value="{{ form.login.value|default:'' }}" autocomplete="email" required placeholder="correo@ejemplo.com">
+                {% if form.login.errors %}
+                    <p class="field-error">{{ form.login.errors|striptags }}</p>
+                {% endif %}
+            </div>
+
+            <div class="field-group">
+                <label for="id_password">Contraseña</label>
+                <input id="id_password" type="password" name="password" autocomplete="current-password" required placeholder="Tu contrasena">
+                {% if form.password.errors %}
+                    <p class="field-error">{{ form.password.errors|striptags }}</p>
+                {% endif %}
+            </div>
+
+            <a class="auth-link" href="{% url 'account_reset_password' %}">Olvidaste tu contraseña?</a>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+        <div class="auth-divider"><span>o</span></div>
+
+        {% if GOOGLE_LOGIN_ENABLED %}
+            <a class="auth-google" href="{% provider_login_url 'google' %}">
+                <i class="bi bi-google" aria-hidden="true"></i>
+                Iniciar sesion con Google
+            </a>
+        {% else %}
+            <div class="auth-note">
+                Google Login esta pendiente de configurar. Agrega GOOGLE_CLIENT_ID y GOOGLE_CLIENT_SECRET en .env.
+            </div>
+        {% endif %}
+
+        <p class="auth-switch">
+            No tienes cuenta?
+            <a href="{% url 'account_signup' %}">Registrate aqui</a>
+        </p>
+    </div>
+</section>
+
+{% endblock %}

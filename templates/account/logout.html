@@ -1,0 +1,22 @@
+{% extends "TiendaGenesisApp/base.html" %}
+
+{% block content %}
+
+<section class="auth-page" aria-labelledby="logout-title">
+    <div class="auth-panel">
+        <span class="eyebrow">Sesion</span>
+        <h1 id="logout-title">Cerrar sesion</h1>
+        <p>Confirma si deseas salir de tu cuenta de AgroTolima.</p>
+
+        <form method="post" action="{% url 'account_logout' %}" class="auth-form">
+            {% csrf_token %}
+            <button type="submit">Cerrar sesion</button>
+        </form>
+
+        <p class="auth-switch">
+            <a href="{% url 'tienda:Tienda' %}">Volver al marketplace</a>
+        </p>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,103 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load precios %}
+
+{% block content %}
+
+<section class="container cart-page">
+    <div class="cart-heading">
+        <span class="eyebrow">Pedido</span>
+        <h1>Carrito de compras</h1>
+        <p>Revisa cantidades, precios y confirma tu pedido cuando estes listo.</p>
+    </div>
+
+    {% if productos %}
+        <div class="cart-table-wrap">
+            <table class="cart-table">
+                <caption class="visually-hidden">Productos agregados al carrito</caption>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for item in productos %}
+                        <tr>
+                            <td>
+                                <div class="cart-product">
+                                    {% if item.producto.imagen %}
+                                        <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
+                                    {% endif %}
+                                    <div>
+                                        <strong>{{ item.producto.nombre }}</strong>
+                                        <span>{{ item.producto.productor.nombre }}</span>
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="cart-quantity">
+                                    <a href="{% url 'carrito:restar_carrito' item.producto.id %}" aria-label="Restar una unidad de {{ item.producto.nombre }}">-</a>
+                                    <span>{{ item.cantidad }}</span>
+                                    <form method="post" action="{% url 'carrito:agregar_carrito' item.producto.id %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="cantidad" value="1">
+                                        <button type="submit" aria-label="Agregar una unidad de {{ item.producto.nombre }}">+</button>
+                                    </form>
+                                </div>
+
+                                <form class="cart-update-form" method="post" action="{% url 'carrito:actualizar_cantidad' item.producto.id %}">
+                                    {% csrf_token %}
+                                    <label for="cantidad-carrito-{{ item.producto.id }}">Cambiar cantidad</label>
+                                    <div>
+                                        <input
+                                            id="cantidad-carrito-{{ item.producto.id }}"
+                                            type="number"
+                                            name="cantidad"
+                                            value="{{ item.cantidad }}"
+                                            min="0"
+                                            max="{{ item.producto.stock }}"
+                                            inputmode="numeric">
+                                        <button type="submit">Actualizar</button>
+                                    </div>
+                                    <small>Stock: {{ item.producto.stock }}</small>
+                                </form>
+                            </td>
+
+                            <td>{{ item.producto.precio|precio_colombiano }}</td>
+                            <td><strong>{{ item.subtotal|precio_colombiano }}</strong></td>
+
+                            <td>
+                                <a class="cart-remove" href="{% url 'carrito:eliminar_carrito' item.producto.id %}">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="cart-summary">
+            <p>Total</p>
+            <strong>{{ total|precio_colombiano }}</strong>
+
+            <div class="cart-actions">
+                <a href="{% url 'carrito:limpiar_carrito' %}">Vaciar carrito</a>
+                <a class="cart-checkout" href="{% url 'carrito:finalizar' %}">Finalizar compra</a>
+            </div>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <h2>Tu carrito esta vacio</h2>
+            <p>Explora productos regionales y agrega lo que quieras comprar.</p>
+            <a href="{% url 'tienda:Tienda' %}">Ir al marketplace</a>
+        </div>
+    {% endif %}
+</section>
+
+{% endblock %}
