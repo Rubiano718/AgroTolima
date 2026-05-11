@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'contacto',
     'tienda',
     'carrito',
+    'panel_productor',
 
     # Cloudinary
     'cloudinary',

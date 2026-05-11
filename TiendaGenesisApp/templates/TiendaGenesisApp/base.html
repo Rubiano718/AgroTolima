@@ -102,20 +102,32 @@
                         </a>
                     </li>
 
-                    {% if user.is_authenticated %}
+                   {% if user.is_authenticated %}
 
-                        <li class="nav-item">
+    <li class="nav-item">
 
-                            <a class="nav-link text-warning"
-                               href="{% url 'account_logout' %}">
+        <a class="nav-link fw-bold text-success"
+           href="{% url 'panel_productor:dashboard' %}">
 
-                                Cerrar sesión
+            <i class="bi bi-shop"></i>
+            Mi panel
 
-                            </a>
+        </a>
 
-                        </li>
+    </li>
 
-                    {% else %}
+    <li class="nav-item">
+
+        <a class="nav-link text-warning"
+           href="{% url 'account_logout' %}">
+
+            Cerrar sesión
+
+        </a>
+
+    </li>
+
+{% else %}
 
                         <li class="nav-item">
 

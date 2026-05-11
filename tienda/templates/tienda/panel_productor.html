@@ -1,32 +1,30 @@
 {% extends "TiendaGenesisApp/base.html" %}
+{% load static %}
 
 {% block content %}
 
 <section class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
 
         <div>
 
-            <span class="eyebrow">
-                Panel productor
-            </span>
-
-            <h1>
+            <h1 class="fw-bold">
                 Hola {{ productor.nombre }}
             </h1>
 
-            <p>
+            <p class="text-muted mb-0">
                 Administra tus productos publicados en AgroTolima.
             </p>
 
         </div>
 
-        <a
-            href="{% url 'tienda:crear_producto' %}"
-            class="btn btn-success"
-        >
-            + Agregar producto
+        <a href="{% url 'tienda:crear_producto' %}"
+           class="btn btn-success btn-lg">
+
+            <i class="bi bi-plus-circle"></i>
+            Agregar producto
+
         </a>
 
     </div>
@@ -37,78 +35,53 @@
 
             <div class="col-md-4">
 
-                <div class="card h-100 shadow-sm border-0">
+                <div class="card border-0 shadow-sm h-100">
 
                     {% if producto.imagen %}
-
-                        <img
-                            src="{{ producto.imagen.url }}"
-                            class="card-img-top"
-                            style="height: 250px; object-fit: cover;"
-                        >
-
+                        <img src="{{ producto.imagen.url }}"
+                             class="card-img-top"
+                             style="height:230px;object-fit:cover;">
                     {% endif %}
 
-                    <div class="card-body">
+                    <div class="card-body d-flex flex-column">
 
-                        <h5 class="card-title">
+                        <h5 class="fw-bold">
                             {{ producto.nombre }}
                         </h5>
 
-                        <p class="card-text">
-
+                        <p class="text-muted small flex-grow-1">
                             {{ producto.descripcion|truncatechars:100 }}
-
                         </p>
 
-                        <p class="fw-bold text-success">
+                        <div class="mb-3">
 
-                            ${{ producto.precio }}
+                            <div class="fw-bold text-success fs-5">
+                                $ {{ producto.precio }}
+                            </div>
 
-                        </p>
+                            <small class="text-muted">
+                                Stock: {{ producto.stock }}
+                            </small>
 
-                        <p>
+                        </div>
 
-                            Stock:
-                            {{ producto.stock }}
+                        <div class="d-flex gap-2">
 
-                        </p>
+                            <a href="{% url 'tienda:editar_producto' producto.id %}"
+                               class="btn btn-outline-primary w-100">
 
-                        {% if producto.disponible %}
+                                Editar
 
-                            <span class="badge bg-success">
+                            </a>
 
-                                Disponible
+                            <a href="{% url 'tienda:eliminar_producto' producto.id %}"
+                               class="btn btn-outline-danger w-100">
 
-                            </span>
+                                Eliminar
 
-                        {% else %}
+                            </a>
 
-                            <span class="badge bg-danger">
-
-                                No disponible
-
-                            </span>
-
-                        {% endif %}
-
-                    </div>
-
-                    <div class="card-footer bg-white border-0 d-flex gap-2">
-
-                        <a
-                            href="{% url 'tienda:editar_producto' producto.id %}"
-                            class="btn btn-outline-primary w-100"
-                        >
-                            Editar
-                        </a>
-
-                        <a
-                            href="{% url 'tienda:eliminar_producto' producto.id %}"
-                            class="btn btn-outline-danger w-100"
-                        >
-                            Eliminar
-                        </a>
+                        </div>
 
                     </div>
 
@@ -120,9 +93,22 @@
 
             <div class="col-12">
 
-                <div class="alert alert-info">
+                <div class="alert alert-light border shadow-sm p-4">
 
-                    Todavia no has publicado productos.
+                    <h5 class="fw-bold">
+                        Aún no tienes productos
+                    </h5>
+
+                    <p class="mb-3">
+                        Comienza agregando tu primer producto al marketplace.
+                    </p>
+
+                    <a href="{% url 'tienda:crear_producto' %}"
+                       class="btn btn-success">
+
+                        Agregar primer producto
+
+                    </a>
 
                 </div>
 

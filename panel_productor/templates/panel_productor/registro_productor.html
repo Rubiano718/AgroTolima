@@ -1,0 +1,122 @@
+{% extends "TiendaGenesisApp/base.html" %}
+
+{% block content %}
+
+<section class="registro-productor-page">
+
+    <div class="container">
+
+        <div class="registro-wrapper">
+
+            <!-- LADO IZQUIERDO -->
+            <div class="registro-info">
+
+                <span class="registro-badge">
+                    Marketplace Regional
+                </span>
+
+                <h1>
+                    Lleva tu negocio al mundo digital
+                </h1>
+
+                <p>
+                    AgroTolima conecta productores, campesinos y emprendedores
+                    del Tolima con miles de compradores locales y nacionales.
+                </p>
+
+                <ul>
+
+                    <li>
+                        ✅ Publica tus productos fácilmente
+                    </li>
+
+                    <li>
+                        ✅ Gestiona tu catálogo desde cualquier celular
+                    </li>
+
+                    <li>
+                        ✅ Llega a nuevos clientes en todo el Tolima
+                    </li>
+
+                    <li>
+                        ✅ Plataforma diseñada para productores regionales
+                    </li>
+
+                </ul>
+
+                <img
+                    src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?q=80&w=1200&auto=format&fit=crop"
+                    alt="Campesino del Tolima"
+                    class="registro-image"
+                >
+
+            </div>
+
+            <!-- FORMULARIO -->
+            <div class="registro-form-card">
+
+                <h2>
+                    Crear perfil productor
+                </h2>
+
+                <p class="registro-form-text">
+                    Completa la información de tu negocio.
+                </p>
+
+                <form method="post"
+                      enctype="multipart/form-data"
+                      class="panel-form">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label>Nombre del negocio</label>
+                        {{ form.nombre }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Municipio</label>
+                        {{ form.municipio }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Teléfono</label>
+                        {{ form.telefono }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label>WhatsApp</label>
+                        {{ form.whatsapp }}
+                        <small>Ejemplo: +57 3157556596</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Correo</label>
+                        {{ form.correo }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Descripción</label>
+                        {{ form.descripcion }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label>Imagen del negocio</label>
+                        {{ form.imagen }}
+                    </div>
+
+                    <button type="submit">
+                        Crear perfil productor
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends "TiendaGenesisApp/base.html" %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-6">
+
+            <div class="card shadow border-0 rounded-4">
+
+                <div class="card-body p-5 text-center">
+
+                    <h2 class="mb-4">
+                        Eliminar producto
+                    </h2>
+
+                    <p>
+                        Estas seguro que deseas eliminar:
+                    </p>
+
+                    <h4 class="mb-4">
+                        {{ producto.nombre }}
+                    </h4>
+
+                    <form method="post">
+
+                        {% csrf_token %}
+
+                        <button class="btn btn-danger">
+                            Si, eliminar
+                        </button>
+
+                        <a
+                            href="{% url 'panel_productor:dashboard' %}"
+                            class="btn btn-secondary"
+                        >
+                            Cancelar
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

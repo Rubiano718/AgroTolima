@@ -4,33 +4,111 @@
 
 <section class="container py-5">
 
-    <div class="auth-panel">
+    <div class="row justify-content-center">
 
-        <span class="eyebrow">
-            AgroTolima
-        </span>
+        <div class="col-lg-8">
 
-        <h1>
-            Agregar producto
-        </h1>
+            <div class="card border-0 shadow-sm">
 
-        <p>
-            Publica productos para que compradores puedan encontrarlos.
-        </p>
+                <div class="card-body p-5">
 
-        <form method="post" enctype="multipart/form-data" class="auth-form">
+                    <h1 class="fw-bold mb-4">
+                        Publicar producto
+                    </h1>
 
-            {% csrf_token %}
+                    <form method="post"
+                          enctype="multipart/form-data">
 
-            {{ form.as_p }}
+                        {% csrf_token %}
 
-            <button type="submit">
+                        <div class="mb-3">
 
-                Guardar producto
+                            <label class="form-label">
+                                Nombre
+                            </label>
 
-            </button>
+                            {{ form.nombre }}
 
-        </form>
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Categoría
+                            </label>
+
+                            {{ form.categoria }}
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Descripción
+                            </label>
+
+                            {{ form.descripcion }}
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Precio
+                                </label>
+
+                                {{ form.precio }}
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+                                    Stock
+                                </label>
+
+                                {{ form.stock }}
+
+                            </div>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+                                Imagen
+                            </label>
+
+                            {{ form.imagen }}
+
+                        </div>
+
+                        <div class="form-check mb-4">
+
+                            {{ form.disponible }}
+
+                            <label class="form-check-label">
+                                Producto disponible
+                            </label>
+
+                        </div>
+
+                        <button type="submit"
+                                class="btn btn-success btn-lg">
+
+                            Guardar producto
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 

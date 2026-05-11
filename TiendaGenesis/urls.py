@@ -12,6 +12,11 @@ urlpatterns = [
     # ADMIN
     path('admin/', admin.site.urls),
 
+    path(
+    "mi-panel/",
+    include("panel_productor.urls")
+),
+
     # APPS
     path('tienda/', include('tienda.urls')),
     path('carrito/', include('carrito.urls')),
