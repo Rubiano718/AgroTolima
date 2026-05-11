@@ -1,0 +1,49 @@
+{% extends "TiendaGenesisApp/base.html" %}
+
+{% block content %}
+
+<section class="auth-page" aria-labelledby="google-signup-title">
+
+    <div class="auth-panel">
+
+        <span class="eyebrow">Google</span>
+
+        <h1 id="google-signup-title">
+            Completa tu registro
+        </h1>
+
+        <p>
+            Ya verificamos tu cuenta de Google.
+            Solo falta confirmar el acceso para entrar a AgroTolima.
+        </p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            <div class="field-group">
+
+                <label for="id_email">
+                    Correo electronico
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    id="id_email"
+                    value="{{ form.email.value|default:'' }}"
+                    readonly
+                >
+
+            </div>
+
+            <button type="submit">
+                Continuar con Google
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
