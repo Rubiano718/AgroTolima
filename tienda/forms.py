@@ -5,45 +5,34 @@ from cloudinary.forms import CloudinaryFileField
 from .models import Producto, Productor
 
 
-# =====================================================
-# FORM PRODUCTOR
-# =====================================================
-
 class ProductorForm(forms.ModelForm):
-
-    imagen = CloudinaryFileField(
-        options={
-            'folder': "productores"
-        },
-        required=False
-    )
 
     class Meta:
 
         model = Productor
 
-        exclude = ["usuario", "created"]
+        exclude = ("usuario",)
 
         widgets = {
 
             "nombre": forms.TextInput(attrs={
                 "class": "form-control",
-                "placeholder": "Ejemplo: Café El Paraíso"
+                "placeholder": "Nombre del negocio"
             }),
 
             "municipio": forms.TextInput(attrs={
                 "class": "form-control",
-                "placeholder": "Ejemplo: Ibagué"
+                "placeholder": "Ej: Ibagué"
             }),
 
             "telefono": forms.TextInput(attrs={
                 "class": "form-control",
-                "placeholder": "Número de contacto"
+                "placeholder": "Número de teléfono"
             }),
 
             "whatsapp": forms.TextInput(attrs={
                 "class": "form-control",
-                "placeholder": "+57 3001234567"
+                "placeholder": "+57 3157556596"
             }),
 
             "correo": forms.EmailInput(attrs={
@@ -53,16 +42,12 @@ class ProductorForm(forms.ModelForm):
 
             "descripcion": forms.Textarea(attrs={
                 "class": "form-control",
-                "rows": 5,
-                "placeholder": "Describe tu negocio o productos..."
+                "rows": 6,
+                "placeholder": "Describe tu negocio..."
             }),
 
         }
 
-
-# =====================================================
-# FORM PRODUCTOS
-# =====================================================
 
 class ProductoForm(forms.ModelForm):
 
@@ -77,29 +62,32 @@ class ProductoForm(forms.ModelForm):
 
         model = Producto
 
-        exclude = ["productor", "created"]
+        exclude = ("productor",)
 
         widgets = {
 
+            "categoria": forms.Select(attrs={
+                "class": "form-select"
+            }),
+
             "nombre": forms.TextInput(attrs={
-                "class": "form-control"
+                "class": "form-control",
+                "placeholder": "Ej: Café Premium"
             }),
 
             "descripcion": forms.Textarea(attrs={
                 "class": "form-control",
-                "rows": 4
+                "rows": 6,
+                "placeholder": "Describe el producto..."
             }),
 
             "precio": forms.NumberInput(attrs={
-                "class": "form-control"
+                "class": "form-control",
+                "placeholder": "Ej: 15000"
             }),
 
             "stock": forms.NumberInput(attrs={
                 "class": "form-control"
-            }),
-
-            "categoria": forms.Select(attrs={
-                "class": "form-select"
             }),
 
             "disponible": forms.CheckboxInput(attrs={
@@ -107,9 +95,7 @@ class ProductoForm(forms.ModelForm):
             }),
 
         }
-        # =====================================================
-# IMPORTAR CSV
-# =====================================================
+
 
 class ProductoCSVImportForm(forms.Form):
 
