@@ -33,14 +33,36 @@ class ProductorAdmin(admin.ModelAdmin):
     )
 
     fieldsets = (
-        ("Datos del productor", {
-            "fields": ("nombre", "municipio", "descripcion", "imagen")
-        }),
-        ("Canales de contacto", {
-            "fields": ("telefono", "whatsapp", "correo"),
-            "description": "Estos datos alimentan el directorio y los botones de contacto del marketplace."
-        }),
-    )
+    ("Cuenta del productor", {
+        "fields": ("usuario",),
+        "description": (
+            "Relaciona este productor con una cuenta real "
+            "para que pueda iniciar sesion y administrar "
+            "sus productos desde la plataforma."
+        )
+    }),
+
+    ("Datos del productor", {
+        "fields": (
+            "nombre",
+            "municipio",
+            "descripcion",
+            "imagen"
+        )
+    }),
+
+    ("Canales de contacto", {
+        "fields": (
+            "telefono",
+            "whatsapp",
+            "correo"
+        ),
+        "description": (
+            "Estos datos alimentan el directorio "
+            "y los botones de contacto del marketplace."
+        )
+    }),
+)
 
 
 @admin.register(CategoriaProducto)
