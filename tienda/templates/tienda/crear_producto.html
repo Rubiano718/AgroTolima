@@ -2,111 +2,134 @@
 
 {% block content %}
 
-<section class="container py-5">
+<section class="producer-form-section">
 
-    <div class="row justify-content-center">
+    <div class="producer-form-wrapper">
 
-        <div class="col-lg-8">
+        <!-- PANEL IZQUIERDO -->
 
-            <div class="card border-0 shadow-sm">
+        <div class="producer-side">
 
-                <div class="card-body p-5">
+            <span class="producer-badge">
+                🌱 Nuevo producto
+            </span>
 
-                    <h1 class="fw-bold mb-4">
-                        Publicar producto
-                    </h1>
+            <h2>
+                Publica tus productos y llega más lejos
+            </h2>
 
-                    <form method="post"
-                          enctype="multipart/form-data">
+            <p>
+                AgroTolima permite mostrar lo mejor de tu negocio
+                a compradores de todo el Tolima.
+            </p>
 
-                        {% csrf_token %}
+            <div class="producer-benefits">
 
-                        <div class="mb-3">
+                <div class="benefit-item">
+                    <div class="benefit-icon">✔</div>
 
-                            <label class="form-label">
-                                Nombre
-                            </label>
+                    <div>
+                        <h5>Más visibilidad</h5>
+                        <p>
+                            Tus productos podrán verse en todo el marketplace.
+                        </p>
+                    </div>
+                </div>
 
-                            {{ form.nombre }}
+                <div class="benefit-item">
+                    <div class="benefit-icon">🛒</div>
 
-                        </div>
+                    <div>
+                        <h5>Ventas más fáciles</h5>
+                        <p>
+                            Gestiona pedidos desde un solo lugar.
+                        </p>
+                    </div>
+                </div>
 
-                        <div class="mb-3">
+                <div class="benefit-item">
+                    <div class="benefit-icon">📈</div>
 
-                            <label class="form-label">
-                                Categoría
-                            </label>
-
-                            {{ form.categoria }}
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Descripción
-                            </label>
-
-                            {{ form.descripcion }}
-
-                        </div>
-
-                        <div class="row">
-
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Precio
-                                </label>
-
-                                {{ form.precio }}
-
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label">
-                                    Stock
-                                </label>
-
-                                {{ form.stock }}
-
-                            </div>
-
-                        </div>
-
-                        <div class="mb-3">
-
-                            <label class="form-label">
-                                Imagen
-                            </label>
-
-                            {{ form.imagen }}
-
-                        </div>
-
-                        <div class="form-check mb-4">
-
-                            {{ form.disponible }}
-
-                            <label class="form-check-label">
-                                Producto disponible
-                            </label>
-
-                        </div>
-
-                        <button type="submit"
-                                class="btn btn-success btn-lg">
-
-                            Guardar producto
-
-                        </button>
-
-                    </form>
-
+                    <div>
+                        <h5>Crecimiento</h5>
+                        <p>
+                            Impulsa tu negocio digitalmente.
+                        </p>
+                    </div>
                 </div>
 
             </div>
+
+            <img
+                src="https://images.unsplash.com/photo-1542838132-92c53300491e"
+                alt="Productos agrícolas"
+                class="producer-image"
+            >
+
+        </div>
+
+        <!-- FORMULARIO -->
+
+        <div class="producer-form-card">
+
+            <h1>
+                Agregar producto
+            </h1>
+
+            <form method="post"
+                  enctype="multipart/form-data"
+                  class="producer-form">
+
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>Categoría</label>
+                    {{ form.categoria }}
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label>Nombre del producto</label>
+                        {{ form.nombre }}
+                    </div>
+
+                    <div class="form-group">
+                        <label>Precio</label>
+                        {{ form.precio }}
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Descripción</label>
+                    {{ form.descripcion }}
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label>Stock disponible</label>
+                        {{ form.stock }}
+                    </div>
+
+                    <div class="form-group check-group">
+                        <label>Disponible</label>
+                        {{ form.disponible }}
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label>Imagen del producto</label>
+                    {{ form.imagen }}
+                </div>
+
+                <button type="submit" class="producer-submit-btn">
+                    Guardar producto
+                </button>
+
+            </form>
 
         </div>
 

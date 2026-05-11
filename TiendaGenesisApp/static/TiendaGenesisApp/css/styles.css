@@ -2512,3 +2512,191 @@ REGISTRO PRODUCTOR NUEVO
         font-size: 2.5rem;
     }
 }
+/* ======================================================
+PRODUCTOR - CREAR PRODUCTO
+====================================================== */
+
+.producer-form-section{
+    padding:140px 20px 80px;
+    background:#f3f5f1;
+    min-height:100vh;
+}
+
+.producer-form-wrapper{
+    max-width:1400px;
+    margin:auto;
+    display:grid;
+    grid-template-columns:420px 1fr;
+    background:#fff;
+    border-radius:30px;
+    overflow:hidden;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+}
+
+.producer-side{
+    background:linear-gradient(180deg,#eef8ef,#dff1e1);
+    padding:50px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+}
+
+.producer-badge{
+    background:#d7f1dd;
+    color:#18753d;
+    display:inline-block;
+    padding:10px 18px;
+    border-radius:40px;
+    font-weight:700;
+    margin-bottom:30px;
+}
+
+.producer-side h2{
+    font-size:3rem;
+    font-weight:800;
+    margin-bottom:20px;
+    color:#1b1b1b;
+}
+
+.producer-side p{
+    color:#4f4f4f;
+    line-height:1.8;
+}
+
+.producer-benefits{
+    margin-top:40px;
+}
+
+.benefit-item{
+    display:flex;
+    gap:18px;
+    margin-bottom:30px;
+}
+
+.benefit-icon{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.4rem;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+}
+
+.benefit-item h5{
+    margin-bottom:5px;
+    font-weight:700;
+}
+
+.producer-image{
+    width:100%;
+    border-radius:25px;
+    margin-top:40px;
+    object-fit:cover;
+    height:260px;
+}
+
+.producer-form-card{
+    padding:60px;
+}
+
+.producer-form-card h1{
+    font-size:4rem;
+    font-weight:800;
+    margin-bottom:40px;
+    color:#1d1d1d;
+}
+
+.producer-form{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.form-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:25px;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group label{
+    font-weight:700;
+    margin-bottom:10px;
+    color:#1d1d1d;
+}
+
+.producer-form input,
+.producer-form select,
+.producer-form textarea{
+    border:2px solid #d9e2d9;
+    border-radius:16px;
+    padding:16px;
+    font-size:1rem;
+    width:100%;
+    transition:.3s;
+    background:#fff;
+}
+
+.producer-form textarea{
+    min-height:180px;
+    resize:none;
+}
+
+.producer-form input:focus,
+.producer-form select:focus,
+.producer-form textarea:focus{
+    border-color:#1f8b4c;
+    outline:none;
+    box-shadow:0 0 0 4px rgba(31,139,76,.12);
+}
+
+.check-group{
+    justify-content:center;
+}
+
+.producer-submit-btn{
+    background:#1f8b4c;
+    color:#fff;
+    border:none;
+    padding:18px;
+    border-radius:18px;
+    font-size:1.1rem;
+    font-weight:700;
+    transition:.3s;
+}
+
+.producer-submit-btn:hover{
+    background:#16673a;
+    transform:translateY(-2px);
+}
+
+@media(max-width:1100px){
+
+    .producer-form-wrapper{
+        grid-template-columns:1fr;
+    }
+
+    .producer-side{
+        display:none;
+    }
+
+    .producer-form-card{
+        padding:40px 25px;
+    }
+
+    .producer-form-card h1{
+        font-size:2.4rem;
+    }
+
+    .form-row{
+        grid-template-columns:1fr;
+    }
+
+}
