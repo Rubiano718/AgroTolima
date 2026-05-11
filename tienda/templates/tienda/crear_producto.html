@@ -4,197 +4,154 @@
 
 <section class="container py-5 mt-5">
 
-    <div class="row g-4">
+    <div class="row justify-content-center">
 
-        <!-- PANEL IZQUIERDO -->
+        <div class="col-lg-11">
 
-        <div class="col-lg-4">
+            <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
 
-            <div class="card border-0 shadow-lg h-100 p-4 bg-success text-white rounded-5">
+                <div class="row g-0">
 
-                <span class="badge bg-light text-success mb-4 p-2">
-                    🌱 Marketplace Tolima
-                </span>
+                    <!-- LATERAL -->
 
-                <h2 class="fw-bold display-6 mb-4">
-                    Publica tus productos
-                </h2>
+                    <div class="col-lg-4 bg-success text-white p-5 d-flex flex-column justify-content-center">
 
-                <p class="mb-4 opacity-75">
-                    Administra tu catálogo de manera rápida y profesional.
-                </p>
+                        <h2 class="fw-bold mb-4">
+                            🌱 AgroTolima
+                        </h2>
 
-                <div class="d-flex gap-3 mb-4">
-
-                    <div class="fs-2">
-                        🛒
-                    </div>
-
-                    <div>
-                        <h5 class="fw-bold">
-                            Más ventas
-                        </h5>
-
-                        <p class="small opacity-75">
-                            Tus productos estarán visibles para todo el Tolima.
+                        <p class="lead">
+                            Publica productos fácilmente desde cualquier municipio del Tolima.
                         </p>
-                    </div>
 
-                </div>
+                        <hr class="border-light my-4">
 
-                <div class="d-flex gap-3 mb-4">
-
-                    <div class="fs-2">
-                        📦
-                    </div>
-
-                    <div>
-                        <h5 class="fw-bold">
-                            Control de inventario
-                        </h5>
-
-                        <p class="small opacity-75">
-                            Gestiona disponibilidad y stock fácilmente.
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="d-flex gap-3">
-
-                    <div class="fs-2">
-                        📈
-                    </div>
-
-                    <div>
-                        <h5 class="fw-bold">
-                            Crecimiento digital
-                        </h5>
-
-                        <p class="small opacity-75">
-                            Haz crecer tu negocio regionalmente.
-                        </p>
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- FORMULARIO -->
-
-        <div class="col-lg-8">
-
-            <div class="card border-0 shadow-lg rounded-5 p-5">
-
-                <div class="mb-5">
-
-                    <span class="text-success fw-bold text-uppercase">
-                        Gestión de productos
-                    </span>
-
-                    <h1 class="display-3 fw-bold">
-                        Agregar producto
-                    </h1>
-
-                </div>
-
-                <form method="POST"
-                      enctype="multipart/form-data">
-
-                    {% csrf_token %}
-
-                    <div class="mb-4">
-
-                        <label class="form-label fw-bold">
-                            Categoría
-                        </label>
-
-                        {{ form.categoria }}
-
-                    </div>
-
-                    <div class="row">
-
-                        <div class="col-md-6 mb-4">
-
-                            <label class="form-label fw-bold">
-                                Nombre del producto
-                            </label>
-
-                            {{ form.nombre }}
-
+                        <div class="mb-4">
+                            <h5 class="fw-bold">📦 Inventario</h5>
+                            <p class="small opacity-75">
+                                Gestiona disponibilidad y stock.
+                            </p>
                         </div>
 
-                        <div class="col-md-6 mb-4">
+                        <div class="mb-4">
+                            <h5 class="fw-bold">🛒 Marketplace</h5>
+                            <p class="small opacity-75">
+                                Tus productos aparecen automáticamente.
+                            </p>
+                        </div>
 
-                            <label class="form-label fw-bold">
-                                Precio
-                            </label>
-
-                            {{ form.precio }}
-
+                        <div>
+                            <h5 class="fw-bold">📈 Crecimiento</h5>
+                            <p class="small opacity-75">
+                                Lleva tu negocio al comercio digital.
+                            </p>
                         </div>
 
                     </div>
 
-                    <div class="mb-4">
+                    <!-- FORM -->
 
-                        <label class="form-label fw-bold">
-                            Descripción
-                        </label>
+                    <div class="col-lg-8 bg-white p-5">
 
-                        {{ form.descripcion }}
+                        <span class="badge bg-success mb-3 p-2">
+                            Panel productor
+                        </span>
 
-                    </div>
+                        <h1 class="display-4 fw-bold mb-4">
+                            Agregar producto
+                        </h1>
 
-                    <div class="row">
+                        <form method="POST"
+                              enctype="multipart/form-data">
 
-                        <div class="col-md-6 mb-4">
+                            {% csrf_token %}
 
-                            <label class="form-label fw-bold">
-                                Stock disponible
-                            </label>
+                            <div class="mb-4">
 
-                            {{ form.stock }}
+                                <label class="form-label fw-bold">
+                                    Categoría
+                                </label>
 
-                        </div>
+                                {{ form.categoria }}
 
-                        <div class="col-md-6 mb-4 d-flex align-items-center">
+                            </div>
 
-                            <div class="form-check mt-4">
+                            <div class="mb-4">
+
+                                <label class="form-label fw-bold">
+                                    Nombre del producto
+                                </label>
+
+                                {{ form.nombre }}
+
+                            </div>
+
+                            <div class="mb-4">
+
+                                <label class="form-label fw-bold">
+                                    Descripción
+                                </label>
+
+                                {{ form.descripcion }}
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label fw-bold">
+                                        Precio
+                                    </label>
+
+                                    {{ form.precio }}
+
+                                </div>
+
+                                <div class="col-md-6 mb-4">
+
+                                    <label class="form-label fw-bold">
+                                        Stock
+                                    </label>
+
+                                    {{ form.stock }}
+
+                                </div>
+
+                            </div>
+
+                            <div class="form-check mb-4">
 
                                 {{ form.disponible }}
 
-                                <label class="form-check-label fw-bold ms-2">
+                                <label class="form-check-label fw-bold">
                                     Producto disponible
                                 </label>
 
                             </div>
 
-                        </div>
+                            <div class="mb-5">
+
+                                <label class="form-label fw-bold">
+                                    Imagen del producto
+                                </label>
+
+                                {{ form.imagen }}
+
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-success btn-lg rounded-4 w-100 py-3 fw-bold">
+
+                                Guardar producto
+
+                            </button>
+
+                        </form>
 
                     </div>
 
-                    <div class="mb-5">
-
-                        <label class="form-label fw-bold">
-                            Imagen del producto
-                        </label>
-
-                        {{ form.imagen }}
-
-                    </div>
-
-                    <button type="submit"
-                            class="btn btn-success btn-lg w-100 rounded-4 py-3 fw-bold">
-
-                        Guardar producto
-
-                    </button>
-
-                </form>
+                </div>
 
             </div>
 
