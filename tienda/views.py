@@ -1,6 +1,13 @@
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    redirect
+)
+
 from django.http import HttpResponse
+
+from django.contrib.auth.decorators import login_required
 
 from tienda.models import (
     Producto,
@@ -8,10 +15,13 @@ from tienda.models import (
     Productor
 )
 
+from .forms import ProductoForm
 
-# -----------------------------
-# 🔹 Vista principal de tienda
-# -----------------------------
+
+# =====================================================
+# TIENDA
+# =====================================================
+
 def tienda(request):
 
     productos = Producto.objects.select_related(
@@ -20,9 +30,8 @@ def tienda(request):
     ).all()
 
     categorias = CategoriaProducto.objects.all()
-    productores = Productor.objects.all()
 
-    # FILTROS
+    productores = Productor.objects.all()
 
     busqueda = request.GET.get(
         "q",
@@ -49,8 +58,6 @@ def tienda(request):
         ""
     ).strip()
 
-    # BUSCADOR GENERAL
-
     if busqueda:
 
         productos = productos.filter(
@@ -63,15 +70,11 @@ def tienda(request):
 
         )
 
-    # FILTRO POR CATEGORÍA
-
     if categoria_nombre:
 
         productos = productos.filter(
             categoria__nombre__icontains=categoria_nombre
         )
-
-    # FILTRO POR PRODUCTOR
 
     if productor_id:
 
@@ -79,15 +82,11 @@ def tienda(request):
             productor_id=productor_id
         )
 
-    # FILTRO PRECIO MÍNIMO
-
     if precio_min:
 
         productos = productos.filter(
             precio__gte=precio_min
         )
-
-    # FILTRO PRECIO MÁXIMO
 
     if precio_max:
 
@@ -114,9 +113,10 @@ def tienda(request):
     })
 
 
-# -----------------------------
-# 🔹 Vista de productos por categoría
-# -----------------------------
+# =====================================================
+# CATEGORÍAS
+# =====================================================
+
 def categoria(request, categoria_id):
 
     categoria = get_object_or_404(
@@ -140,9 +140,142 @@ def categoria(request, categoria_id):
     })
 
 
-# ---------------------------------------------------------
-# 🔥 Vista temporal para limpiar rutas antiguas del campo imagen
-# ---------------------------------------------------------
+# =====================================================
+# PANEL PRODUCTOR
+# =====================================================
+
+@login_required
+def panel_productor(request):
+
+    productor = get_object_or_404(
+        Productor,
+        usuario=request.user
+    )
+
+    productos = Producto.objects.filter(
+        productor=productor
+    )
+
+    return render(
+        request,
+        "tienda/panel_productor.html",
+        {
+            "productor": productor,
+            "productos": productos
+        }
+    )
+
+
+# =====================================================
+# CREAR PRODUCTO
+# =====================================================
+
+@login_required
+def crear_producto(request):
+
+    productor = get_object_or_404(
+        Productor,
+        usuario=request.user
+    )
+
+    if request.method == "POST":
+
+        form = ProductoForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            producto = form.save(commit=False)
+
+            producto.productor = productor
+
+            producto.save()
+
+            return redirect(
+                "tienda:panel_productor"
+            )
+
+    else:
+
+        form = ProductoForm()
+
+    return render(
+        request,
+        "tienda/crear_producto.html",
+        {
+            "form": form
+        }
+    )
+
+
+# =====================================================
+# EDITAR PRODUCTO
+# =====================================================
+
+@login_required
+def editar_producto(request, producto_id):
+
+    producto = get_object_or_404(
+        Producto,
+        id=producto_id
+    )
+
+    if producto.productor.usuario != request.user:
+        return redirect("tienda:panel_productor")
+
+    if request.method == "POST":
+
+        form = ProductoForm(
+            request.POST,
+            request.FILES,
+            instance=producto
+        )
+
+        if form.is_valid():
+
+            form.save()
+
+            return redirect(
+                "tienda:panel_productor"
+            )
+
+    else:
+
+        form = ProductoForm(instance=producto)
+
+    return render(
+        request,
+        "tienda/crear_producto.html",
+        {
+            "form": form
+        }
+    )
+
+
+# =====================================================
+# ELIMINAR PRODUCTO
+# =====================================================
+
+@login_required
+def eliminar_producto(request, producto_id):
+
+    producto = get_object_or_404(
+        Producto,
+        id=producto_id
+    )
+
+    if producto.productor.usuario == request.user:
+        producto.delete()
+
+    return redirect("tienda:panel_productor")
+
+
+# =====================================================
+# LIMPIAR IMÁGENES
+# =====================================================
+
 def limpiar_imagenes(request):
 
     productos = Producto.objects.all()
@@ -153,8 +286,10 @@ def limpiar_imagenes(request):
 
         if p.imagen and "tienda/" in p.imagen:
 
-            # Eliminar prefijo antiguo
-            p.imagen = p.imagen.replace("tienda/", "")
+            p.imagen = p.imagen.replace(
+                "tienda/",
+                ""
+            )
 
             p.save()
 
@@ -163,6 +298,5 @@ def limpiar_imagenes(request):
     return HttpResponse(
         f"Rutas corregidas: {count}"
     )
-
 
 

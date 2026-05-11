@@ -1,0 +1,39 @@
+{% extends "TiendaGenesisApp/base.html" %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="auth-panel">
+
+        <span class="eyebrow">
+            AgroTolima
+        </span>
+
+        <h1>
+            Agregar producto
+        </h1>
+
+        <p>
+            Publica productos para que compradores puedan encontrarlos.
+        </p>
+
+        <form method="post" enctype="multipart/form-data" class="auth-form">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit">
+
+                Guardar producto
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
