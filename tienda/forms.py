@@ -14,15 +14,17 @@ class ProductoForm(forms.ModelForm):
     )
 
     class Meta:
-
         model = Producto
+        fields = "__all__"
 
-        fields = [
-            "categoria",
-            "nombre",
-            "descripcion",
-            "precio",
-            "stock",
-            "disponible",
-            "imagen"
-        ]
+
+class ProductoCSVImportForm(forms.Form):
+
+    archivo = forms.FileField(
+        label="Archivo CSV",
+        help_text=(
+            "Columnas: nombre, descripcion, precio, stock, disponible, "
+            "categoria, productor, municipio_productor, telefono_productor, "
+            "whatsapp_productor, correo_productor"
+        )
+    )
