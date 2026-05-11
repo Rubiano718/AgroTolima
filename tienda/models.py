@@ -8,12 +8,14 @@ from cloudinary.models import CloudinaryField
 # =========================
 
 class Productor(models.Model):
+
     usuario = models.OneToOneField(
-    User,
-    on_delete=models.CASCADE,
-    null=True,
-    blank=True
-)
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="productor"
+    )
 
     nombre = models.CharField(max_length=120)
 
