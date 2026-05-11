@@ -2,134 +2,140 @@
 
 {% block content %}
 
-<section class="producer-form-section">
+<section class="producer-dashboard">
 
-    <div class="producer-form-wrapper">
+    <div class="dashboard-wrapper">
 
         <!-- PANEL IZQUIERDO -->
 
-        <div class="producer-side">
+        <aside class="dashboard-sidebar">
 
-            <span class="producer-badge">
-                🌱 Nuevo producto
-            </span>
+            <div class="sidebar-header">
 
-            <h2>
-                Publica tus productos y llega más lejos
-            </h2>
+                <span class="sidebar-badge">
+                    Marketplace Tolima
+                </span>
 
-            <p>
-                AgroTolima permite mostrar lo mejor de tu negocio
-                a compradores de todo el Tolima.
-            </p>
+                <h2>
+                    Publica productos y aumenta tus ventas
+                </h2>
 
-            <div class="producer-benefits">
+                <p>
+                    Gestiona fácilmente tu catálogo desde AgroTolima.
+                </p>
 
-                <div class="benefit-item">
-                    <div class="benefit-icon">✔</div>
+            </div>
 
+            <div class="sidebar-benefits">
+
+                <div class="benefit-card">
+                    <span>🌱</span>
                     <div>
                         <h5>Más visibilidad</h5>
-                        <p>
-                            Tus productos podrán verse en todo el marketplace.
-                        </p>
+                        <p>Tus productos estarán disponibles para todo el Tolima.</p>
                     </div>
                 </div>
 
-                <div class="benefit-item">
-                    <div class="benefit-icon">🛒</div>
-
+                <div class="benefit-card">
+                    <span>🛒</span>
                     <div>
-                        <h5>Ventas más fáciles</h5>
-                        <p>
-                            Gestiona pedidos desde un solo lugar.
-                        </p>
+                        <h5>Ventas centralizadas</h5>
+                        <p>Controla tus productos en un solo panel.</p>
                     </div>
                 </div>
 
-                <div class="benefit-item">
-                    <div class="benefit-icon">📈</div>
-
+                <div class="benefit-card">
+                    <span>📦</span>
                     <div>
-                        <h5>Crecimiento</h5>
-                        <p>
-                            Impulsa tu negocio digitalmente.
-                        </p>
+                        <h5>Inventario simple</h5>
+                        <p>Actualiza stock y disponibilidad rápidamente.</p>
                     </div>
                 </div>
 
             </div>
 
-            <img
-                src="https://images.unsplash.com/photo-1542838132-92c53300491e"
-                alt="Productos agrícolas"
-                class="producer-image"
-            >
+        </aside>
 
-        </div>
+        <!-- FORM -->
 
-        <!-- FORMULARIO -->
+        <div class="dashboard-content">
 
-        <div class="producer-form-card">
+            <div class="dashboard-card">
 
-            <h1>
-                Agregar producto
-            </h1>
+                <div class="dashboard-title">
 
-            <form method="post"
-                  enctype="multipart/form-data"
-                  class="producer-form">
+                    <div>
+                        <span class="mini-title">
+                            Gestión de productos
+                        </span>
 
-                {% csrf_token %}
+                        <h1>
+                            Agregar producto
+                        </h1>
+                    </div>
 
-                <div class="form-group">
-                    <label>Categoría</label>
-                    {{ form.categoria }}
                 </div>
 
-                <div class="form-row">
+                <form method="POST"
+                      enctype="multipart/form-data"
+                      class="modern-form">
+
+                    {% csrf_token %}
 
                     <div class="form-group">
-                        <label>Nombre del producto</label>
-                        {{ form.nombre }}
+                        <label>Categoría</label>
+                        {{ form.categoria }}
+                    </div>
+
+                    <div class="form-grid">
+
+                        <div class="form-group">
+                            <label>Nombre del producto</label>
+                            {{ form.nombre }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Precio</label>
+                            {{ form.precio }}
+                        </div>
+
                     </div>
 
                     <div class="form-group">
-                        <label>Precio</label>
-                        {{ form.precio }}
+                        <label>Descripción</label>
+                        {{ form.descripcion }}
                     </div>
 
-                </div>
+                    <div class="form-grid">
 
-                <div class="form-group">
-                    <label>Descripción</label>
-                    {{ form.descripcion }}
-                </div>
+                        <div class="form-group">
+                            <label>Stock disponible</label>
+                            {{ form.stock }}
+                        </div>
 
-                <div class="form-row">
+                        <div class="form-group check-field">
+                            <label>Disponible</label>
+
+                            <div class="check-box-wrapper">
+                                {{ form.disponible }}
+                                <span>Producto disponible</span>
+                            </div>
+                        </div>
+
+                    </div>
 
                     <div class="form-group">
-                        <label>Stock disponible</label>
-                        {{ form.stock }}
+                        <label>Imagen del producto</label>
+                        {{ form.imagen }}
                     </div>
 
-                    <div class="form-group check-group">
-                        <label>Disponible</label>
-                        {{ form.disponible }}
-                    </div>
+                    <button type="submit" class="save-btn">
+                        Guardar producto
+                    </button>
 
-                </div>
+                </form>
 
-                <div class="form-group">
-                    <label>Imagen del producto</label>
-                    {{ form.imagen }}
-                </div>
-
-                <button type="submit" class="producer-submit-btn">
-                    Guardar producto
-                </button>
-
-            </form>
+            </div>
 
         </div>
 
