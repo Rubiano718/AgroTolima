@@ -112,9 +112,12 @@
                                 <img src="{% static 'TiendaGenesisApp/img/fondo-marketplace.jpg' %}" alt="">
                             {% endif %}
 
-                            <span class="seller-chip">
-                                {{ producto.productor.nombre }}
-                            </span>
+                            <a class="seller-chip"
+   href="{% url 'tienda:perfil_productor' producto.productor.id %}">
+
+    {{ producto.productor.nombre }}
+
+</a>
                             <span class="zoom-hint">
                                 <i class="bi bi-zoom-in" aria-hidden="true"></i>
                                 Ampliar
@@ -145,27 +148,94 @@
                             </div>
 
                             <div class="product-buy">
-                                <strong>{{ producto.precio|precio_colombiano }}</strong>
 
-                                <form method="post" action="{% url 'carrito:agregar_carrito' producto.id %}">
-                                    {% csrf_token %}
-                                    <label class="visually-hidden" for="cantidad-{{ producto.id }}">Cantidad</label>
-                                    <input id="cantidad-{{ producto.id }}" type="number" name="cantidad" value="1" min="1" max="{{ producto.stock }}">
-                                    <button type="submit" {% if not producto.disponible or producto.stock <= 0 %}disabled{% endif %}>
-                                        <i class="bi bi-cart-plus" aria-hidden="true"></i>
-                                        Agregar
-                                    </button>
-                                </form>
+    <div class="product-price-top">
 
-                                {% with whatsapp_url=producto|whatsapp_producto_url %}
-                                    {% if whatsapp_url %}
-                                        <a class="product-whatsapp" href="{{ whatsapp_url }}" target="_blank" rel="noopener">
-                                            <i class="bi bi-whatsapp" aria-hidden="true"></i>
-                                            Preguntar al productor
-                                        </a>
-                                    {% endif %}
-                                {% endwith %}
-                            </div>
+        <strong>
+            {{ producto.precio|precio_colombiano }}
+        </strong>
+
+        {% if producto.stock > 0 %}
+            <span class="product-stock">
+                {{ producto.stock }} disponibles
+            </span>
+        {% endif %}
+
+    </div>
+
+    <div class="product-seller-box">
+
+        <div>
+
+            <small class="seller-label">
+                Productor regional
+            </small>
+
+            <p class="seller-name">
+                {{ producto.productor.nombre }}
+            </p>
+
+        </div>
+
+        <span class="seller-location">
+            {{ producto.productor.municipio }}
+        </span>
+
+    </div>
+
+    <form method="post"
+          action="{% url 'carrito:agregar_carrito' producto.id %}">
+
+        {% csrf_token %}
+
+        <label class="visually-hidden"
+               for="cantidad-{{ producto.id }}">
+
+            Cantidad
+
+        </label>
+
+        <input
+            id="cantidad-{{ producto.id }}"
+            type="number"
+            name="cantidad"
+            value="1"
+            min="1"
+            max="{{ producto.stock }}">
+
+        <button type="submit"
+                {% if not producto.disponible or producto.stock <= 0 %}disabled{% endif %}>
+
+            <i class="bi bi-cart-plus"
+               aria-hidden="true"></i>
+
+            Agregar
+
+        </button>
+
+    </form>
+
+    {% with whatsapp_url=producto|whatsapp_producto_url %}
+
+        {% if whatsapp_url %}
+
+            <a class="product-whatsapp"
+               href="{{ whatsapp_url }}"
+               target="_blank"
+               rel="noopener">
+
+                <i class="bi bi-whatsapp"
+                   aria-hidden="true"></i>
+
+                Hablar con productor
+
+            </a>
+
+        {% endif %}
+
+    {% endwith %}
+
+</div>
                         </div>
                     </article>
                 {% endfor %}

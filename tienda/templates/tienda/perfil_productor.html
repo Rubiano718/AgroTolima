@@ -1,0 +1,157 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load static %}
+{% load precios %}
+
+{% block content %}
+
+<section class="container py-5 mt-5">
+
+    <div class="card border-0 shadow-lg rounded-5 overflow-hidden">
+
+        <div class="row g-0">
+
+            <div class="col-lg-4 bg-success text-white p-5 text-center">
+
+                {% if productor.imagen %}
+
+                    <img src="{{ productor.imagen.url }}"
+                         class="img-fluid rounded-circle mb-4"
+                         style="width:180px;height:180px;object-fit:cover;"
+                         alt="{{ productor.nombre }}">
+
+                {% endif %}
+
+                <span class="badge bg-light text-success mb-3">
+                    Productor regional
+                </span>
+
+                <h1 class="fw-bold">
+                    {{ productor.nombre }}
+                </h1>
+
+                <p class="opacity-75">
+
+                    <i class="bi bi-geo-alt"></i>
+
+                    {{ productor.municipio }}, Tolima
+
+                </p>
+
+                <p class="small mt-4">
+                    {{ productor.descripcion }}
+                </p>
+
+                {% if productor.whatsapp %}
+
+                    <a href="https://wa.me/{{ productor.whatsapp|cut:' '|cut:'+' }}"
+                       target="_blank"
+                       class="btn btn-light text-success fw-bold rounded-4 mt-4">
+
+                        <i class="bi bi-whatsapp"></i>
+
+                        Contactar productor
+
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+            <div class="col-lg-8 p-5">
+
+                <div class="d-flex justify-content-between align-items-center mb-5">
+
+                    <div>
+
+                        <span class="eyebrow">
+                            Catálogo
+                        </span>
+
+                        <h2 class="fw-bold">
+                            Productos publicados
+                        </h2>
+
+                    </div>
+
+                    <span class="badge bg-success p-3">
+
+                        {{ productos|length }} productos
+
+                    </span>
+
+                </div>
+
+                <div class="product-grid">
+
+                    {% for producto in productos %}
+
+                        <article class="product-card">
+
+                            <div class="product-image">
+
+                                {% if producto.imagen %}
+
+                                    <img src="{{ producto.imagen.url }}"
+                                         alt="{{ producto.nombre }}">
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="product-body">
+
+                                <h3>
+                                    {{ producto.nombre }}
+                                </h3>
+
+                                <p class="product-description">
+
+                                    {{ producto.descripcion|truncatechars:90 }}
+
+                                </p>
+
+                                <div class="product-buy">
+
+                                    <strong>
+
+                                        {{ producto.precio|precio_colombiano }}
+
+                                    </strong>
+
+                                    {% with whatsapp_url=producto|whatsapp_producto_url %}
+
+                                        {% if whatsapp_url %}
+
+                                            <a class="product-whatsapp"
+                                               href="{{ whatsapp_url }}"
+                                               target="_blank">
+
+                                                <i class="bi bi-whatsapp"></i>
+
+                                                Preguntar
+
+                                            </a>
+
+                                        {% endif %}
+
+                                    {% endwith %}
+
+                                </div>
+
+                            </div>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

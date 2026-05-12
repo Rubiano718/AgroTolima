@@ -139,6 +139,29 @@ def categoria(request, categoria_id):
 
     })
 
+# =====================================================
+# PERFIL PÚBLICO PRODUCTOR
+# =====================================================
+
+def perfil_productor(request, productor_id):
+
+    productor = get_object_or_404(
+        Productor,
+        id=productor_id
+    )
+
+    productos = Producto.objects.filter(
+        productor=productor
+    )
+
+    return render(
+        request,
+        "tienda/perfil_productor.html",
+        {
+            "productor": productor,
+            "productos": productos
+        }
+    ) 
 
 # =====================================================
 # PANEL PRODUCTOR

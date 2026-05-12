@@ -19,6 +19,12 @@ urlpatterns = [
     ),
 
     path(
+    "productor/<int:productor_id>/",
+    views.perfil_productor,
+    name="perfil_productor"
+),
+    
+    path(
         "panel-productor/",
         views.panel_productor,
         name="panel_productor"

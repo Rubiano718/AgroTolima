@@ -2903,3 +2903,178 @@ PANEL PRODUCTOR PROFESIONAL
     }
 
 }
+.product-price-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.product-stock {
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+}
+
+.product-seller-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8faf8;
+    border: 1px solid #e5efe5;
+    border-radius: 18px;
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.seller-label {
+    display: block;
+    color: #6b7280;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.2rem;
+}
+
+.seller-name {
+    margin: 0;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.seller-location {
+    background: white;
+    border: 1px solid #d1d5db;
+    padding: 0.4rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.product-whatsapp {
+    width: 100%;
+    justify-content: center;
+    font-weight: 700;
+}
+/* =====================================================
+MEJORA FINAL CARDS MARKETPLACE
+===================================================== */
+
+.product-card{
+    transition: .35s ease;
+}
+
+.product-card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 18px 45px rgba(0,0,0,.12);
+}
+
+.product-image img{
+    transition: .4s ease;
+}
+
+.product-card:hover .product-image img{
+    transform: scale(1.05);
+}
+
+.seller-chip{
+    text-decoration: none;
+    transition: .3s ease;
+}
+
+.seller-chip:hover{
+    background: #1f8b4c;
+    color: white;
+}
+
+.product-body h3{
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1d1d1d;
+}
+
+.product-description{
+    color: #5f6662;
+    line-height: 1.7;
+}
+
+.product-buy{
+    border-top: 1px solid #edf0ec;
+    padding-top: 1rem;
+}
+
+.product-buy form{
+    margin-top: .5rem;
+}
+
+.product-buy button{
+    font-size: .95rem;
+    font-weight: 700;
+    border-radius: 14px;
+    transition: .3s ease;
+}
+
+.product-buy button:hover{
+    transform: translateY(-2px);
+}
+
+.product-whatsapp{
+    border-radius: 14px;
+    transition: .3s ease;
+}
+
+.product-whatsapp:hover{
+    transform: translateY(-2px);
+}
+
+.market-results{
+    width: 100%;
+}
+
+.results-header{
+    background: white;
+    padding: 1.4rem 1.6rem;
+    border-radius: 24px;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,.05);
+}
+
+.market-filters{
+    border-radius: 24px;
+}
+
+.market-filters input,
+.market-filters select{
+    border-radius: 14px;
+}
+
+.filter-submit{
+    border-radius: 14px;
+}
+
+.filter-clear{
+    border-radius: 14px;
+}
+
+/* =========================================
+RESPONSIVE EXTRA
+========================================= */
+
+@media(max-width:768px){
+
+    .product-price-top{
+        flex-direction: column;
+        align-items: start;
+    }
+
+    .product-seller-box{
+        flex-direction: column;
+        align-items: start;
+        gap: .8rem;
+    }
+
+}
