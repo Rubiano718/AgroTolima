@@ -5,7 +5,11 @@ app_name = "carrito"
 
 urlpatterns = [
 
-    path('', views.ver_carrito, name="carrito"),
+    path(
+        '',
+        views.ver_carrito,
+        name="carrito"
+    ),
 
     path(
         'agregar/<int:producto_id>/',
@@ -38,25 +42,15 @@ urlpatterns = [
     ),
 
     path(
-        'finalizar/',
-        views.finalizar_compra,
-        name="finalizar"
-    ),
-
-    path(
-        "checkout/",
+        'checkout/',
         views.checkout,
         name="checkout"
     ),
+
     path(
-    "mis-pedidos/",
-    views.mis_pedidos,
-    name="mis_pedidos"
-),
-path(
-    "mis-pedidos/",
-    views.mis_pedidos,
-    name="mis_pedidos"
-),
+        'mis-pedidos/',
+        views.mis_pedidos,
+        name="mis_pedidos"
+    ),
 
 ]
