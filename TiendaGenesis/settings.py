@@ -1,6 +1,7 @@
 from pathlib import Path
 from dotenv import load_dotenv
 import os
+import dj_database_url
 
 # ==================================================
 # BASE Y ENV
@@ -161,8 +162,8 @@ WSGI_APPLICATION = 'TiendaGenesis.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
+    "default": dj_database_url.parse(
+        os.getenv("DATABASE_URL")
     )
 }
 
