@@ -52,4 +52,25 @@ urlpatterns = [
         "limpiar/",
         views.limpiar_imagenes
     ),
+    path(
+    "mis-ventas/",
+    views.pedidos_productor,
+    name="pedidos_productor"
+     ),
+    path(
+    "pedido/<int:pedido_id>/<str:estado>/",
+    views.actualizar_estado_pedido,
+    name="actualizar_estado_pedido"
+    ),
+    path(
+    "mis-pedidos/",
+    views.pedidos_productor,
+    name="pedidos_productor"
+),
+
+path(
+    "pedido/<int:pedido_id>/<str:estado>/",
+    views.actualizar_estado_pedido,
+    name="actualizar_estado_pedido"
+),
 ]

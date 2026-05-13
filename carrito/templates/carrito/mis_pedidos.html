@@ -1,0 +1,124 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load precios %}
+
+{% block content %}
+
+<section class="success-page">
+
+    <div class="container">
+
+        <div class="checkout-left">
+
+            <span class="checkout-badge">
+                Historial de pedidos
+            </span>
+
+            <h1>
+                Mis compras
+            </h1>
+
+            <p>
+                Aquí puedes revisar todos tus pedidos realizados en AgroTolima.
+            </p>
+
+            {% if pedidos %}
+
+                {% for pedido in pedidos %}
+
+                    <div class="pedido-card">
+
+                        <div class="pedido-top">
+
+                            <div>
+
+                                <h3>
+                                    Pedido #{{ pedido.id }}
+                                </h3>
+
+                                <p>
+                                    {{ pedido.creado }}
+                                </p>
+
+                            </div>
+
+                            <span class="pedido-estado estado-{{ pedido.estado }}">
+                                {{ pedido.get_estado_display }}
+                            </span>
+
+                        </div>
+
+                        <div class="pedido-info">
+
+                            <p>
+                                <strong>Total:</strong>
+                                {{ pedido.total|precio_colombiano }}
+                            </p>
+
+                            <p>
+                                <strong>Dirección:</strong>
+                                {{ pedido.direccion }}
+                            </p>
+
+                            <p>
+                                <strong>Ciudad:</strong>
+                                {{ pedido.ciudad }}
+                            </p>
+
+                        </div>
+
+                        <div class="pedido-items">
+
+                            {% for item in pedido.items.all %}
+
+                                <div class="pedido-item">
+
+                                    <div>
+
+                                        <strong>
+                                            {{ item.producto.nombre }}
+                                        </strong>
+
+                                        <p>
+                                            Cantidad:
+                                            {{ item.cantidad }}
+                                        </p>
+
+                                    </div>
+
+                                    <span>
+                                        {{ item.subtotal|precio_colombiano }}
+                                    </span>
+
+                                </div>
+
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-state">
+
+                    <h3>
+                        No tienes pedidos todavía
+                    </h3>
+
+                    <p>
+                        Explora productos regionales y realiza tu primera compra.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

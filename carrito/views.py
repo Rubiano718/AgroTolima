@@ -5,6 +5,11 @@ from django.conf import settings
 from django.urls import reverse
 from tienda.models import Producto
 from tienda.templatetags.precios import precio_colombiano
+from .forms import CheckoutForm
+from .models import Pedido
+from django.contrib.auth.decorators import login_required
+from decimal import Decimal
+from .models import CartItem, Pedido, PedidoItem
 
 def obtener_carrito(request):
     carrito = request.session.get("carrito", {})
@@ -188,3 +193,105 @@ def finalizar_compra(request):
 
     request.session["carrito"] = {}
     return redirect("carrito:carrito")
+@login_required
+def checkout(request):
+
+    cart_items = CartItem.objects.filter(
+        session_key=request.session.session_key
+    )
+
+    total = Decimal("0.00")
+
+    for item in cart_items:
+        total += item.subtotal()
+
+    if request.method == "POST":
+
+        form = CheckoutForm(request.POST)
+
+        if form.is_valid():
+
+            pedido = Pedido.objects.create(
+
+                usuario=request.user,
+
+                nombre=form.cleaned_data["nombre"],
+
+                correo=form.cleaned_data["correo"],
+
+                telefono=form.cleaned_data["telefono"],
+
+                ciudad=form.cleaned_data["ciudad"],
+
+                direccion=form.cleaned_data["direccion"],
+
+                total=total
+
+            )
+
+            for item in cart_items:
+
+                PedidoItem.objects.create(
+
+                    pedido=pedido,
+
+                    producto=item.producto,
+
+                    cantidad=item.cantidad,
+
+                    precio=item.producto.precio,
+
+                    subtotal=item.subtotal()
+
+                )
+
+            cart_items.delete()
+
+            return render(
+                request,
+                "carrito/compra_exitosa.html",
+                {
+                    "pedido": pedido
+                }
+            )
+
+    else:
+
+        initial_data = {
+
+            "nombre": request.user.get_full_name(),
+
+            "correo": request.user.email,
+
+        }
+
+        form = CheckoutForm(
+            initial=initial_data
+        )
+
+    return render(
+
+        request,
+
+        "carrito/checkout.html",
+
+        {
+            "form": form,
+            "cart_items": cart_items,
+            "total": total
+        }
+    )
+@login_required
+def mis_pedidos(request):
+
+    pedidos = Pedido.objects.filter(
+        usuario=request.user
+    ).order_by("-creado")
+
+    return render(
+        request,
+        "carrito/mis_pedidos.html",
+        {
+            "pedidos": pedidos
+        }
+    )

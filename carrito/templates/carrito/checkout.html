@@ -1,0 +1,92 @@
+{% extends "TiendaGenesisApp/base.html" %}
+
+{% block content %}
+
+<section class="checkout-section">
+
+    <div class="checkout-container">
+
+        <div class="checkout-left">
+
+            <span class="checkout-badge">
+                Finalizar compra
+            </span>
+
+            <h1>
+                Información de entrega
+            </h1>
+
+            <p>
+                Completa tus datos para confirmar el pedido.
+            </p>
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="checkout-form">
+
+                    {{ form.as_p }}
+
+                </div>
+
+                <button type="submit"
+                        class="checkout-button">
+
+                    Confirmar pedido
+
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="checkout-right">
+
+            <h2>
+                Resumen del pedido
+            </h2>
+
+            {% for item in cart_items %}
+
+                <div class="checkout-item">
+
+                    <div>
+                        <strong>
+                            {{ item.producto.nombre }}
+                        </strong>
+
+                        <p>
+                            Cantidad:
+                            {{ item.cantidad }}
+                        </p>
+
+                    </div>
+
+                    <span>
+                        ${{ item.subtotal }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+            <div class="checkout-total">
+
+                <strong>
+                    Total
+                </strong>
+
+                <strong>
+                    ${{ total }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

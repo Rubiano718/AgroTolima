@@ -1,0 +1,162 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load precios %}
+
+{% block content %}
+
+<section class="checkout-section">
+
+    <div class="container">
+
+        <div class="dashboard-header">
+
+            <span class="checkout-badge">
+                Panel Productor
+            </span>
+
+            <h1>
+                Dashboard de ventas
+            </h1>
+
+            <p>
+                Gestiona tus pedidos y revisa tus ingresos.
+            </p>
+
+        </div>
+
+        <div class="dashboard-stats">
+
+            <div class="stat-card">
+
+                <h3>
+                    Ventas
+                </h3>
+
+                <strong>
+                    {{ total_ventas|precio_colombiano }}
+                </strong>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>
+                    Pedidos
+                </h3>
+
+                <strong>
+                    {{ total_pedidos }}
+                </strong>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h3>
+                    Productos
+                </h3>
+
+                <strong>
+                    {{ total_productos }}
+                </strong>
+
+            </div>
+
+        </div>
+
+        <div class="pedido-table">
+
+            <div class="pedido-table-head">
+
+                <span>Producto</span>
+                <span>Cliente</span>
+                <span>Estado</span>
+                <span>Total</span>
+
+            </div>
+
+            {% for item in pedidos %}
+
+                <div class="pedido-row">
+
+                    <div>
+
+                        <strong>
+                            {{ item.producto.nombre }}
+                        </strong>
+
+                        <p>
+                            Cantidad:
+                            {{ item.cantidad }}
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ item.pedido.nombre }}
+                        </strong>
+
+                        <p>
+                            {{ item.pedido.correo }}
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <span class="pedido-estado estado-{{ item.pedido.estado }}">
+                            {{ item.pedido.get_estado_display }}
+                        </span>
+
+                        <div class="estado-actions">
+
+                            <a href="{% url 'tienda:actualizar_estado_pedido' item.pedido.id 'confirmado' %}">
+                                Confirmar
+                            </a>
+
+                            <a href="{% url 'tienda:actualizar_estado_pedido' item.pedido.id 'enviado' %}">
+                                Enviar
+                            </a>
+
+                            <a href="{% url 'tienda:actualizar_estado_pedido' item.pedido.id 'entregado' %}">
+                                Entregado
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            {{ item.subtotal|precio_colombiano }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <div class="empty-state">
+
+                    <h3>
+                        No tienes ventas todavía
+                    </h3>
+
+                    <p>
+                        Cuando un cliente compre, aparecerá aquí.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

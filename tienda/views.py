@@ -1,5 +1,9 @@
 from django.db.models import Q
+from carrito.models import PedidoItem
+from django.db.models import Sum
+from carrito.models import Pedido
 from django.shortcuts import (
+
     render,
     get_object_or_404,
     redirect
@@ -322,4 +326,93 @@ def limpiar_imagenes(request):
         f"Rutas corregidas: {count}"
     )
 
+# =====================================================
+# PEDIDOS PRODUCTOR
+# =====================================================
+
+@login_required
+def pedidos_productor(request):
+
+    productor = get_object_or_404(
+        Productor,
+        usuario=request.user
+    )
+
+    pedidos = PedidoItem.objects.filter(
+        producto__productor=productor
+    ).select_related(
+        "pedido",
+        "producto"
+    ).order_by("-pedido__creado")
+
+    total_ventas = pedidos.aggregate(
+        total=Sum("subtotal")
+    )["total"] or 0
+
+    total_productos = Producto.objects.filter(
+        productor=productor
+    ).count()
+
+    total_pedidos = pedidos.count()
+
+    return render(
+        request,
+        "tienda/pedidos_productor.html",
+        {
+            "productor": productor,
+            "pedidos": pedidos,
+            "total_ventas": total_ventas,
+            "total_productos": total_productos,
+            "total_pedidos": total_pedidos,
+        }
+    )
+
+
+# =====================================================
+# ACTUALIZAR ESTADO PEDIDO
+# =====================================================
+
+@login_required
+def actualizar_estado_pedido(
+    request,
+    pedido_id,
+    estado
+):
+
+    productor = get_object_or_404(
+        Productor,
+        usuario=request.user
+    )
+
+    pedido = get_object_or_404(
+        Pedido,
+        id=pedido_id
+    )
+
+    productos_productor = pedido.items.filter(
+        producto__productor=productor
+    )
+
+    if not productos_productor.exists():
+
+        return redirect(
+            "tienda:pedidos_productor"
+        )
+
+    estados_validos = [
+        "recibido",
+        "confirmado",
+        "enviado",
+        "entregado"
+    ]
+
+    if estado in estados_validos:
+
+        pedido.estado = estado
+
+        pedido.save()
+
+    return redirect(
+        "tienda:pedidos_productor"
+    )
 
