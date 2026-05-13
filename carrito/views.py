@@ -196,14 +196,27 @@ def finalizar_compra(request):
 @login_required
 def checkout(request):
 
-    cart_items = CartItem.objects.filter(
-        session_key=request.session.session_key
-    )
+    carrito = obtener_carrito(request)
 
+    productos = []
     total = Decimal("0.00")
 
-    for item in cart_items:
-        total += item.subtotal()
+    for id_str, datos in carrito.items():
+
+        producto = get_object_or_404(
+            Producto,
+            id=int(id_str)
+        )
+
+        subtotal = datos["cantidad"] * producto.precio
+
+        total += subtotal
+
+        productos.append({
+            "producto": producto,
+            "cantidad": datos["cantidad"],
+            "subtotal": subtotal,
+        })
 
     if request.method == "POST":
 
@@ -229,23 +242,30 @@ def checkout(request):
 
             )
 
-            for item in cart_items:
+            for item in productos:
 
                 PedidoItem.objects.create(
 
                     pedido=pedido,
 
-                    producto=item.producto,
+                    producto=item["producto"],
 
-                    cantidad=item.cantidad,
+                    cantidad=item["cantidad"],
 
-                    precio=item.producto.precio,
+                    precio=item["producto"].precio,
 
-                    subtotal=item.subtotal()
+                    subtotal=item["subtotal"]
 
                 )
 
-            cart_items.delete()
+            # limpiar carrito
+            request.session["carrito"] = {}
+            request.session.modified = True
+
+            messages.success(
+                request,
+                "Pedido realizado correctamente"
+            )
 
             return render(
                 request,
@@ -276,10 +296,15 @@ def checkout(request):
         "carrito/checkout.html",
 
         {
+
             "form": form,
-            "cart_items": cart_items,
+
+            "productos": productos,
+
             "total": total
+
         }
+
     )
 @login_required
 def mis_pedidos(request):
