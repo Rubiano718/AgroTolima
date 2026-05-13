@@ -20,7 +20,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'TiendaGenesisApp/css/styles.css' %}">
@@ -35,19 +35,30 @@
 
     <!-- ================= NAVBAR ================= -->
 
-    <nav class="navbar navbar-expand-xl navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-xl navbar-dark fixed-top custom-navbar">
 
         <div class="container">
 
             <!-- LOGO -->
-            <a class="navbar-brand"
+            <a class="navbar-brand d-flex align-items-center gap-2"
                href="{% url 'Inicio' %}">
 
                 <img
                     src="{% static 'TiendaGenesisApp/img/Logo.png' %}"
-                    alt="Logo AgroTolima">
+                    alt="Logo AgroTolima"
+                    class="navbar-logo">
 
-                AgroTolima
+                <div class="d-flex flex-column">
+
+                    <span class="logo-title">
+                        AgroTolima
+                    </span>
+
+                    <small class="logo-subtitle">
+                        Marketplace Regional
+                    </small>
+
+                </div>
 
             </a>
 
@@ -64,76 +75,175 @@
             <!-- MENÚ -->
             <div class="collapse navbar-collapse" id="navbarNav">
 
-                <ul class="navbar-nav ms-auto align-items-lg-center">
+                <ul class="navbar-nav ms-auto align-items-xl-center gap-xl-2">
 
                     <li class="nav-item">
-                        <a class="nav-link active"
+                        <a class="nav-link"
                            href="{% url 'Inicio' %}">
+
+                            <i class="bi bi-house-door"></i>
                             Inicio
+
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'Informacion' %}">
+
+                            <i class="bi bi-globe-americas"></i>
                             Región
+
                         </a>
                     </li>
 
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'tienda:Tienda' %}">
+
+                            <i class="bi bi-shop"></i>
                             Marketplace
+
                         </a>
                     </li>
+                    <li class="nav-item">
+
+    <a class="nav-link"
+       href="{% url 'tienda:mis_favoritos' %}">
+
+        <i class="bi bi-heart"></i>
+        Favoritos
+
+    </a>
+
+</li>
 
                     <li class="nav-item">
                         <a class="nav-link"
                            href="{% url 'Contacto' %}">
+
+                            <i class="bi bi-envelope"></i>
                             Contacto
+
                         </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link"
+                        <a class="nav-link cart-link"
                            href="{% url 'carrito:carrito' %}">
+
                             <i class="bi bi-cart3"></i>
-                            Pedidos
+                            Carrito
+                            {% if user.is_authenticated %}
+
+<li class="nav-item">
+
+    <a class="nav-link"
+       href="{% url 'carrito:mis_pedidos' %}">
+
+        <i class="bi bi-bag-check"></i>
+        Mis pedidos
+
+    </a>
+
+</li>
+
+{% endif %}
+
                         </a>
                     </li>
 
-                   {% if user.is_authenticated %}
-
-    <li class="nav-item">
-
-        <a class="nav-link fw-bold text-success"
-           href="{% url 'panel_productor:dashboard' %}">
-
-            <i class="bi bi-shop"></i>
-            Mi panel
-
-        </a>
-
-    </li>
-
-    <li class="nav-item">
-
-        <a class="nav-link text-warning"
-           href="{% url 'account_logout' %}">
-
-            Cerrar sesión
-
-        </a>
-
-    </li>
-
-{% else %}
+                    {% if user.is_authenticated %}
 
                         <li class="nav-item">
 
-                            <a class="nav-link fw-bold"
+                            <a class="btn btn-success producer-btn"
+                               href="{% url 'panel_productor:dashboard' %}">
+
+                                <i class="bi bi-shop-window"></i>
+                                Mi Panel
+
+                            </a>
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle user-dropdown"
+                               href="#"
+                               role="button"
+                               data-bs-toggle="dropdown">
+
+                                <i class="bi bi-person-circle"></i>
+
+                                {{ user.email|truncatechars:18 }}
+
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+
+                                <li>
+
+                                    <a class="dropdown-item"
+                                       href="{% url 'panel_productor:dashboard' %}">
+
+                                        <i class="bi bi-speedometer2"></i>
+                                        Dashboard
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a class="dropdown-item"
+                                       href="{% url 'tienda:panel_productor' %}">
+
+                                        <i class="bi bi-box-seam"></i>
+                                        Mis Productos
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a class="dropdown-item"
+                                       href="{% url 'tienda:pedidos_productor' %}">
+
+                                        <i class="bi bi-bag-check"></i>
+                                        Pedidos
+
+                                    </a>
+
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                <li>
+
+                                    <a class="dropdown-item text-danger"
+                                       href="{% url 'account_logout' %}">
+
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Cerrar sesión
+
+                                    </a>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    {% else %}
+
+                        <li class="nav-item">
+
+                            <a class="btn btn-outline-light login-btn"
                                href="{% url 'account_login' %}">
 
+                                <i class="bi bi-person"></i>
                                 Iniciar sesión
 
                             </a>
@@ -155,12 +265,19 @@
     <main id="contenido-principal">
 
         {% if messages %}
-            <section class="site-messages container" aria-label="Mensajes del sistema">
+            <section class="site-messages container">
+
                 {% for message in messages %}
-                    <div class="site-alert site-alert--{{ message.tags }}" role="alert">
+
+                    <div class="site-alert site-alert--{{ message.tags }}"
+                         role="alert">
+
                         {{ message }}
+
                     </div>
+
                 {% endfor %}
+
             </section>
         {% endif %}
 
@@ -171,38 +288,170 @@
 
     <!-- ================= FOOTER ================= -->
 
-    <footer>
+    <footer class="site-footer">
 
-        <div class="container text-center">
+        <div class="container">
 
-            <h5 class="fw-bold mb-3">
-                🌱 AgroTolima Marketplace Regional
-            </h5>
+            <div class="row g-5">
 
-            <p>
-                Plataforma digital para impulsar productores,
-                emprendedores y comerciantes del Tolima.
-            </p>
+                <!-- LOGO -->
+                <div class="col-lg-4">
 
-            <div class="d-flex justify-content-center gap-4 mb-3">
+                    <div class="footer-brand">
 
-                <a href="#">
-                    <i class="bi bi-facebook fs-3"></i>
-                </a>
+                        <img
+                            src="{% static 'TiendaGenesisApp/img/Logo.png' %}"
+                            alt="Logo AgroTolima">
 
-                <a href="#">
-                    <i class="bi bi-instagram fs-3"></i>
-                </a>
+                        <div>
 
-                <a href="#">
-                    <i class="bi bi-whatsapp fs-3"></i>
-                </a>
+                            <h4>
+                                AgroTolima
+                            </h4>
+
+                            <p>
+                                Marketplace regional que conecta productores,
+                                campesinos y emprendedores del Tolima con compradores
+                                de forma directa y digital.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- ENLACES -->
+                <div class="col-lg-2">
+
+                    <h5>
+                        Navegación
+                    </h5>
+
+                    <ul class="footer-links">
+
+                        <li>
+                            <a href="{% url 'Inicio' %}">
+                                Inicio
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'Informacion' %}">
+                                Región
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'tienda:Tienda' %}">
+                                Marketplace
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="{% url 'Contacto' %}">
+                                Contacto
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!-- PRODUCTORES -->
+                <div class="col-lg-3">
+
+                    <h5>
+                        Productores
+                    </h5>
+
+                    <ul class="footer-links">
+
+                        <li>
+                            Registro de productores
+                        </li>
+
+                        <li>
+                            Panel administrativo
+                        </li>
+
+                        <li>
+                            Gestión de productos
+                        </li>
+
+                        <li>
+                            Marketplace regional
+                        </li>
+
+                    </ul>
+
+                </div>
+
+                <!-- CONTACTO -->
+                <div class="col-lg-3">
+
+                    <h5>
+                        Contacto
+                    </h5>
+
+                    <div class="footer-contact">
+
+                        <p>
+
+                            <i class="bi bi-envelope"></i>
+
+                            santorocamilo1@gmail.com
+
+                        </p>
+
+                        <p>
+
+                            <i class="bi bi-geo-alt"></i>
+
+                            Ibagué, Tolima
+
+                        </p>
+
+                        <p>
+
+                            <i class="bi bi-phone"></i>
+
+                            Marketplace Académico
+
+                        </p>
+
+                    </div>
+
+                    <div class="footer-socials">
+
+                        <a href="#">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="bi bi-whatsapp"></i>
+                        </a>
+
+                    </div>
+
+                </div>
 
             </div>
 
-            <small>
-                © 2026 AgroTolima - Marketplace Regional del Tolima
-            </small>
+            <hr class="footer-divider">
+
+            <div class="footer-bottom">
+
+                <p>
+                    © 2026 AgroTolima Marketplace Regional — Proyecto académico
+                    enfocado en transformación digital rural.
+                </p>
+
+            </div>
 
         </div>
 
@@ -214,3 +463,4 @@
 </body>
 
 </html>
+

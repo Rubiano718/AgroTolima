@@ -3746,3 +3746,180 @@ ACCIONES ESTADO PEDIDO
 
     color: white;
 }
+/* ======================================================
+NAVBAR PREMIUM
+====================================================== */
+
+.custom-navbar{
+    background: rgba(15, 23, 42, 0.92);
+    backdrop-filter: blur(10px);
+    padding: 14px 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+}
+
+.navbar-logo{
+    width: 52px;
+    height: 52px;
+    object-fit: contain;
+}
+
+.logo-title{
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+.logo-subtitle{
+    color: rgba(255,255,255,.7);
+    font-size: .73rem;
+}
+
+.nav-link{
+    color: rgba(255,255,255,.88) !important;
+    font-weight: 500;
+    transition: .3s ease;
+}
+
+.nav-link:hover{
+    color: #7CFC8A !important;
+    transform: translateY(-1px);
+}
+
+.producer-btn{
+    border-radius: 12px;
+    padding: 10px 18px;
+    font-weight: 600;
+}
+
+.login-btn{
+    border-radius: 12px;
+    padding: 10px 18px;
+}
+
+.user-dropdown{
+    background: rgba(255,255,255,.08);
+    padding: 10px 16px !important;
+    border-radius: 12px;
+}
+
+.dropdown-menu{
+    border-radius: 16px;
+    padding: 10px;
+}
+
+.dropdown-item{
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.dropdown-item:hover{
+    background: #f3f4f6;
+}
+
+/* ======================================================
+FOOTER
+====================================================== */
+
+.site-footer{
+    background: #0f172a;
+    color: white;
+    padding: 80px 0 30px;
+    margin-top: 100px;
+}
+
+.footer-brand{
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.footer-brand img{
+    width: 70px;
+}
+
+.footer-brand h4{
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.footer-brand p{
+    color: rgba(255,255,255,.7);
+    line-height: 1.7;
+}
+
+.site-footer h5{
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.footer-links{
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li{
+    margin-bottom: 12px;
+}
+
+.footer-links a{
+    color: rgba(255,255,255,.7);
+    text-decoration: none;
+    transition: .3s;
+}
+
+.footer-links a:hover{
+    color: #7CFC8A;
+}
+
+.footer-contact p{
+    color: rgba(255,255,255,.7);
+    margin-bottom: 14px;
+}
+
+.footer-contact i{
+    margin-right: 10px;
+}
+
+.footer-socials{
+    display: flex;
+    gap: 14px;
+    margin-top: 20px;
+}
+
+.footer-socials a{
+    width: 45px;
+    height: 45px;
+    background: rgba(255,255,255,.08);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    transition: .3s;
+    text-decoration: none;
+}
+
+.footer-socials a:hover{
+    background: #7CFC8A;
+    color: #0f172a;
+    transform: translateY(-3px);
+}
+
+.footer-divider{
+    margin: 50px 0 25px;
+    border-color: rgba(255,255,255,.1);
+}
+
+.footer-bottom{
+    text-align: center;
+    color: rgba(255,255,255,.65);
+    font-size: .95rem;
+}
+.product-title-link{
+    color: inherit;
+    text-decoration: none;
+}
+
+.product-title-link:hover{
+    color: #198754;
+}   

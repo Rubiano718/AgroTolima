@@ -1,0 +1,300 @@
+{% extends "TiendaGenesisApp/base.html" %}
+{% load precios %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="row g-5 align-items-start">
+
+        <div class="col-lg-6">
+
+            {% if producto.imagen %}
+
+                <img src="{{ producto.imagen.url }}"
+                     class="img-fluid rounded-4 shadow">
+
+            {% endif %}
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <span class="badge bg-success mb-3">
+
+                {{ producto.categoria.nombre }}
+
+            </span>
+
+            <h1 class="fw-bold mb-3">
+
+                {{ producto.nombre }}
+
+            </h1>
+
+            <p class="text-muted mb-4">
+
+                {{ producto.descripcion }}
+
+            </p>
+
+            <h2 class="text-success fw-bold mb-4">
+
+                {{ producto.precio|precio_colombiano }}
+
+            </h2>
+
+            <div class="mb-4">
+
+                <strong>Productor:</strong>
+                {{ producto.productor.nombre }}
+
+                <br>
+
+                <strong>Municipio:</strong>
+                {{ producto.productor.municipio }}
+
+            </div>
+
+            <div class="d-flex gap-3 flex-wrap">
+
+    <form method="post"
+          action="{% url 'carrito:agregar_carrito' producto.id %}">
+
+        {% csrf_token %}
+
+        <input type="hidden"
+               name="cantidad"
+               value="1">
+
+        <button class="btn btn-success btn-lg">
+
+            <i class="bi bi-cart-plus"></i>
+            Agregar al carrito
+
+        </button>
+
+    </form>
+
+    <a href="{% url 'tienda:toggle_favorito' producto.id %}"
+       class="btn btn-outline-danger btn-lg">
+
+        <i class="bi bi-heart"></i>
+        Favorito
+
+    </a>
+
+    {% if producto.productor.whatsapp %}
+
+        <a href="https://wa.me/57{{ producto.productor.whatsapp }}"
+           target="_blank"
+           class="btn btn-outline-success btn-lg">
+
+            <i class="bi bi-whatsapp"></i>
+            WhatsApp
+
+        </a>
+
+    {% endif %}
+
+</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% if relacionados %}
+
+<section class="container pb-5">
+
+    <h3 class="fw-bold mb-4">
+
+        Productos relacionados
+
+    </h3>
+
+    <div class="row g-4">
+
+        {% for item in relacionados %}
+
+            <div class="col-md-3">
+
+                <div class="card shadow-sm border-0 h-100">
+
+                    {% if item.imagen %}
+
+                        <img src="{{ item.imagen.url }}"
+                             class="card-img-top"
+                             style="height:220px;object-fit:cover;">
+
+                    {% endif %}
+
+                    <div class="card-body">
+
+                        <h5 class="fw-bold">
+
+                            {{ item.nombre }}
+
+                        </h5>
+
+                        <p class="text-success fw-bold">
+
+                            {{ item.precio|precio_colombiano }}
+
+                        </p>
+
+                        <a href="{% url 'tienda:detalle_producto' item.id %}"
+                           class="btn btn-outline-success w-100">
+
+                            Ver producto
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+<section class="container pb-5">
+
+    <div class="row g-5">
+
+        <div class="col-lg-5">
+
+            <h3 class="fw-bold mb-4">
+                Calificar producto
+            </h3>
+
+            {% if user.is_authenticated %}
+
+                <form method="post"
+                      class="card border-0 shadow-sm rounded-4 p-4">
+
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Calificación
+                        </label>
+
+                        {{ form.calificacion }}
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Comentario
+                        </label>
+
+                        {{ form.comentario }}
+
+                    </div>
+
+                    <button class="btn btn-success">
+
+                        Enviar reseña
+
+                    </button>
+
+                </form>
+
+            {% else %}
+
+                <div class="alert alert-light border">
+
+                    Debes iniciar sesión para comentar.
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+        <div class="col-lg-7">
+
+            <h3 class="fw-bold mb-4">
+                Opiniones de clientes
+            </h3>
+
+            {% for r in resenas %}
+
+                <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+                    <div class="card-body">
+
+                        <div class="d-flex justify-content-between mb-2">
+
+                            <strong>
+
+                                {{ r.usuario.email }}
+
+                            </strong>
+
+                            <small class="text-muted">
+
+                                {{ r.creado }}
+
+                            </small>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            {% for i in "12345" %}
+
+                                {% if forloop.counter <= r.calificacion %}
+
+                                    ⭐
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                        <p class="mb-0">
+
+                            {{ r.comentario }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            {% empty %}
+
+                <div class="empty-state">
+
+                    <h3>
+                        Aún no hay reseñas
+                    </h3>
+
+                    <p>
+                        Sé el primero en calificar este producto.
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

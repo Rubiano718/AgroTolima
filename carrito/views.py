@@ -295,3 +295,17 @@ def mis_pedidos(request):
             "pedidos": pedidos
         }
     )
+@login_required
+def mis_pedidos(request):
+
+    pedidos = Pedido.objects.filter(
+        usuario=request.user
+    ).order_by("-creado")
+
+    return render(
+        request,
+        "carrito/mis_pedidos.html",
+        {
+            "pedidos": pedidos
+        }
+    )

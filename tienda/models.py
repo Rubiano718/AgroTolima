@@ -115,3 +115,55 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+class Resena(models.Model):
+
+    producto = models.ForeignKey(
+        Producto,
+        on_delete=models.CASCADE,
+        related_name="resenas"
+    )
+
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    comentario = models.TextField()
+
+    calificacion = models.IntegerField()
+
+    creado = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"{self.usuario} - {self.producto}"
+    
+class Favorito(models.Model):
+
+    usuario = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE
+    )
+
+    producto = models.ForeignKey(
+        Producto,
+        on_delete=models.CASCADE
+    )
+
+    creado = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+
+        unique_together = (
+            "usuario",
+            "producto"
+        )
+
+    def __str__(self):
+
+        return f"{self.usuario} - {self.producto}"

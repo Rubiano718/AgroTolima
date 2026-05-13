@@ -4,6 +4,8 @@ from cloudinary.forms import CloudinaryFileField
 
 from .models import Producto, Productor
 
+from .models import Resena
+
 
 class ProductorForm(forms.ModelForm):
 
@@ -102,3 +104,38 @@ class ProductoCSVImportForm(forms.Form):
     archivo = forms.FileField(
         label="Archivo CSV"
     )
+
+class ResenaForm(forms.ModelForm):
+
+    class Meta:
+
+        model = Resena
+
+        fields = [
+            "calificacion",
+            "comentario"
+        ]
+
+        widgets = {
+
+            "calificacion": forms.Select(
+                choices=[
+                    (5, "⭐⭐⭐⭐⭐ Excelente"),
+                    (4, "⭐⭐⭐⭐ Muy bueno"),
+                    (3, "⭐⭐⭐ Bueno"),
+                    (2, "⭐⭐ Regular"),
+                    (1, "⭐ Malo"),
+                ],
+                attrs={
+                    "class": "form-select"
+                }
+            ),
+
+            "comentario": forms.Textarea(
+                attrs={
+                    "class": "form-control",
+                    "rows": 4,
+                    "placeholder": "Comparte tu experiencia..."
+                }
+            )
+        }

@@ -2,6 +2,9 @@ from django.db.models import Q
 from carrito.models import PedidoItem
 from django.db.models import Sum
 from carrito.models import Pedido
+from .models import Resena
+from .forms import ResenaForm
+from .models import Favorito
 from django.shortcuts import (
 
     render,
@@ -414,5 +417,111 @@ def actualizar_estado_pedido(
 
     return redirect(
         "tienda:pedidos_productor"
+    )
+# =====================================================
+# DETALLE PRODUCTO
+# =====================================================
+
+def detalle_producto(request, producto_id):
+
+    producto = get_object_or_404(
+        Producto,
+        id=producto_id
+    )
+
+    relacionados = Producto.objects.filter(
+        categoria=producto.categoria
+    ).exclude(
+        id=producto.id
+    )[:4]
+
+    resenas = producto.resenas.all().order_by(
+        "-creado"
+    )
+
+    if request.method == "POST":
+
+        if request.user.is_authenticated:
+
+            form = ResenaForm(request.POST)
+
+            if form.is_valid():
+
+                resena = form.save(commit=False)
+
+                resena.producto = producto
+
+                resena.usuario = request.user
+
+                resena.save()
+
+                return redirect(
+                    "tienda:detalle_producto",
+                    producto.id
+                )
+
+        else:
+
+            return redirect("account_login")
+
+    else:
+
+        form = ResenaForm()
+
+    return render(
+        request,
+        "tienda/detalle_producto.html",
+        {
+            "producto": producto,
+            "relacionados": relacionados,
+            "resenas": resenas,
+            "form": form
+        }
+    )
+@login_required
+def toggle_favorito(request, producto_id):
+
+    producto = get_object_or_404(
+        Producto,
+        id=producto_id
+    )
+
+    favorito = Favorito.objects.filter(
+        usuario=request.user,
+        producto=producto
+    )
+
+    if favorito.exists():
+
+        favorito.delete()
+
+    else:
+
+        Favorito.objects.create(
+            usuario=request.user,
+            producto=producto
+        )
+
+    return redirect(
+        "tienda:detalle_producto",
+        producto.id
+    )
+
+
+@login_required
+def mis_favoritos(request):
+
+    favoritos = Favorito.objects.filter(
+        usuario=request.user
+    ).select_related(
+        "producto"
+    ).order_by("-creado")
+
+    return render(
+        request,
+        "tienda/mis_favoritos.html",
+        {
+            "favoritos": favoritos
+        }
     )
 

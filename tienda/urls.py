@@ -73,4 +73,20 @@ path(
     views.actualizar_estado_pedido,
     name="actualizar_estado_pedido"
 ),
+path(
+    "producto/<int:producto_id>/",
+    views.detalle_producto,
+    name="detalle_producto"
+),
+path(
+    "favorito/<int:producto_id>/",
+    views.toggle_favorito,
+    name="toggle_favorito"
+),
+
+path(
+    "mis-favoritos/",
+    views.mis_favoritos,
+    name="mis_favoritos"
+),
 ]
