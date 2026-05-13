@@ -77,12 +77,32 @@
     </form>
 
     <a href="{% url 'tienda:toggle_favorito' producto.id %}"
-       class="btn btn-outline-danger btn-lg">
+
+   class="btn btn-lg
+
+   {% if es_favorito %}
+
+        btn-danger text-white
+
+   {% else %}
+
+        btn-outline-danger
+
+   {% endif %}">
+
+    {% if es_favorito %}
+
+        <i class="bi bi-heart-fill"></i>
+        Guardado
+
+    {% else %}
 
         <i class="bi bi-heart"></i>
         Favorito
 
-    </a>
+    {% endif %}
+
+</a>
 
     {% if producto.productor.whatsapp %}
 

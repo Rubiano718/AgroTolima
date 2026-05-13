@@ -468,6 +468,15 @@ def detalle_producto(request, producto_id):
 
         form = ResenaForm()
 
+    es_favorito = False
+
+    if request.user.is_authenticated:
+
+        es_favorito = Favorito.objects.filter(
+            usuario=request.user,
+            producto=producto
+        ).exists()
+
     return render(
         request,
         "tienda/detalle_producto.html",
@@ -475,7 +484,8 @@ def detalle_producto(request, producto_id):
             "producto": producto,
             "relacionados": relacionados,
             "resenas": resenas,
-            "form": form
+            "form": form,
+            "es_favorito": es_favorito
         }
     )
 @login_required
