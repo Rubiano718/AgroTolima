@@ -441,11 +441,11 @@ def checkout(request):
 
         initial_data = {
 
-            "nombre": request.user.get_full_name(),
+    "nombre": request.user.email,
 
-            "correo": request.user.email(),
+    "correo": request.user.email,
 
-        }
+}
 
         form = CheckoutForm(
             initial=initial_data
