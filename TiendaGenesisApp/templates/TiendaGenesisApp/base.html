@@ -133,24 +133,25 @@
 
                             <i class="bi bi-cart3"></i>
                             Carrito
-                            {% if user.is_authenticated %}
-
-<li class="nav-item">
-
-    <a class="nav-link"
-       href="{% url 'carrito:mis_pedidos' %}">
-
-        <i class="bi bi-bag-check"></i>
-        Mis pedidos
-
-    </a>
-
-</li>
-
-{% endif %}
 
                         </a>
                     </li>
+
+                    {% if user.is_authenticated %}
+
+                        <li class="nav-item">
+
+                            <a class="nav-link"
+                               href="{% url 'carrito:mis_pedidos' %}">
+
+                                <i class="bi bi-bag-check"></i>
+                                Mis compras
+
+                            </a>
+
+                        </li>
+
+                    {% endif %}
 
                     {% if user.is_authenticated %}
 
@@ -160,7 +161,7 @@
                                href="{% url 'panel_productor:dashboard' %}">
 
                                 <i class="bi bi-shop-window"></i>
-                                Mi Panel
+                                Mi negocio
 
                             </a>
 
@@ -187,7 +188,7 @@
                                        href="{% url 'panel_productor:dashboard' %}">
 
                                         <i class="bi bi-speedometer2"></i>
-                                        Dashboard
+                                        Mi negocio
 
                                     </a>
 
@@ -196,10 +197,10 @@
                                 <li>
 
                                     <a class="dropdown-item"
-                                       href="{% url 'tienda:panel_productor' %}">
+                                       href="{% url 'panel_productor:mis_productos' %}">
 
-                                        <i class="bi bi-box-seam"></i>
-                                        Mis Productos
+                                        <i class="bi bi-basket"></i>
+                                        Mis productos
 
                                     </a>
 
@@ -208,10 +209,22 @@
                                 <li>
 
                                     <a class="dropdown-item"
-                                       href="{% url 'tienda:pedidos_productor' %}">
+                                       href="{% url 'panel_productor:pedidos_productor' %}">
 
-                                        <i class="bi bi-bag-check"></i>
-                                        Pedidos
+                                        <i class="bi bi-receipt"></i>
+                                        Ventas y pedidos
+
+                                    </a>
+
+                                </li>
+
+                                <li>
+
+                                    <a class="dropdown-item"
+                                       href="{% url 'panel_productor:mis_favoritos' %}">
+
+                                        <i class="bi bi-heart"></i>
+                                        Favoritos
 
                                     </a>
 
@@ -462,4 +475,3 @@
 </body>
 
 </html>
-

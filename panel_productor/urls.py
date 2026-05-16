@@ -14,6 +14,30 @@ urlpatterns = [
     ),
 
     path(
+        "panel-productor/",
+        views.dashboard,
+        name="panel_productor"
+    ),
+
+    path(
+        "mis-productos/",
+        views.dashboard,
+        name="mis_productos"
+    ),
+
+    path(
+        "pedidos/",
+        views.pedidos_productor,
+        name="pedidos_productor"
+    ),
+
+    path(
+        "favoritos/",
+        views.mis_favoritos,
+        name="mis_favoritos"
+    ),
+
+    path(
         "registro/",
         views.registro_productor,
         name="registro_productor"

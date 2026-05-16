@@ -1,80 +1,182 @@
 {% extends "TiendaGenesisApp/base.html" %}
+{% load precios %}
 
 {% block content %}
 
 <section class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-3 mb-4">
 
         <div>
 
-            <h2>
-                Panel de productor
-            </h2>
+            <span class="badge text-bg-success rounded-pill px-3 py-2 mb-3">
+                Mi negocio
+            </span>
+
+            <h1 class="fw-bold mb-2">
+                Hola, {{ productor.nombre }}
+            </h1>
 
             <p class="text-muted mb-0">
-                Bienvenido {{ productor.nombre }}
+                Revisa tus ventas, pedidos y productos publicados en AgroTolima.
             </p>
 
         </div>
 
-        <a
-            href="{% url 'panel_productor:crear_producto' %}"
-            class="btn btn-success"
-        >
-            + Agregar producto
-        </a>
+        <div class="d-flex flex-wrap gap-2">
+
+            <a href="{% url 'panel_productor:pedidos_productor' %}"
+               class="btn btn-outline-success">
+                <i class="bi bi-receipt"></i>
+                Ventas y pedidos
+            </a>
+
+            <a href="{% url 'panel_productor:crear_producto' %}"
+               class="btn btn-success">
+                <i class="bi bi-plus-circle"></i>
+                Publicar producto
+            </a>
+
+        </div>
 
     </div>
 
-    <div class="row">
+    <div class="row g-3 mb-4">
 
-        {% for producto in productos %}
+        <div class="col-sm-6 col-xl">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="text-muted">Total de ventas</span>
+                        <i class="bi bi-cash-stack text-success fs-4"></i>
+                    </div>
+                    <strong class="fs-4">{{ total_ventas|precio_colombiano }}</strong>
+                </div>
+            </div>
+        </div>
 
-            <div class="col-md-4 mb-4">
+        <div class="col-sm-6 col-xl">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="text-muted">Total pedidos</span>
+                        <i class="bi bi-bag-check text-primary fs-4"></i>
+                    </div>
+                    <strong class="fs-4">{{ total_pedidos }}</strong>
+                </div>
+            </div>
+        </div>
 
-                <div class="card h-100 shadow-sm border-0 rounded-4">
+        <div class="col-sm-6 col-xl">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="text-muted">Productos publicados</span>
+                        <i class="bi bi-basket text-warning fs-4"></i>
+                    </div>
+                    <strong class="fs-4">{{ total_productos }}</strong>
+                </div>
+            </div>
+        </div>
 
-                    {% if producto.imagen %}
-                        <img
-                            src="{{ producto.imagen.url }}"
-                            class="card-img-top"
-                            style="height:220px; object-fit:cover;"
-                        >
-                    {% endif %}
+        <div class="col-sm-6 col-xl">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="text-muted">Productos favoritos</span>
+                        <i class="bi bi-heart-fill text-danger fs-4"></i>
+                    </div>
+                    <strong class="fs-4">{{ productos_favoritos }}</strong>
+                </div>
+            </div>
+        </div>
 
-                    <div class="card-body">
+        <div class="col-sm-6 col-xl">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <span class="text-muted">Ganancias estimadas</span>
+                        <i class="bi bi-graph-up-arrow text-success fs-4"></i>
+                    </div>
+                    <strong class="fs-4">{{ ganancias_estimadas|precio_colombiano }}</strong>
+                </div>
+            </div>
+        </div>
 
-                        <h5>
-                            {{ producto.nombre }}
-                        </h5>
+    </div>
 
-                        <p class="text-muted">
-                            ${{ producto.precio }}
-                        </p>
+    <div class="row g-4">
 
-                        <p>
-                            Stock:
-                            {{ producto.stock }}
-                        </p>
+        <div class="col-lg-7">
 
-                        <div class="d-flex gap-2">
+            <div class="card border-0 shadow-sm h-100">
 
-                            <a
-                                href="{% url 'panel_productor:editar_producto' producto.id %}"
-                                class="btn btn-warning btn-sm"
-                            >
-                                Editar
-                            </a>
+                <div class="card-body">
 
-                            <a
-                                href="{% url 'panel_productor:eliminar_producto' producto.id %}"
-                                class="btn btn-danger btn-sm"
-                            >
-                                Eliminar
-                            </a>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h5 fw-bold mb-0">Mis productos</h2>
+                        <a href="{% url 'panel_productor:mis_productos' %}"
+                           class="btn btn-sm btn-outline-secondary">
+                            Ver todos
+                        </a>
+                    </div>
 
-                        </div>
+                    <div class="row g-3">
+
+                        {% for producto in productos|slice:":6" %}
+
+                            <div class="col-md-6">
+                                <div class="border rounded-3 p-2 h-100">
+                                    <div class="d-flex gap-3">
+                                        {% if producto.imagen %}
+                                            <img src="{{ producto.imagen.url }}"
+                                                 alt="{{ producto.nombre }}"
+                                                 class="rounded-3"
+                                                 style="width:92px;height:92px;object-fit:cover;">
+                                        {% else %}
+                                            <div class="rounded-3 bg-light d-flex align-items-center justify-content-center text-muted"
+                                                 style="width:92px;height:92px;">
+                                                <i class="bi bi-image"></i>
+                                            </div>
+                                        {% endif %}
+
+                                        <div class="flex-grow-1">
+                                            <h3 class="h6 fw-bold mb-1">{{ producto.nombre }}</h3>
+                                            <p class="text-muted small mb-2">{{ producto.precio|precio_colombiano }}</p>
+                                            <span class="badge {% if producto.disponible %}text-bg-success{% else %}text-bg-secondary{% endif %}">
+                                                {% if producto.disponible %}Disponible{% else %}No disponible{% endif %}
+                                            </span>
+                                            <small class="text-muted ms-1">Stock: {{ producto.stock }}</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex gap-2 mt-3">
+                                        <a href="{% url 'panel_productor:editar_producto' producto.id %}"
+                                           class="btn btn-sm btn-outline-primary flex-fill">
+                                            <i class="bi bi-pencil"></i>
+                                            Editar
+                                        </a>
+                                        <a href="{% url 'panel_productor:eliminar_producto' producto.id %}"
+                                           class="btn btn-sm btn-outline-danger flex-fill">
+                                            <i class="bi bi-trash"></i>
+                                            Eliminar
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% empty %}
+
+                            <div class="col-12">
+                                <div class="alert alert-light border mb-0">
+                                    Aun no tienes productos publicados.
+                                    <a href="{% url 'panel_productor:crear_producto' %}" class="alert-link">
+                                        Publica tu primer producto.
+                                    </a>
+                                </div>
+                            </div>
+
+                        {% endfor %}
 
                     </div>
 
@@ -82,13 +184,93 @@
 
             </div>
 
-        {% empty %}
+        </div>
 
-            <p>
-                Aun no tienes productos publicados.
-            </p>
+        <div class="col-lg-5">
 
-        {% endfor %}
+            <div class="card border-0 shadow-sm mb-4">
+
+                <div class="card-body">
+
+                    <h2 class="h5 fw-bold mb-3">Productos mas vendidos</h2>
+
+                    {% for producto in productos_mas_vendidos %}
+
+                        <div class="d-flex align-items-center gap-3 py-2 border-bottom">
+                            {% if producto.imagen %}
+                                <img src="{{ producto.imagen.url }}"
+                                     alt="{{ producto.nombre }}"
+                                     class="rounded-3"
+                                     style="width:58px;height:58px;object-fit:cover;">
+                            {% else %}
+                                <div class="rounded-3 bg-light d-flex align-items-center justify-content-center text-muted"
+                                     style="width:58px;height:58px;">
+                                    <i class="bi bi-basket"></i>
+                                </div>
+                            {% endif %}
+                            <div class="flex-grow-1">
+                                <strong>{{ producto.nombre }}</strong>
+                                <div class="text-muted small">
+                                    {{ producto.unidades_vendidas|default:0 }} unidades vendidas
+                                </div>
+                            </div>
+                            <span class="fw-bold text-success">
+                                {{ producto.ingresos_generados|default:0|precio_colombiano }}
+                            </span>
+                        </div>
+
+                    {% empty %}
+
+                        <p class="text-muted mb-0">
+                            Aun no hay ventas registradas para tus productos.
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <div class="card border-0 shadow-sm">
+
+                <div class="card-body">
+
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h5 fw-bold mb-0">Ultimos pedidos</h2>
+                        <a href="{% url 'panel_productor:pedidos_productor' %}"
+                           class="btn btn-sm btn-outline-secondary">
+                            Ver pedidos
+                        </a>
+                    </div>
+
+                    {% for item in ultimos_pedidos %}
+
+                        <div class="d-flex align-items-start gap-3 py-2 border-bottom">
+                            <i class="bi bi-receipt text-success fs-4"></i>
+                            <div class="flex-grow-1">
+                                <strong>{{ item.producto.nombre }}</strong>
+                                <div class="text-muted small">
+                                    {{ item.pedido.nombre }} - {{ item.pedido.get_estado_display }}
+                                </div>
+                            </div>
+                            <span class="fw-bold">
+                                {{ item.subtotal|precio_colombiano }}
+                            </span>
+                        </div>
+
+                    {% empty %}
+
+                        <p class="text-muted mb-0">
+                            Cuando recibas compras apareceran aqui.
+                        </p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 

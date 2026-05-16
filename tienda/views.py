@@ -177,10 +177,10 @@ def perfil_productor(request, productor_id):
 @login_required
 def panel_productor(request):
 
-    productor = get_object_or_404(
-        Productor,
-        usuario=request.user
-    )
+    if not hasattr(request.user, "productor"):
+        return redirect("/mi-panel/registro/")
+
+    productor = request.user.productor
 
     productos = Producto.objects.filter(
         productor=productor
@@ -203,10 +203,10 @@ def panel_productor(request):
 @login_required
 def crear_producto(request):
 
-    productor = get_object_or_404(
-        Productor,
-        usuario=request.user
-    )
+    if not hasattr(request.user, "productor"):
+        return redirect("/mi-panel/registro/")
+
+    productor = request.user.productor
 
     if request.method == "POST":
 
@@ -246,6 +246,9 @@ def crear_producto(request):
 
 @login_required
 def editar_producto(request, producto_id):
+
+    if not hasattr(request.user, "productor"):
+        return redirect("/mi-panel/registro/")
 
     producto = get_object_or_404(
         Producto,
@@ -290,6 +293,9 @@ def editar_producto(request, producto_id):
 
 @login_required
 def eliminar_producto(request, producto_id):
+
+    if not hasattr(request.user, "productor"):
+        return redirect("/mi-panel/registro/")
 
     producto = get_object_or_404(
         Producto,
@@ -336,10 +342,10 @@ def limpiar_imagenes(request):
 @login_required
 def pedidos_productor(request):
 
-    productor = get_object_or_404(
-        Productor,
-        usuario=request.user
-    )
+    if not hasattr(request.user, "productor"):
+        return redirect("/mi-panel/registro/")
+
+    productor = request.user.productor
 
     pedidos = PedidoItem.objects.filter(
         producto__productor=productor
@@ -382,10 +388,10 @@ def actualizar_estado_pedido(
     estado
 ):
 
-    productor = get_object_or_404(
-        Productor,
-        usuario=request.user
-    )
+    if not hasattr(request.user, "productor"):
+        return redirect("/mi-panel/registro/")
+
+    productor = request.user.productor
 
     pedido = get_object_or_404(
         Pedido,
@@ -534,4 +540,3 @@ def mis_favoritos(request):
             "favoritos": favoritos
         }
     )
-
