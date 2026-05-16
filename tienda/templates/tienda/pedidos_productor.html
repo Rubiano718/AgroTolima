@@ -14,7 +14,7 @@
             </span>
 
             <h1>
-                Dashboard de ventas
+                Ventas y pedidos
             </h1>
 
             <p>
@@ -80,13 +80,21 @@
 
                     <div>
 
+                        {% if item.producto.imagen %}
+                            <img src="{{ item.producto.imagen.url }}"
+                                 alt="{{ item.producto.nombre }}"
+                                 class="rounded-3 mb-2"
+                                 style="width:64px;height:64px;object-fit:cover;">
+                        {% endif %}
+
                         <strong>
-                            {{ item.producto.nombre }}
+                            {{ item.producto.nombre_con_unidad }}
                         </strong>
 
                         <p>
                             Cantidad:
                             {{ item.cantidad }}
+                            {{ item.producto.unidad_venta|lower }}{{ item.cantidad|pluralize }}
                         </p>
 
                     </div>

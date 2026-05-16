@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Sum
 from django.shortcuts import (
     render,
@@ -31,6 +32,10 @@ from .forms import (
 def registro_productor(request):
 
     if hasattr(request.user, "productor"):
+        messages.info(
+            request,
+            "Ya tienes un perfil de productor activo."
+        )
         return redirect("panel_productor:dashboard")
 
     form = RegistroProductorForm(
@@ -48,8 +53,18 @@ def registro_productor(request):
 
             productor.save()
 
+            messages.success(
+                request,
+                "Perfil de productor creado correctamente."
+            )
+
             return redirect(
                 "panel_productor:dashboard"
+            )
+        else:
+            messages.warning(
+                request,
+                "Completa todos los campos obligatorios."
             )
 
     return render(
@@ -69,6 +84,10 @@ def registro_productor(request):
 def dashboard(request):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de publicar productos."
+        )
         return redirect(
             "panel_productor:registro_productor"
         )
@@ -128,6 +147,10 @@ def dashboard(request):
 def pedidos_productor(request):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de revisar ventas."
+        )
         return redirect(
             "panel_productor:registro_productor"
         )
@@ -170,6 +193,10 @@ def pedidos_productor(request):
 def mis_favoritos(request):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de ver favoritos."
+        )
         return redirect(
             "panel_productor:registro_productor"
         )
@@ -198,6 +225,10 @@ def mis_favoritos(request):
 def crear_producto(request):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de publicar productos."
+        )
         return redirect(
             "panel_productor:registro_productor"
         )
@@ -219,8 +250,18 @@ def crear_producto(request):
 
             producto.save()
 
+            messages.success(
+                request,
+                "Producto publicado correctamente."
+            )
+
             return redirect(
                 "panel_productor:dashboard"
+            )
+        else:
+            messages.warning(
+                request,
+                "Completa todos los campos obligatorios."
             )
 
     return render(
@@ -241,6 +282,10 @@ def crear_producto(request):
 def editar_producto(request, producto_id):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de editar productos."
+        )
         return redirect(
             "panel_productor:registro_productor"
         )
@@ -265,8 +310,18 @@ def editar_producto(request, producto_id):
 
             form.save()
 
+            messages.success(
+                request,
+                "Producto actualizado correctamente."
+            )
+
             return redirect(
                 "panel_productor:dashboard"
+            )
+        else:
+            messages.warning(
+                request,
+                "Completa todos los campos obligatorios."
             )
 
     return render(
@@ -287,6 +342,10 @@ def editar_producto(request, producto_id):
 def eliminar_producto(request, producto_id):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de eliminar productos."
+        )
         return redirect(
             "panel_productor:registro_productor"
         )
@@ -302,6 +361,11 @@ def eliminar_producto(request, producto_id):
     if request.method == "POST":
 
         producto.delete()
+
+        messages.success(
+            request,
+            "Producto eliminado correctamente."
+        )
 
         return redirect(
             "panel_productor:dashboard"

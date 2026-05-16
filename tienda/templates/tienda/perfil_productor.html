@@ -37,6 +37,13 @@
 
                 </p>
 
+                {% if productor.direccion %}
+                    <p class="opacity-75">
+                        <i class="bi bi-signpost"></i>
+                        {{ productor.direccion }}
+                    </p>
+                {% endif %}
+
                 <p class="small mt-4">
                     {{ productor.descripcion }}
                 </p>
@@ -114,7 +121,7 @@
 
                                     <strong>
 
-                                        {{ producto.precio|precio_colombiano }}
+                                        {{ producto.nombre_con_unidad }} - {{ producto.precio|precio_colombiano }}
 
                                     </strong>
 

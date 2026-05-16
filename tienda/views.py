@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.contrib import messages
 from carrito.models import PedidoItem
 from django.db.models import Sum
 from carrito.models import Pedido
@@ -45,7 +46,7 @@ def tienda(request):
         ""
     ).strip()
 
-    categoria_nombre = request.GET.get(
+    categoria_id = request.GET.get(
         "categoria",
         ""
     ).strip()
@@ -77,10 +78,10 @@ def tienda(request):
 
         )
 
-    if categoria_nombre:
+    if categoria_id:
 
         productos = productos.filter(
-            categoria__nombre__icontains=categoria_nombre
+            categoria_id=categoria_id
         )
 
     if productor_id:
@@ -110,7 +111,7 @@ def tienda(request):
         "filtros": {
 
             "q": busqueda,
-            "categoria": categoria_nombre,
+            "categoria": categoria_id,
             "productor": productor_id,
             "precio_min": precio_min,
             "precio_max": precio_max,
@@ -178,6 +179,10 @@ def perfil_productor(request, productor_id):
 def panel_productor(request):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de publicar productos."
+        )
         return redirect("/mi-panel/registro/")
 
     productor = request.user.productor
@@ -204,6 +209,10 @@ def panel_productor(request):
 def crear_producto(request):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de publicar productos."
+        )
         return redirect("/mi-panel/registro/")
 
     productor = request.user.productor
@@ -223,8 +232,18 @@ def crear_producto(request):
 
             producto.save()
 
+            messages.success(
+                request,
+                "Producto publicado correctamente."
+            )
+
             return redirect(
                 "tienda:panel_productor"
+            )
+        else:
+            messages.warning(
+                request,
+                "Completa todos los campos obligatorios."
             )
 
     else:
@@ -248,6 +267,10 @@ def crear_producto(request):
 def editar_producto(request, producto_id):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de publicar productos."
+        )
         return redirect("/mi-panel/registro/")
 
     producto = get_object_or_404(
@@ -270,8 +293,18 @@ def editar_producto(request, producto_id):
 
             form.save()
 
+            messages.success(
+                request,
+                "Producto actualizado correctamente."
+            )
+
             return redirect(
                 "tienda:panel_productor"
+            )
+        else:
+            messages.warning(
+                request,
+                "Completa todos los campos obligatorios."
             )
 
     else:
@@ -295,6 +328,10 @@ def editar_producto(request, producto_id):
 def eliminar_producto(request, producto_id):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de publicar productos."
+        )
         return redirect("/mi-panel/registro/")
 
     producto = get_object_or_404(
@@ -304,6 +341,10 @@ def eliminar_producto(request, producto_id):
 
     if producto.productor.usuario == request.user:
         producto.delete()
+        messages.success(
+            request,
+            "Producto eliminado correctamente."
+        )
 
     return redirect("tienda:panel_productor")
 
@@ -343,6 +384,10 @@ def limpiar_imagenes(request):
 def pedidos_productor(request):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de revisar ventas."
+        )
         return redirect("/mi-panel/registro/")
 
     productor = request.user.productor
@@ -389,6 +434,10 @@ def actualizar_estado_pedido(
 ):
 
     if not hasattr(request.user, "productor"):
+        messages.warning(
+            request,
+            "Debes registrarte como productor antes de gestionar pedidos."
+        )
         return redirect("/mi-panel/registro/")
 
     productor = request.user.productor
@@ -403,6 +452,10 @@ def actualizar_estado_pedido(
     )
 
     if not productos_productor.exists():
+        messages.warning(
+            request,
+            "No tienes permiso para modificar este pedido."
+        )
 
         return redirect(
             "tienda:pedidos_productor"
@@ -420,6 +473,16 @@ def actualizar_estado_pedido(
         pedido.estado = estado
 
         pedido.save()
+
+        messages.success(
+            request,
+            "Estado del pedido actualizado correctamente."
+        )
+    else:
+        messages.warning(
+            request,
+            "Estado de pedido no valido."
+        )
 
     return redirect(
         "tienda:pedidos_productor"
@@ -460,6 +523,11 @@ def detalle_producto(request, producto_id):
                 resena.usuario = request.user
 
                 resena.save()
+
+                messages.success(
+                    request,
+                    "Gracias por compartir tu opinion."
+                )
 
                 return redirect(
                     "tienda:detalle_producto",
@@ -510,12 +578,20 @@ def toggle_favorito(request, producto_id):
     if favorito.exists():
 
         favorito.delete()
+        messages.info(
+            request,
+            "Este producto ya esta en favoritos. Lo retiramos de tu lista."
+        )
 
     else:
 
         Favorito.objects.create(
             usuario=request.user,
             producto=producto
+        )
+        messages.success(
+            request,
+            "Producto agregado a favoritos."
         )
 
     return redirect(
@@ -530,7 +606,8 @@ def mis_favoritos(request):
     favoritos = Favorito.objects.filter(
         usuario=request.user
     ).select_related(
-        "producto"
+        "producto",
+        "producto__productor"
     ).order_by("-creado")
 
     return render(

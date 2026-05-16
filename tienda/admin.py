@@ -22,6 +22,7 @@ class ProductorAdmin(admin.ModelAdmin):
         "telefono",
         "whatsapp",
         "correo",
+        "direccion",
     )
 
     search_fields = (
@@ -30,6 +31,7 @@ class ProductorAdmin(admin.ModelAdmin):
         "telefono",
         "whatsapp",
         "correo",
+        "direccion",
     )
 
     fieldsets = (
@@ -46,6 +48,7 @@ class ProductorAdmin(admin.ModelAdmin):
         "fields": (
             "nombre",
             "municipio",
+            "direccion",
             "descripcion",
             "imagen"
         )
@@ -80,6 +83,8 @@ class ProductoAdmin(admin.ModelAdmin):
     list_display = (
         "nombre",
         "precio",
+        "tipo_unidad",
+        "cantidad_unidad",
         "stock",
         "disponible",
         "productor",
@@ -88,7 +93,8 @@ class ProductoAdmin(admin.ModelAdmin):
 
     list_filter = (
         "categoria",
-        "disponible"
+        "disponible",
+        "tipo_unidad",
     )
 
     search_fields = (
@@ -133,6 +139,7 @@ class ProductoAdmin(admin.ModelAdmin):
                                 "telefono": fila.get("telefono_productor", "").strip() or "Sin telefono",
                                 "whatsapp": fila.get("whatsapp_productor", "").strip(),
                                 "correo": fila.get("correo_productor", "").strip(),
+                                "direccion": fila.get("direccion_productor", "").strip(),
                                 "descripcion": "Productor regional del Tolima",
                             },
                         )
@@ -146,6 +153,10 @@ class ProductoAdmin(admin.ModelAdmin):
                             nombre=fila["nombre"].strip(),
                             descripcion=fila.get("descripcion", "").strip(),
                             precio=precio,
+                            tipo_unidad=fila.get("tipo_unidad", "unidad").strip() or "unidad",
+                            cantidad_unidad=Decimal(
+                                str(fila.get("cantidad_unidad", 1) or 1).replace(",", ".")
+                            ),
                             stock=int(fila.get("stock", 1) or 1),
                             disponible=disponible_texto in ("si", "sí", "true", "1", "disponible"),
                         )

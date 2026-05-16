@@ -9,6 +9,13 @@
 
         <div>
 
+            {% if productor.imagen %}
+                <img src="{{ productor.imagen.url }}"
+                     alt="{{ productor.nombre }}"
+                     class="rounded-circle shadow-sm mb-3"
+                     style="width:76px;height:76px;object-fit:cover;">
+            {% endif %}
+
             <span class="badge text-bg-success rounded-pill px-3 py-2 mb-3">
                 Mi negocio
             </span>
@@ -20,6 +27,13 @@
             <p class="text-muted mb-0">
                 Revisa tus ventas, pedidos y productos publicados en AgroTolima.
             </p>
+
+            {% if productor.direccion %}
+                <p class="text-muted small mb-0 mt-1">
+                    <i class="bi bi-signpost"></i>
+                    {{ productor.direccion }}
+                </p>
+            {% endif %}
 
         </div>
 
@@ -105,6 +119,35 @@
 
     </div>
 
+    <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+                <h2 class="h5 fw-bold mb-0">Resumen visual</h2>
+                <span class="text-muted small">Indicadores principales del negocio</span>
+            </div>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="text-muted small mb-1">Ventas</div>
+                    <div class="progress" style="height:10px;">
+                        <div class="progress-bar bg-success" style="width:100%;"></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-muted small mb-1">Pedidos recientes</div>
+                    <div class="progress" style="height:10px;">
+                        <div class="progress-bar bg-primary" style="width:75%;"></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-muted small mb-1">Favoritos recibidos</div>
+                    <div class="progress" style="height:10px;">
+                        <div class="progress-bar bg-danger" style="width:55%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="row g-4">
 
         <div class="col-lg-7">
@@ -141,7 +184,7 @@
                                         {% endif %}
 
                                         <div class="flex-grow-1">
-                                            <h3 class="h6 fw-bold mb-1">{{ producto.nombre }}</h3>
+                                            <h3 class="h6 fw-bold mb-1">{{ producto.nombre_con_unidad }}</h3>
                                             <p class="text-muted small mb-2">{{ producto.precio|precio_colombiano }}</p>
                                             <span class="badge {% if producto.disponible %}text-bg-success{% else %}text-bg-secondary{% endif %}">
                                                 {% if producto.disponible %}Disponible{% else %}No disponible{% endif %}
@@ -209,9 +252,9 @@
                                 </div>
                             {% endif %}
                             <div class="flex-grow-1">
-                                <strong>{{ producto.nombre }}</strong>
+                                <strong>{{ producto.nombre_con_unidad }}</strong>
                                 <div class="text-muted small">
-                                    {{ producto.unidades_vendidas|default:0 }} unidades vendidas
+                                    {{ producto.unidades_vendidas|default:0 }} {{ producto.unidad_venta|lower }}{{ producto.unidades_vendidas|default:0|pluralize }} vendidos
                                 </div>
                             </div>
                             <span class="fw-bold text-success">
@@ -248,7 +291,7 @@
                         <div class="d-flex align-items-start gap-3 py-2 border-bottom">
                             <i class="bi bi-receipt text-success fs-4"></i>
                             <div class="flex-grow-1">
-                                <strong>{{ item.producto.nombre }}</strong>
+                                <strong>{{ item.producto.nombre_con_unidad }}</strong>
                                 <div class="text-muted small">
                                     {{ item.pedido.nombre }} - {{ item.pedido.get_estado_display }}
                                 </div>

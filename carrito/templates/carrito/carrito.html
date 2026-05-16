@@ -33,7 +33,7 @@
                                         <img src="{{ item.producto.imagen.url }}" alt="{{ item.producto.nombre }}">
                                     {% endif %}
                                     <div>
-                                        <strong>{{ item.producto.nombre }}</strong>
+                                        <strong>{{ item.producto.nombre_con_unidad }}</strong>
                                         <span>{{ item.producto.productor.nombre }}</span>
                                     </div>
                                 </div>
@@ -64,11 +64,11 @@
                                             inputmode="numeric">
                                         <button type="submit">Actualizar</button>
                                     </div>
-                                    <small>Stock: {{ item.producto.stock }}</small>
+                                    <small>Stock: {{ item.producto.stock }} {{ item.producto.unidad_venta|lower }}{{ item.producto.stock|pluralize }}</small>
                                 </form>
                             </td>
 
-                            <td>{{ item.producto.precio|precio_colombiano }}</td>
+                            <td>{{ item.producto.precio|precio_colombiano }} / {{ item.producto.unidad_venta|lower }}</td>
                             <td><strong>{{ item.subtotal|precio_colombiano }}</strong></td>
 
                             <td>

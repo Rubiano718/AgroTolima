@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from django.db import transaction
 from django.core.mail import send_mail
 from django.conf import settings
 from django.urls import reverse
@@ -94,9 +95,12 @@ def agregar_carrito(request, producto_id):
 
     id_str = str(producto_id)
 
-    cantidad = int(
-        request.POST.get("cantidad", 1)
-    )
+    try:
+        cantidad = int(
+            request.POST.get("cantidad", 1) or 1
+        )
+    except (TypeError, ValueError):
+        cantidad = 1
 
     producto = get_object_or_404(
         Producto,
@@ -112,24 +116,34 @@ def agregar_carrito(request, producto_id):
 
         return redirect("tienda:Tienda")
 
-    cantidad = max(
-        1,
-        min(cantidad, producto.stock)
-    )
+    cantidad_actual = carrito.get(id_str, {}).get("cantidad", 0)
+    cantidad_solicitada = cantidad_actual + max(1, cantidad)
+
+    if cantidad_solicitada > producto.stock:
+        messages.warning(
+            request,
+            "La cantidad supera el stock disponible."
+        )
+        return redirect("carrito:carrito")
 
     if id_str in carrito:
 
-        carrito[id_str]["cantidad"] += cantidad
+        carrito[id_str]["cantidad"] = cantidad_solicitada
 
     else:
 
         carrito[id_str] = {
-            "cantidad": cantidad
+            "cantidad": max(1, cantidad)
         }
 
     request.session["carrito"] = carrito
 
     request.session.modified = True
+
+    messages.success(
+        request,
+        f"{producto.nombre_con_unidad} agregado al carrito."
+    )
 
     return redirect("carrito:carrito")
 
@@ -199,10 +213,12 @@ def actualizar_cantidad(request, producto_id):
 
     else:
 
-        cantidad = min(
-            cantidad,
-            producto.stock
-        )
+        if cantidad > producto.stock:
+            messages.warning(
+                request,
+                "La cantidad supera el stock disponible."
+            )
+            return redirect("carrito:carrito")
 
         carrito[id_str] = {
             "cantidad": cantidad
@@ -227,6 +243,13 @@ def actualizar_cantidad(request, producto_id):
 def eliminar_carrito(request, producto_id):
 
     carrito = obtener_carrito(request)
+
+    if not carrito:
+        messages.warning(
+            request,
+            "Tu carrito esta vacio."
+        )
+        return redirect("carrito:carrito")
 
     id_str = str(producto_id)
 
@@ -263,6 +286,13 @@ def checkout(request):
 
     carrito = obtener_carrito(request)
 
+    if not carrito:
+        messages.warning(
+            request,
+            "Tu carrito esta vacio."
+        )
+        return redirect("carrito:carrito")
+
     productos = []
 
     total = Decimal("0.00")
@@ -273,6 +303,13 @@ def checkout(request):
             Producto,
             id=int(id_str)
         )
+
+        if datos["cantidad"] > producto.stock:
+            messages.warning(
+                request,
+                "La cantidad supera el stock disponible."
+            )
+            return redirect("carrito:carrito")
 
         subtotal = datos["cantidad"] * producto.precio
 
@@ -294,43 +331,75 @@ def checkout(request):
 
         if form.is_valid():
 
-            pedido = Pedido.objects.create(
+            with transaction.atomic():
 
-                usuario=request.user,
+                productos_bloqueados = []
 
-                nombre=form.cleaned_data["nombre"],
+                for item in productos:
+                    producto = Producto.objects.select_for_update().get(
+                        id=item["producto"].id
+                    )
 
-                correo=form.cleaned_data["correo"],
+                    if item["cantidad"] > producto.stock:
+                        messages.warning(
+                            request,
+                            "La cantidad supera el stock disponible."
+                        )
+                        return redirect("carrito:carrito")
 
-                telefono=form.cleaned_data["telefono"],
+                    productos_bloqueados.append(
+                        {
+                            "producto": producto,
+                            "cantidad": item["cantidad"],
+                            "subtotal": item["subtotal"],
+                        }
+                    )
 
-                ciudad=form.cleaned_data["ciudad"],
+                pedido = Pedido.objects.create(
 
-                direccion=form.cleaned_data["direccion"],
+                    usuario=request.user,
 
-                total=total
+                    nombre=form.cleaned_data["nombre"],
 
-            )
+                    correo=form.cleaned_data["correo"],
+
+                    telefono=form.cleaned_data["telefono"],
+
+                    ciudad=form.cleaned_data["ciudad"],
+
+                    direccion=form.cleaned_data["direccion"],
+
+                    total=total
+
+                )
 
             # =========================
             # GUARDAR PRODUCTOS PEDIDO
             # =========================
 
-            for item in productos:
+                for item in productos_bloqueados:
 
-                PedidoItem.objects.create(
+                    PedidoItem.objects.create(
 
-                    pedido=pedido,
+                        pedido=pedido,
 
-                    producto=item["producto"],
+                        producto=item["producto"],
 
-                    cantidad=item["cantidad"],
+                        cantidad=item["cantidad"],
 
-                    precio=item["producto"].precio,
+                        precio=item["producto"].precio,
 
-                    subtotal=item["subtotal"]
+                        subtotal=item["subtotal"]
 
-                )
+                    )
+
+                    item["producto"].stock -= item["cantidad"]
+                    item["producto"].disponible = item["producto"].stock > 0
+                    item["producto"].save(
+                        update_fields=["stock", "disponible"]
+                    )
+
+                productos = productos_bloqueados
 
             # =========================
             # EMAIL HTML
@@ -342,7 +411,7 @@ def checkout(request):
 
                 productos_html += f"""
                 <tr>
-                    <td>{item['producto'].nombre}</td>
+                    <td>{item['producto'].nombre_con_unidad}</td>
                     <td>{item['cantidad']}</td>
                     <td>{precio_colombiano(item['subtotal'])}</td>
                 </tr>
@@ -350,7 +419,7 @@ def checkout(request):
 
             html_message = f"""
             <h2 style="color:#198754;">
-                Gracias por comprar en AgroTolima 🌱
+                Gracias por comprar en AgroTolima
             </h2>
 
             <p>
@@ -386,7 +455,7 @@ def checkout(request):
             <br>
 
             <p>
-                Gracias por apoyar productores regionales ❤️
+                Gracias por apoyar productores regionales.
             </p>
             """
 
@@ -426,7 +495,7 @@ def checkout(request):
 
             messages.success(
                 request,
-                "Pedido realizado correctamente"
+                "Pedido realizado correctamente. El productor confirmara tu pedido pronto."
             )
 
             return render(
@@ -435,6 +504,12 @@ def checkout(request):
                 {
                     "pedido": pedido
                 }
+            )
+
+        else:
+            messages.warning(
+                request,
+                "Completa todos los campos obligatorios."
             )
 
     else:

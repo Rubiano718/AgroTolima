@@ -40,19 +40,42 @@
 
             <h2 class="text-success fw-bold mb-4">
 
-                {{ producto.precio|precio_colombiano }}
+                {{ producto.nombre_con_unidad }} - {{ producto.precio|precio_colombiano }}
 
             </h2>
 
-            <div class="mb-4">
+            <div class="mb-4 p-4 border rounded-4 bg-light">
 
-                <strong>Productor:</strong>
-                {{ producto.productor.nombre }}
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    {% if producto.productor.imagen %}
+                        <img src="{{ producto.productor.imagen.url }}"
+                             alt="{{ producto.productor.nombre }}"
+                             class="rounded-circle"
+                             style="width:72px;height:72px;object-fit:cover;">
+                    {% endif %}
+                    <div>
+                        <strong>Productor:</strong>
+                        {{ producto.productor.nombre }}
+                        <br>
+                        <strong>Municipio:</strong>
+                        {{ producto.productor.municipio }}
+                    </div>
+                </div>
 
-                <br>
+                {% if producto.productor.direccion %}
+                    <p class="mb-1">
+                        <strong>Direccion:</strong>
+                        {{ producto.productor.direccion }}
+                    </p>
+                {% endif %}
 
-                <strong>Municipio:</strong>
-                {{ producto.productor.municipio }}
+                <p class="mb-0">
+                    <strong>Venta por:</strong>
+                    {{ producto.unidad_venta }}
+                    {% if producto.cantidad_unidad %}
+                        ({{ producto.cantidad_unidad|floatformat:"-2" }} por unidad)
+                    {% endif %}
+                </p>
 
             </div>
 
@@ -161,7 +184,7 @@
 
                         <p class="text-success fw-bold">
 
-                            {{ item.precio|precio_colombiano }}
+                            {{ item.nombre_con_unidad }} - {{ item.precio|precio_colombiano }}
 
                         </p>
 

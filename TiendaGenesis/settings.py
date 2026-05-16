@@ -2,6 +2,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 import dj_database_url
+import cloudinary
 
 # ==================================================
 # BASE Y ENV
@@ -30,10 +31,16 @@ ALLOWED_HOSTS = [
 # ==================================================
 
 CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME", "demo"),
     "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
     "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
 }
+
+cloudinary.config(
+    cloud_name=CLOUDINARY_STORAGE["CLOUD_NAME"],
+    api_key=CLOUDINARY_STORAGE["API_KEY"],
+    api_secret=CLOUDINARY_STORAGE["API_SECRET"],
+)
 
 
 
@@ -161,9 +168,11 @@ WSGI_APPLICATION = 'TiendaGenesis.wsgi.application'
 
 import dj_database_url
 
+DATABASE_URL = os.getenv("DATABASE_URL", "").strip()
+
 DATABASES = {
     "default": dj_database_url.parse(
-        os.getenv("DATABASE_URL")
+        DATABASE_URL or f"sqlite:///{BASE_DIR / 'db.sqlite3'}"
     )
 }
 
@@ -258,16 +267,16 @@ LOGIN_REDIRECT_URL = '/'
 
 LOGOUT_REDIRECT_URL = '/'
 
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-
-ACCOUNT_EMAIL_REQUIRED = True
-
-ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_LOGIN_METHODS = {'email'}
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
+
+ACCOUNT_FORMS = {
+    "signup": "tienda.forms.CustomSignupForm",
+}
 
 
 SOCIALACCOUNT_QUERY_EMAIL = True

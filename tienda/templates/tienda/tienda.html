@@ -112,9 +112,14 @@
                                 <img src="{% static 'TiendaGenesisApp/img/fondo-marketplace.jpg' %}" alt="">
                             {% endif %}
 
-                            <a class="seller-chip"
+                            <a class="seller-chip d-inline-flex align-items-center gap-2"
    href="{% url 'tienda:perfil_productor' producto.productor.id %}">
 
+    {% if producto.productor.imagen %}
+        <img src="{{ producto.productor.imagen.url }}"
+             alt="{{ producto.productor.nombre }}"
+             style="width:24px;height:24px;object-fit:cover;border-radius:50%;">
+    {% endif %}
     {{ producto.productor.nombre }}
 
 </a>
@@ -161,7 +166,7 @@
     <div class="product-price-top">
 
         <strong>
-            {{ producto.precio|precio_colombiano }}
+            {{ producto.nombre_con_unidad }} - {{ producto.precio|precio_colombiano }}
         </strong>
 
         {% if producto.stock > 0 %}
@@ -175,6 +180,13 @@
     <div class="product-seller-box">
 
         <div>
+
+            {% if producto.productor.imagen %}
+                <img src="{{ producto.productor.imagen.url }}"
+                     alt="{{ producto.productor.nombre }}"
+                     class="rounded-circle mb-2"
+                     style="width:44px;height:44px;object-fit:cover;">
+            {% endif %}
 
             <small class="seller-label">
                 Productor regional

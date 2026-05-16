@@ -75,12 +75,13 @@
                                     <div>
 
                                         <strong>
-                                            {{ item.producto.nombre }}
+                                            {{ item.producto.nombre_con_unidad }}
                                         </strong>
 
                                         <p>
                                             Cantidad:
                                             {{ item.cantidad }}
+                                            {{ item.producto.unidad_venta|lower }}{{ item.cantidad|pluralize }}
                                         </p>
 
                                     </div>

@@ -39,7 +39,7 @@ def whatsapp_producto_url(producto):
         return ""
 
     mensaje = (
-        f"Hola, vi el producto {producto.nombre} en AgroTolima. "
+        f"Hola, vi el producto {producto.nombre_con_unidad} en AgroTolima. "
         "Quisiera recibir mas informacion sobre precio, disponibilidad y entrega."
     )
 

@@ -45,7 +45,7 @@
 
                         <h5 class="fw-bold">
 
-                            {{ fav.producto.nombre }}
+                            {{ fav.producto.nombre_con_unidad }}
 
                         </h5>
 
@@ -60,6 +60,11 @@
                             {{ fav.producto.precio|precio_colombiano }}
 
                         </div>
+
+                        <p class="text-muted small">
+                            <i class="bi bi-shop"></i>
+                            {{ fav.producto.productor.nombre }}
+                        </p>
 
                         <a href="{% url 'tienda:detalle_producto' fav.producto.id %}"
                            class="btn btn-success">
