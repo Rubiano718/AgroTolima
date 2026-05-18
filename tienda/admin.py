@@ -9,7 +9,8 @@ from .forms import ProductoCSVImportForm
 from .models import (
     Productor,
     CategoriaProducto,
-    Producto
+    Producto,
+    ProductoImagen
 )
 
 
@@ -182,3 +183,11 @@ class ProductoAdmin(admin.ModelAdmin):
             "admin/tienda/producto/importar_csv.html",
             {"form": form, "title": "Importar productos por CSV"},
         )
+    
+@admin.register(ProductoImagen)
+class ProductoImagenAdmin(admin.ModelAdmin):
+
+    list_display = (
+        "producto",
+        "creado",
+    )

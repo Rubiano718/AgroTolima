@@ -180,6 +180,19 @@
                                 </label>
 
                                 {{ form.imagen }}
+                                <div class="mt-4">
+
+    <label class="form-label fw-bold">
+        Fotos adicionales del producto
+    </label>
+
+    {{ form.imagenes_extra }}
+
+    <small class="text-muted">
+        Puedes subir hasta 5 fotos adicionales.
+    </small>
+
+</div>
                                 {% if form.imagen.errors %}
                                     <div class="text-danger small mt-1">{{ form.imagen.errors|striptags }}</div>
                                 {% endif %}

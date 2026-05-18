@@ -280,3 +280,24 @@ class Favorito(models.Model):
     def __str__(self):
 
         return f"{self.usuario} - {self.producto}"
+
+class ProductoImagen(models.Model):
+
+    producto = models.ForeignKey(
+        Producto,
+        on_delete=models.CASCADE,
+        related_name="imagenes"
+    )
+
+    imagen = CloudinaryField(
+        "imagen",
+        folder="productos/galeria"
+    )
+
+    creado = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    def __str__(self):
+
+        return f"Imagen de {self.producto.nombre}"

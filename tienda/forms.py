@@ -8,6 +8,7 @@ from .models import (
     Producto,
     Productor,
     Resena,
+    ProductoImagen,
     normalizar_telefono,
 )
 
@@ -133,6 +134,14 @@ class ProductoForm(forms.ModelForm):
         required=False
     )
 
+    imagenes_extra = forms.FileField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={
+            "class": "form-control",
+            "multiple": True,
+            "accept": "image/png,image/jpeg,image/webp,image/gif"
+        })
+    )
     class Meta:
         model = Producto
         exclude = ("productor",)

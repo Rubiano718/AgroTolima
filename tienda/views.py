@@ -3,7 +3,7 @@ from django.contrib import messages
 from carrito.models import PedidoItem
 from django.db.models import Sum
 from carrito.models import Pedido
-from .models import Resena
+from .models import Resena, ProductoImagen
 from .forms import ResenaForm
 from .models import Favorito
 from django.shortcuts import (
@@ -231,6 +231,24 @@ def crear_producto(request):
             producto.productor = productor
 
             producto.save()
+
+            imagenes_extra = request.FILES.getlist("imagenes_extra")
+
+            if len(imagenes_extra) > 5:
+
+                messages.warning(
+                    request,
+                    "Solo puedes subir máximo 6 imágenes en total."
+                )
+
+                return redirect("tienda:crear_producto")
+
+            for imagen in imagenes_extra:
+
+                ProductoImagen.objects.create(
+                    producto=producto,
+                    imagen=imagen
+                )
 
             messages.success(
                 request,
