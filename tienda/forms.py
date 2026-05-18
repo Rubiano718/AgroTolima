@@ -135,13 +135,13 @@ class ProductoForm(forms.ModelForm):
     )
 
     imagenes_extra = forms.FileField(
-        required=False,
-        widget=forms.ClearableFileInput(attrs={
-            "class": "form-control",
-            "multiple": True,
-            "accept": "image/png,image/jpeg,image/webp,image/gif"
-        })
-    )
+    required=False,
+    widget=forms.FileInput(attrs={
+        "class": "form-control",
+        "multiple": True,
+        "accept": "image/png,image/jpeg,image/webp,image/gif"
+    })
+)
     class Meta:
         model = Producto
         exclude = ("productor",)
