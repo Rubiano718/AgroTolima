@@ -16,7 +16,8 @@ from tienda.models import (
     Producto,
     CategoriaProducto,
     Productor,
-    ProductoImagen
+    ProductoImagen,
+    Favorito
 )
 
 from .forms import (
