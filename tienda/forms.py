@@ -135,12 +135,7 @@ class ProductoForm(forms.ModelForm):
     )
 
     imagenes_extra = forms.FileField(
-    required=False,
-    widget=forms.FileInput(attrs={
-        "class": "form-control",
-        "multiple": True,
-        "accept": "image/png,image/jpeg,image/webp,image/gif"
-    })
+    required=False
 )
     class Meta:
         model = Producto

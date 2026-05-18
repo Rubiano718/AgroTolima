@@ -173,31 +173,44 @@
 
                             </div>
 
-                            <div class="mb-5">
+                           <div class="mb-5">
 
-                                <label class="form-label fw-bold">
-                                    Imagen del producto
-                                </label>
+    <label class="form-label fw-bold">
+        Imagen principal del producto
+    </label>
 
-                                {{ form.imagen }}
-                                <div class="mt-4">
+    {{ form.imagen }}
+
+    <small class="text-muted d-block mt-2">
+        Debes subir mínimo 1 imagen principal.
+    </small>
+
+    {% if form.imagen.errors %}
+        <div class="text-danger small mt-1">
+            {{ form.imagen.errors|striptags }}
+        </div>
+    {% endif %}
+
+</div>
+
+<div class="mb-5">
 
     <label class="form-label fw-bold">
         Fotos adicionales del producto
     </label>
 
-    {{ form.imagenes_extra }}
+    <input
+        type="file"
+        name="imagenes_extra"
+        multiple
+        class="form-control"
+        accept="image/png,image/jpeg,image/webp,image/gif">
 
-    <small class="text-muted">
+    <small class="text-muted d-block mt-2">
         Puedes subir hasta 5 fotos adicionales.
     </small>
 
 </div>
-                                {% if form.imagen.errors %}
-                                    <div class="text-danger small mt-1">{{ form.imagen.errors|striptags }}</div>
-                                {% endif %}
-
-                            </div>
 
                             <button type="submit"
                                     class="btn btn-success btn-lg rounded-4 w-100 py-3 fw-bold">
