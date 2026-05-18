@@ -3,136 +3,158 @@
 
 {% block content %}
 
-<section class="checkout-section">
+<section class="checkout-modern">
 
-    <div class="checkout-container">
+    <div class="container py-5">
 
-        <div class="checkout-left">
+        <div class="row g-5">
 
-            <span class="checkout-badge">
-                Finalizar compra
-            </span>
+            <!-- FORMULARIO -->
+            <div class="col-lg-7">
 
-            <h1>
-                Información de entrega
-            </h1>
+                <div class="checkout-card">
 
-            <p>
-                Completa tus datos para confirmar el pedido.
-            </p>
+                    <span class="checkout-step">
+                        Paso final
+                    </span>
 
-            <form method="post" novalidate>
+                    <h1 class="checkout-title">
+                        Información de entrega
+                    </h1>
 
-                {% csrf_token %}
+                    <p class="checkout-subtitle">
+                        Completa tus datos para recibir tu pedido regional.
+                    </p>
 
-                <div class="checkout-form">
+                    <form method="post">
 
-                    {% if form.non_field_errors %}
-                        <div class="alert alert-warning">
-                            {{ form.non_field_errors|striptags }}
-                        </div>
-                    {% endif %}
+                        {% csrf_token %}
 
-                    {% for field in form %}
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold" for="{{ field.id_for_label }}">
-                                {{ field.label }}
-                            </label>
-                            {{ field }}
-                            {% if field.errors %}
-                                <div class="text-danger small mt-1">
-                                    {{ field.errors|striptags }}
-                                </div>
-                            {% endif %}
-                        </div>
-                    {% endfor %}
+                        <div class="row g-4">
 
-                </div>
+                            <div class="col-md-6">
 
-                <button type="submit"
-                        class="checkout-button">
+                                <label class="form-label">
+                                    Nombre completo
+                                </label>
 
-                    Confirmar pedido
+                                {{ form.nombre }}
 
-                </button>
+                            </div>
 
-            </form>
+                            <div class="col-md-6">
 
-        </div>
+                                <label class="form-label">
+                                    Correo electrónico
+                                </label>
 
-        <div class="checkout-right">
+                                {{ form.correo }}
 
-            <h2>
-                Resumen del pedido
-            </h2>
+                            </div>
 
-            <div class="checkout-products">
+                            <div class="col-md-6">
 
-                {% for item in productos %}
+                                <label class="form-label">
+                                    Teléfono
+                                </label>
 
-                    <div class="checkout-item">
+                                {{ form.telefono }}
 
-                        <div class="d-flex gap-3 align-items-center">
+                            </div>
 
-                            {% if item.producto.imagen %}
+                            <div class="col-md-6">
 
-                                <img src="{{ item.producto.imagen.url }}"
-                                     style="width:70px;
-                                            height:70px;
-                                            object-fit:cover;
-                                            border-radius:14px;">
+                                <label class="form-label">
+                                    Ciudad
+                                </label>
 
-                            {% endif %}
+                                {{ form.ciudad }}
 
-                            <div>
+                            </div>
 
-                                <strong>
-                                    {{ item.producto.nombre_con_unidad }}
-                                </strong>
+                            <div class="col-12">
 
-                                <p class="mb-1">
+                                <label class="form-label">
+                                    Dirección exacta
+                                </label>
 
-                                    Cantidad:
-                                    {{ item.cantidad }}
-                                    {{ item.producto.unidad_venta|lower }}{{ item.cantidad|pluralize }}
-
-                                </p>
-
-                                <small class="text-success fw-bold">
-
-                                    {{ item.subtotal|precio_colombiano }}
-
-                                </small>
+                                {{ form.direccion }}
 
                             </div>
 
                         </div>
 
-                    </div>
+                        <button type="submit"
+                                class="btn btn-success btn-lg w-100 mt-5">
 
-                    <hr>
+                            <i class="bi bi-bag-check-fill"></i>
 
-                {% empty %}
+                            Confirmar pedido
 
-                    <p>
-                        No hay productos en el carrito.
-                    </p>
+                        </button>
 
-                {% endfor %}
+                    </form>
+
+                </div>
 
             </div>
 
-            <div class="checkout-total">
+            <!-- RESUMEN -->
+            <div class="col-lg-5">
 
-                <strong>
-                    Total
-                </strong>
+                <div class="checkout-summary">
 
-                <strong>
+                    <h2>
+                        Resumen del pedido
+                    </h2>
 
-                    {{ total|precio_colombiano }}
+                    {% for item in productos %}
 
-                </strong>
+                        <div class="summary-item">
+
+                            <div class="summary-image">
+
+                                {% if item.producto.imagen %}
+
+                                    <img src="{{ item.producto.imagen.url }}"
+                                         alt="{{ item.producto.nombre }}">
+
+                                {% endif %}
+
+                            </div>
+
+                            <div class="summary-info">
+
+                                <h5>
+                                    {{ item.producto.nombre }}
+                                </h5>
+
+                                <p>
+                                    Cantidad:
+                                    {{ item.cantidad }}
+                                </p>
+
+                                <strong>
+                                    {{ item.subtotal|precio_colombiano }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                    <div class="summary-total">
+
+                        <span>Total</span>
+
+                        <strong>
+                            {{ total|precio_colombiano }}
+                        </strong>
+
+                    </div>
+
+                </div>
 
             </div>
 

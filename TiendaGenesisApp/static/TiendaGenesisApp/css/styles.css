@@ -3938,3 +3938,111 @@ FOOTER
 .product-title-link:hover{
     color: #198754;
 }   
+.checkout-modern{
+    background:#f5f7fb;
+    min-height:100vh;
+}
+
+.checkout-card{
+    background:white;
+    padding:45px;
+    border-radius:28px;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+}
+
+.checkout-step{
+    background:#e8fff0;
+    color:#198754;
+    padding:8px 18px;
+    border-radius:50px;
+    font-weight:600;
+    display:inline-block;
+    margin-bottom:20px;
+}
+
+.checkout-title{
+    font-size:2.2rem;
+    font-weight:800;
+    margin-bottom:10px;
+}
+
+.checkout-subtitle{
+    color:#6c757d;
+    margin-bottom:35px;
+}
+
+.checkout-card input{
+    width:100%;
+    border:1px solid #dfe5ec;
+    border-radius:14px;
+    padding:14px 18px;
+    font-size:15px;
+    transition:.3s;
+}
+
+.checkout-card input:focus{
+    border-color:#198754;
+    box-shadow:0 0 0 4px rgba(25,135,84,.15);
+    outline:none;
+}
+
+.checkout-summary{
+    background:white;
+    border-radius:28px;
+    padding:35px;
+    box-shadow:0 10px 30px rgba(0,0,0,.06);
+    position:sticky;
+    top:120px;
+}
+
+.checkout-summary h2{
+    font-weight:800;
+    margin-bottom:30px;
+}
+
+.summary-item{
+    display:flex;
+    gap:18px;
+    margin-bottom:25px;
+    padding-bottom:25px;
+    border-bottom:1px solid #eee;
+}
+
+.summary-image img{
+    width:90px;
+    height:90px;
+    object-fit:cover;
+    border-radius:18px;
+}
+
+.summary-info h5{
+    font-weight:700;
+    margin-bottom:8px;
+}
+
+.summary-info p{
+    color:#6c757d;
+    margin-bottom:6px;
+}
+
+.summary-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-top:30px;
+    font-size:1.3rem;
+    font-weight:800;
+}
+
+@media(max-width:991px){
+
+    .checkout-card,
+    .checkout-summary{
+        padding:25px;
+    }
+
+    .checkout-title{
+        font-size:1.8rem;
+    }
+
+}
