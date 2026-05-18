@@ -36,9 +36,9 @@
             <div class="quick-categories" aria-label="Categorias destacadas">
                 <a href="{% url 'tienda:Tienda' %}">Todos</a>
                 {% for categoria in categorias|slice:":6" %}
-                    <a href="{% url 'tienda:Tienda' %}?categoria={{ categoria.id }}">
-                        {{ categoria.nombre }}
-                    </a>
+                    <a href="{% url 'tienda:Categoria' categoria.id %}">
+    {{ categoria.nombre }}
+</a>
                 {% endfor %}
             </div>
         </div>
