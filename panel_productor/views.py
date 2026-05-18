@@ -252,10 +252,19 @@ def crear_producto(request):
 
             producto.save()
 
+            imagenes_extra = request.FILES.getlist("imagenes_extra")
+
+            for imagen in imagenes_extra[:5]:
+
+             ProductoImagen.objects.create(
+              producto=producto,
+              imagen=imagen
+               )
+
             messages.success(
-                request,
+              request,
                 "Producto publicado correctamente."
-            )
+              )
 
             return redirect(
                 "panel_productor:dashboard"
@@ -310,7 +319,20 @@ def editar_producto(request, producto_id):
 
         if form.is_valid():
 
-            form.save()
+            producto = form.save()
+
+            imagenes_extra = request.FILES.getlist("imagenes_extra")
+
+            imagenes_actuales = producto.imagenes.count()
+
+            espacios_disponibles = max(0, 5 - imagenes_actuales)
+
+            for imagen in imagenes_extra[:espacios_disponibles]:
+
+                ProductoImagen.objects.create(
+                    producto=producto,
+                    imagen=imagen
+                )
 
             messages.success(
                 request,
@@ -320,6 +342,7 @@ def editar_producto(request, producto_id):
             return redirect(
                 "panel_productor:dashboard"
             )
+
         else:
             messages.warning(
                 request,

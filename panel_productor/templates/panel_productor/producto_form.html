@@ -5,64 +5,140 @@
 <section class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
+
             <div class="card shadow border-0 rounded-4 overflow-hidden">
+
                 <div class="row g-0">
+
                     <div class="col-lg-4 bg-success text-white p-4 p-lg-5">
-                        <span class="badge bg-light text-success mb-3">Mi negocio</span>
-                        <h1 class="h3 fw-bold">{{ titulo }}</h1>
+
+                        <span class="badge bg-light text-success mb-3">
+                            Mi negocio
+                        </span>
+
+                        <h1 class="h3 fw-bold">
+                            {{ titulo }}
+                        </h1>
+
                         <p class="mb-4">
                             Selecciona la unidad real de venta para que el comprador entienda si compra por kilo, bulto, canasta, litro o unidad.
                         </p>
+
                         <div class="small opacity-75">
-                            Ejemplos: Canasta de limon, Litro de leche, Arroba de cafe.
+                            Ejemplos: Canasta de limón, Litro de leche, Arroba de café.
                         </div>
+
                     </div>
 
                     <div class="col-lg-8">
+
                         <div class="card-body p-4 p-lg-5">
-                            <form method="post" enctype="multipart/form-data" novalidate>
+
+                            <form method="post"
+                                  enctype="multipart/form-data"
+                                  novalidate>
+
                                 {% csrf_token %}
 
                                 {% if form.non_field_errors %}
+
                                     <div class="alert alert-warning">
                                         {{ form.non_field_errors|striptags }}
                                     </div>
+
                                 {% endif %}
 
                                 <div class="row g-3">
+
                                     {% for field in form %}
+
                                         <div class="{% if field.name == 'descripcion' or field.name == 'imagen' %}col-12{% else %}col-md-6{% endif %}">
-                                            <label class="form-label fw-semibold" for="{{ field.id_for_label }}">
+
+                                            <label class="form-label fw-semibold"
+                                                   for="{{ field.id_for_label }}">
+
                                                 {{ field.label }}
+
                                             </label>
+
                                             {{ field }}
+
                                             {% if field.help_text %}
-                                                <div class="form-text">{{ field.help_text }}</div>
+
+                                                <div class="form-text">
+                                                    {{ field.help_text }}
+                                                </div>
+
                                             {% endif %}
+
                                             {% if field.errors %}
+
                                                 <div class="text-danger small mt-1">
                                                     {{ field.errors|striptags }}
                                                 </div>
+
                                             {% endif %}
+
                                         </div>
+
                                     {% endfor %}
+
+                                </div>
+
+                                <!-- FOTOS EXTRA -->
+
+                                <div class="mt-4">
+
+                                    <label class="form-label fw-semibold">
+
+                                        Fotos adicionales del producto
+
+                                    </label>
+
+                                    <input
+                                        type="file"
+                                        name="imagenes_extra"
+                                        multiple
+                                        class="form-control"
+                                        accept="image/png,image/jpeg,image/webp,image/gif">
+
+                                    <div class="form-text">
+
+                                        Puedes subir hasta 5 fotos adicionales.
+
+                                    </div>
+
                                 </div>
 
                                 <div class="d-flex flex-wrap gap-2 mt-4">
+
                                     <button class="btn btn-success px-4">
+
                                         <i class="bi bi-check-circle"></i>
+
                                         Guardar producto
+
                                     </button>
+
                                     <a href="{% url 'panel_productor:dashboard' %}"
                                        class="btn btn-outline-secondary">
+
                                         Cancelar
+
                                     </a>
+
                                 </div>
+
                             </form>
+
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
     </div>
 </section>

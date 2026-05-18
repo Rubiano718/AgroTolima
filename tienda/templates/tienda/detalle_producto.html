@@ -9,17 +9,11 @@
 
         <div class="col-lg-6">
 
-            <div id="carouselProducto"
-     class="carousel slide"
-     data-bs-ride="carousel">
-
-    <div class="carousel-inner rounded-4 shadow">
-
         <div id="carouselProducto"
      class="carousel slide"
      data-bs-ride="carousel">
 
-    <div class="carousel-inner rounded-4 shadow">
+     <div class="carousel-inner rounded-4 shadow">
 
         {% if producto.imagen %}
 
@@ -35,7 +29,7 @@
 
         {% for imagen in producto.imagenes.all %}
 
-            <div class="carousel-item">
+            <div class="carousel-item {% if not producto.imagen and forloop.first %}active{% endif %}">
 
                 <img src="{{ imagen.imagen.url }}"
                      class="d-block w-100"
@@ -47,23 +41,27 @@
 
     </div>
 
-    <button class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselProducto"
-            data-bs-slide="prev">
+    {% if producto.imagenes.all or producto.imagen %}
 
-        <span class="carousel-control-prev-icon"></span>
+        <button class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselProducto"
+                data-bs-slide="prev">
 
-    </button>
+            <span class="carousel-control-prev-icon"></span>
 
-    <button class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselProducto"
-            data-bs-slide="next">
+        </button>
 
-        <span class="carousel-control-next-icon"></span>
+        <button class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselProducto"
+                data-bs-slide="next">
 
-    </button>
+            <span class="carousel-control-next-icon"></span>
+
+        </button>
+
+    {% endif %}
 
 </div>
 
