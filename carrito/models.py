@@ -37,12 +37,21 @@ class Pedido(models.Model):
         max_length=30
     )
 
-    ciudad = models.CharField(
-        max_length=100
+    departamento = models.CharField(
+        max_length=120
+    )
+
+    municipio = models.CharField(
+        max_length=120
     )
 
     direccion = models.CharField(
         max_length=255
+    )
+
+    informacion_adicional = models.TextField(
+        blank=True,
+        null=True
     )
 
     total = models.DecimalField(

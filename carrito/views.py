@@ -357,21 +357,25 @@ def checkout(request):
 
                 pedido = Pedido.objects.create(
 
-                    usuario=request.user,
+    usuario=request.user,
 
-                    nombre=form.cleaned_data["nombre"],
+    nombre=form.cleaned_data["nombre"],
 
-                    correo=form.cleaned_data["correo"],
+    correo=form.cleaned_data["correo"],
 
-                    telefono=form.cleaned_data["telefono"],
+    telefono=form.cleaned_data["telefono"],
 
-                    ciudad=form.cleaned_data["ciudad"],
+    departamento=form.cleaned_data["departamento"],
 
-                    direccion=form.cleaned_data["direccion"],
+    municipio=form.cleaned_data["municipio"],
 
-                    total=total
+    direccion=form.cleaned_data["direccion"],
 
-                )
+    informacion_adicional=form.cleaned_data["informacion_adicional"],
+
+    total=total
+
+)
 
             # =========================
             # GUARDAR PRODUCTOS PEDIDO

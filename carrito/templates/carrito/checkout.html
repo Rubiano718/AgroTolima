@@ -64,13 +64,23 @@
 
                             <div class="col-md-6">
 
-                                <label class="form-label">
-                                    Ciudad
-                                </label>
+                           <label class="form-label">
+                            Departamento
+                             </label>
 
-                                {{ form.ciudad }}
+                            {{ form.departamento }}
 
                             </div>
+
+                         <div class="col-md-6">
+
+                        <label class="form-label">
+                         Municipio
+                         </label>
+
+                         {{ form.municipio }}
+
+                        </div>
 
                             <div class="col-12">
 
@@ -79,6 +89,15 @@
                                 </label>
 
                                 {{ form.direccion }}
+                                <div class="mt-4">
+
+    <label class="form-label">
+        Información adicional
+    </label>
+
+    {{ form.informacion_adicional }}
+
+</div>
 
                             </div>
 
@@ -163,5 +182,93 @@
     </div>
 
 </section>
+<script>
 
+const municipiosPorDepartamento = {
+
+    "Tolima": [
+        "Ibagué",
+        "Espinal",
+        "Melgar",
+        "Honda",
+        "Chaparral",
+        "Líbano",
+        "Mariquita",
+        "Purificación",
+        "Guamo",
+        "Flandes"
+    ],
+
+    "Antioquia": [
+        "Medellín",
+        "Bello",
+        "Itagüí",
+        "Envigado",
+        "Rionegro"
+    ],
+
+    "Cundinamarca": [
+        "Bogotá",
+        "Soacha",
+        "Zipaquirá",
+        "Facatativá",
+        "Girardot"
+    ],
+
+    "Valle del Cauca": [
+        "Cali",
+        "Palmira",
+        "Buenaventura",
+        "Tuluá"
+    ],
+
+    "Santander": [
+        "Bucaramanga",
+        "Floridablanca",
+        "Girón"
+    ]
+};
+
+const departamentoSelect = document.getElementById("departamento-select");
+
+const municipioSelect = document.getElementById("municipio-select");
+
+function cargarMunicipios() {
+
+    const departamento = departamentoSelect.value;
+
+    municipioSelect.innerHTML = "";
+
+    const optionDefault = document.createElement("option");
+
+    optionDefault.value = "";
+
+    optionDefault.textContent = "Selecciona un municipio";
+
+    municipioSelect.appendChild(optionDefault);
+
+    if (municipiosPorDepartamento[departamento]) {
+
+        municipiosPorDepartamento[departamento].forEach((municipio) => {
+
+            const option = document.createElement("option");
+
+            option.value = municipio;
+
+            option.textContent = municipio;
+
+            municipioSelect.appendChild(option);
+
+        });
+
+    }
+
+}
+
+departamentoSelect.addEventListener(
+    "change",
+    cargarMunicipios
+);
+
+</script>
 {% endblock %}
