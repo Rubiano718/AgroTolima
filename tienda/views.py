@@ -17,10 +17,11 @@ from django.http import HttpResponse
 
 from django.contrib.auth.decorators import login_required
 
-from tienda.models import (
+from .models import (
     Producto,
     CategoriaProducto,
-    Productor
+    Productor,
+    ProductoImagen
 )
 
 from .forms import ProductoForm
@@ -233,6 +234,13 @@ def crear_producto(request):
             producto.save()
 
             imagenes_extra = request.FILES.getlist("imagenes_extra")
+
+            for imagen in imagenes_extra[:5]:
+
+              ProductoImagen.objects.create(
+               producto=producto,
+            imagen=imagen
+               )
 
             if len(imagenes_extra) > 5:
 

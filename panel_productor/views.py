@@ -13,9 +13,10 @@ from carrito.models import (
 )
 
 from tienda.models import (
-    Favorito,
+    Producto,
+    CategoriaProducto,
     Productor,
-    Producto
+    ProductoImagen
 )
 
 from .forms import (
