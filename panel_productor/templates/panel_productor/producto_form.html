@@ -3,12 +3,16 @@
 {% block content %}
 
 <section class="container py-5">
+
     <div class="row justify-content-center">
+
         <div class="col-lg-10">
 
             <div class="card shadow border-0 rounded-4 overflow-hidden">
 
                 <div class="row g-0">
+
+                    <!-- PANEL IZQUIERDO -->
 
                     <div class="col-lg-4 bg-success text-white p-4 p-lg-5">
 
@@ -30,6 +34,8 @@
 
                     </div>
 
+                    <!-- FORMULARIO -->
+
                     <div class="col-lg-8">
 
                         <div class="card-body p-4 p-lg-5">
@@ -50,72 +56,193 @@
 
                                 <div class="row g-3">
 
-                                    {% for field in form %}
+                                    <!-- CATEGORIA -->
 
-                                        <div class="{% if field.name == 'descripcion' or field.name == 'imagen' %}col-12{% else %}col-md-6{% endif %}">
+                                    <div class="col-md-6">
 
-                                            <label class="form-label fw-semibold"
-                                                   for="{{ field.id_for_label }}">
+                                        <label class="form-label fw-semibold">
+                                            Categoria
+                                        </label>
 
-                                                {{ field.label }}
+                                        {{ form.categoria }}
 
+                                        {% if form.categoria.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {{ form.categoria.errors|striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- NOMBRE -->
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label fw-semibold">
+                                            Nombre
+                                        </label>
+
+                                        {{ form.nombre }}
+
+                                        {% if form.nombre.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {{ form.nombre.errors|striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- DESCRIPCION -->
+
+                                    <div class="col-12">
+
+                                        <label class="form-label fw-semibold">
+                                            Descripcion
+                                        </label>
+
+                                        {{ form.descripcion }}
+
+                                        {% if form.descripcion.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {{ form.descripcion.errors|striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- PRECIO -->
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label fw-semibold">
+                                            Precio
+                                        </label>
+
+                                        {{ form.precio }}
+
+                                        {% if form.precio.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {{ form.precio.errors|striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- STOCK -->
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label fw-semibold">
+                                            Stock
+                                        </label>
+
+                                        {{ form.stock }}
+
+                                        {% if form.stock.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {{ form.stock.errors|striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- UNIDAD -->
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label fw-semibold">
+                                            Unidad
+                                        </label>
+
+                                        {{ form.tipo_unidad }}
+
+                                        {% if form.tipo_unidad.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {{ form.tipo_unidad.errors|striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- CANTIDAD -->
+
+                                    <div class="col-md-6">
+
+                                        <label class="form-label fw-semibold">
+                                            Cantidad por unidad
+                                        </label>
+
+                                        {{ form.cantidad_unidad }}
+
+                                        {% if form.cantidad_unidad.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {{ form.cantidad_unidad.errors|striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- DISPONIBLE -->
+
+                                    <div class="col-12">
+
+                                        <div class="form-check mt-2">
+
+                                            {{ form.disponible }}
+
+                                            <label class="form-check-label">
+                                                Producto disponible
                                             </label>
-
-                                            {{ field }}
-
-                                            {% if field.help_text %}
-
-                                                <div class="form-text">
-                                                    {{ field.help_text }}
-                                                </div>
-
-                                            {% endif %}
-
-                                            {% if field.errors %}
-
-                                                <div class="text-danger small mt-1">
-                                                    {{ field.errors|striptags }}
-                                                </div>
-
-                                            {% endif %}
 
                                         </div>
 
-                                    {% endfor %}
+                                    </div>
+
+                                    <!-- IMAGEN PRINCIPAL -->
+
+                                    <div class="col-12">
+
+                                        <label class="form-label fw-semibold">
+                                            Imagen principal
+                                        </label>
+
+                                        {{ form.imagen }}
+
+                                        {% if form.imagen.errors %}
+                                            <div class="text-danger small mt-1">
+                                                {{ form.imagen.errors|striptags }}
+                                            </div>
+                                        {% endif %}
+
+                                    </div>
+
+                                    <!-- IMAGENES EXTRA -->
+
+                                    <div class="col-12">
+
+                                        <label class="form-label fw-semibold">
+                                            Imagenes extra del producto
+                                        </label>
+
+                                        <input
+                                            type="file"
+                                            name="imagenes_extra"
+                                            multiple
+                                            class="form-control"
+                                            accept="image/png,image/jpeg,image/webp,image/gif"
+                                        >
+
+                                        <div class="form-text">
+
+                                            Puedes seleccionar varias imagenes AL MISMO TIEMPO usando CTRL.
+
+                                        </div>
+
+                                    </div>
 
                                 </div>
 
-                                <!-- FOTOS EXTRA -->
-
-                                <div class="col-12">
-
-    <label class="form-label fw-semibold">
-        Imagen principal
-    </label>
-
-    {{ form.imagen }}
-
-</div>
-
-<div class="col-12">
-
-    <label class="form-label fw-semibold">
-        Imagenes extra del producto
-    </label>
-
-    <input
-        type="file"
-        name="imagenes_extra"
-        multiple
-        class="form-control"
-        accept="image/*"
-    >
-
-    <div class="form-text">
-        Puedes seleccionar varias imagenes AL MISMO TIEMPO.
-    </div>
-
-</div>
+                                <!-- BOTONES -->
 
                                 <div class="d-flex flex-wrap gap-2 mt-4">
 
@@ -147,7 +274,9 @@
             </div>
 
         </div>
+
     </div>
+
 </section>
 
 {% endblock %}
