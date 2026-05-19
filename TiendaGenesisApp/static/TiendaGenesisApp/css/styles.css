@@ -4103,3 +4103,58 @@ input[type="submit"]:hover{
     }
 
 }
+/* =========================================
+CAROUSEL PRODUCTO ESTILO MODERNO
+========================================= */
+
+.carousel-control-prev,
+.carousel-control-next{
+    width:8%;
+    opacity:0;
+    transition:0.3s;
+    background:none !important;
+}
+
+.carousel:hover .carousel-control-prev,
+.carousel:hover .carousel-control-next{
+    opacity:1;
+}
+
+/* FLECHAS */
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+    background-color:rgba(0,0,0,0.55);
+    border-radius:50%;
+    padding:22px;
+    background-size:55% 55%;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .carousel-control-prev,
+    .carousel-control-next{
+        opacity:0 !important;
+    }
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon{
+        display:none;
+    }
+
+}
+
+/* PUNTICOS */
+
+.carousel-indicators [data-bs-target]{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    background-color:#000;
+}
+
+.carousel-indicators .active{
+    opacity:1;
+}
