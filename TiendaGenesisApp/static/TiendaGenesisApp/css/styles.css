@@ -4081,3 +4081,25 @@ button:hover,
 input[type="submit"]:hover{
     background:#157347;
 }
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+    width:3rem;
+    height:3rem;
+}
+
+.carousel-indicators [data-bs-target]{
+    background-color:#000;
+    width:12px;
+    height:12px;
+    border-radius:50%;
+}
+
+@media (max-width:768px){
+
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon{
+        width:2.5rem;
+        height:2.5rem;
+    }
+
+}

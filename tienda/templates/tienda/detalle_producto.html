@@ -7,100 +7,93 @@
 
     <div class="row g-5 align-items-start">
 
+        <!-- GALERIA -->
         <div class="col-lg-6">
 
-        <div id="carouselProducto"
-     class="carousel slide"
-     data-bs-ride="carousel">
+            <div id="carouselProducto"
+                 class="carousel slide"
+                 data-bs-ride="carousel">
 
-     <div class="carousel-inner rounded-4 shadow">
+                <div class="carousel-inner rounded-4 shadow">
 
-        {% if producto.imagen %}
+                    {% if producto.imagen %}
 
-            <div class="carousel-item active">
+                        <div class="carousel-item active">
 
-                <img src="{{ producto.imagen.url }}"
-                     class="d-block w-100"
-                     style="height:500px;object-fit:cover;">
+                            <img src="{{ producto.imagen.url }}"
+                                 class="d-block w-100"
+                                 style="height:500px;object-fit:cover;"
+                                 alt="{{ producto.nombre }}">
+
+                        </div>
+
+                    {% endif %}
+
+                    {% for imagen in producto.imagenes.all %}
+
+                        <div class="carousel-item {% if not producto.imagen and forloop.first %}active{% endif %}">
+
+                            <img src="{{ imagen.imagen.url }}"
+                                 class="d-block w-100"
+                                 style="height:500px;object-fit:cover;"
+                                 alt="{{ producto.nombre }}">
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% if producto.imagen or producto.imagenes.all %}
+
+                    <button class="carousel-control-prev"
+                            type="button"
+                            data-bs-target="#carouselProducto"
+                            data-bs-slide="prev">
+
+                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-3"></span>
+
+                    </button>
+
+                    <button class="carousel-control-next"
+                            type="button"
+                            data-bs-target="#carouselProducto"
+                            data-bs-slide="next">
+
+                        <span class="carousel-control-next-icon bg-dark rounded-circle p-3"></span>
+
+                    </button>
+
+                {% endif %}
+
+                <div class="carousel-indicators position-relative mt-3">
+
+                    {% if producto.imagen %}
+
+                        <button type="button"
+                                data-bs-target="#carouselProducto"
+                                data-bs-slide-to="0"
+                                class="active">
+                        </button>
+
+                    {% endif %}
+
+                    {% for imagen in producto.imagenes.all %}
+
+                        <button type="button"
+                                data-bs-target="#carouselProducto"
+                                data-bs-slide-to="{{ forloop.counter }}">
+                        </button>
+
+                    {% endfor %}
+
+                </div>
 
             </div>
-
-        {% endif %}
-
-        {% for imagen in producto.imagenes.all %}
-
-            <div class="carousel-item {% if not producto.imagen and forloop.first %}active{% endif %}">
-
-                <img src="{{ imagen.imagen.url }}"
-                     class="d-block w-100"
-                     style="height:500px;object-fit:cover;">
-
-            </div>
-
-        {% endfor %}
-
-    </div>
-
-    {% if producto.imagenes.all or producto.imagen %}
-
-        <button class="carousel-control-prev"
-                type="button"
-                data-bs-target="#carouselProducto"
-                data-bs-slide="prev">
-
-            <span class="carousel-control-prev-icon"></span>
-
-        </button>
-
-        <button class="carousel-control-next"
-                type="button"
-                data-bs-target="#carouselProducto"
-                data-bs-slide="next">
-
-            <span class="carousel-control-next-icon"></span>
-
-        </button>
-
-    {% endif %}
-
-</div>
-
-        {% for imagen in producto.imagenes.all %}
-
-            <div class="carousel-item {% if not producto.imagen and forloop.first %}active{% endif %}">
-
-                <img src="{{ imagen.imagen.url }}"
-                     class="d-block w-100"
-                     style="height:500px;object-fit:cover;">
-
-            </div>
-
-        {% endfor %}
-
-    </div>
-
-    <button class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselProducto"
-            data-bs-slide="prev">
-
-        <span class="carousel-control-prev-icon"></span>
-
-    </button>
-
-    <button class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselProducto"
-            data-bs-slide="next">
-
-        <span class="carousel-control-next-icon"></span>
-
-    </button>
-
-</div>
 
         </div>
 
+        <!-- INFORMACION -->
         <div class="col-lg-6">
 
             <span class="badge bg-success mb-3">
@@ -130,100 +123,119 @@
             <div class="mb-4 p-4 border rounded-4 bg-light">
 
                 <div class="d-flex align-items-center gap-3 mb-3">
+
                     {% if producto.productor.imagen %}
+
                         <img src="{{ producto.productor.imagen.url }}"
                              alt="{{ producto.productor.nombre }}"
                              class="rounded-circle"
                              style="width:72px;height:72px;object-fit:cover;">
+
                     {% endif %}
+
                     <div>
+
                         <strong>Productor:</strong>
                         {{ producto.productor.nombre }}
+
                         <br>
+
                         <strong>Municipio:</strong>
                         {{ producto.productor.municipio }}
+
                     </div>
+
                 </div>
 
                 {% if producto.productor.direccion %}
+
                     <p class="mb-1">
+
                         <strong>Direccion:</strong>
                         {{ producto.productor.direccion }}
+
                     </p>
+
                 {% endif %}
 
                 <p class="mb-0">
+
                     <strong>Venta por:</strong>
                     {{ producto.unidad_venta }}
+
                     {% if producto.cantidad_unidad %}
+
                         ({{ producto.cantidad_unidad|floatformat:"-2" }} por unidad)
+
                     {% endif %}
+
                 </p>
 
             </div>
 
+            <!-- BOTONES -->
             <div class="d-flex gap-3 flex-wrap">
 
-    <form method="post"
-          action="{% url 'carrito:agregar_carrito' producto.id %}">
+                <form method="post"
+                      action="{% url 'carrito:agregar_carrito' producto.id %}">
 
-        {% csrf_token %}
+                    {% csrf_token %}
 
-        <input type="hidden"
-               name="cantidad"
-               value="1">
+                    <input type="hidden"
+                           name="cantidad"
+                           value="1">
 
-        <button class="btn btn-success btn-lg">
+                    <button class="btn btn-success btn-lg">
 
-            <i class="bi bi-cart-plus"></i>
-            Agregar al carrito
+                        <i class="bi bi-cart-plus"></i>
+                        Agregar al carrito
 
-        </button>
+                    </button>
 
-    </form>
+                </form>
 
-    <a href="{% url 'tienda:toggle_favorito' producto.id %}"
+                <a href="{% url 'tienda:toggle_favorito' producto.id %}"
 
-   class="btn btn-lg
+                   class="btn btn-lg
 
-   {% if es_favorito %}
+                   {% if es_favorito %}
 
-        btn-danger text-white
+                        btn-danger text-white
 
-   {% else %}
+                   {% else %}
 
-        btn-outline-danger
+                        btn-outline-danger
 
-   {% endif %}">
+                   {% endif %}">
 
-    {% if es_favorito %}
+                    {% if es_favorito %}
 
-        <i class="bi bi-heart-fill"></i>
-        Guardado
+                        <i class="bi bi-heart-fill"></i>
+                        Guardado
 
-    {% else %}
+                    {% else %}
 
-        <i class="bi bi-heart"></i>
-        Favorito
+                        <i class="bi bi-heart"></i>
+                        Favorito
 
-    {% endif %}
+                    {% endif %}
 
-</a>
+                </a>
 
-    {% if producto.productor.whatsapp %}
+                {% if producto.productor.whatsapp %}
 
-        <a href="https://wa.me/57{{ producto.productor.whatsapp }}"
-           target="_blank"
-           class="btn btn-outline-success btn-lg">
+                    <a href="https://wa.me/57{{ producto.productor.whatsapp }}"
+                       target="_blank"
+                       class="btn btn-outline-success btn-lg">
 
-            <i class="bi bi-whatsapp"></i>
-            WhatsApp
+                        <i class="bi bi-whatsapp"></i>
+                        WhatsApp
 
-        </a>
+                    </a>
 
-    {% endif %}
+                {% endif %}
 
-</div>
+            </div>
 
         </div>
 
@@ -231,6 +243,7 @@
 
 </section>
 
+<!-- RELACIONADOS -->
 {% if relacionados %}
 
 <section class="container pb-5">
@@ -292,7 +305,7 @@
 
 {% endif %}
 
-
+<!-- RESEÑAS -->
 <section class="container pb-5">
 
     <div class="row g-5">
@@ -300,7 +313,9 @@
         <div class="col-lg-5">
 
             <h3 class="fw-bold mb-4">
+
                 Calificar producto
+
             </h3>
 
             {% if user.is_authenticated %}
@@ -313,7 +328,9 @@
                     <div class="mb-3">
 
                         <label class="form-label">
+
                             Calificación
+
                         </label>
 
                         {{ form.calificacion }}
@@ -323,7 +340,9 @@
                     <div class="mb-3">
 
                         <label class="form-label">
+
                             Comentario
+
                         </label>
 
                         {{ form.comentario }}
@@ -353,7 +372,9 @@
         <div class="col-lg-7">
 
             <h3 class="fw-bold mb-4">
+
                 Opiniones de clientes
+
             </h3>
 
             {% for r in resenas %}
@@ -407,11 +428,15 @@
                 <div class="empty-state">
 
                     <h3>
+
                         Aún no hay reseñas
+
                     </h3>
 
                     <p>
+
                         Sé el primero en calificar este producto.
+
                     </p>
 
                 </div>
@@ -423,4 +448,5 @@
     </div>
 
 </section>
+
 {% endblock %}

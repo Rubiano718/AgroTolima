@@ -87,28 +87,35 @@
 
                                 <!-- FOTOS EXTRA -->
 
-                                <div class="mt-4">
+                                <div class="col-12">
 
-                                    <label class="form-label fw-semibold">
+    <label class="form-label fw-semibold">
+        Imagen principal
+    </label>
 
-                                        Fotos adicionales del producto
+    {{ form.imagen }}
 
-                                    </label>
+</div>
 
-                                    <input
-                                        type="file"
-                                        name="imagenes_extra"
-                                        multiple
-                                        class="form-control"
-                                        accept="image/png,image/jpeg,image/webp,image/gif">
+<div class="col-12">
 
-                                    <div class="form-text">
+    <label class="form-label fw-semibold">
+        Imagenes extra del producto
+    </label>
 
-                                        Puedes subir hasta 5 fotos adicionales.
+    <input
+        type="file"
+        name="imagenes_extra"
+        multiple
+        class="form-control"
+        accept="image/*"
+    >
 
-                                    </div>
+    <div class="form-text">
+        Puedes seleccionar varias imagenes AL MISMO TIEMPO.
+    </div>
 
-                                </div>
+</div>
 
                                 <div class="d-flex flex-wrap gap-2 mt-4">
 
