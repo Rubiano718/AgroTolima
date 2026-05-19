@@ -245,11 +245,11 @@ elif GMAIL_EMAIL_HOST_USER and GMAIL_EMAIL_HOST_PASSWORD:
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-DEFAULT_FROM_EMAIL = "AgroTolima <camilo.rubiano@estudiantesunibague.edu.co>"
+DEFAULT_FROM_EMAIL = "AgroTolima <santorocamilo1@gmail.com>"
 
 CONTACT_EMAIL = os.getenv(
     "CONTACT_EMAIL",
-    "camilo.rubiano@estudiantesunibague.edu.co"
+    "santorocamilo1@gmail.com"
 )
 
 SENDGRID_SANDBOX_MODE_IN_DEBUG = False
