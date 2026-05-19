@@ -135,11 +135,7 @@ class ProductoForm(forms.ModelForm):
     )
 
     imagenes_extra = forms.FileField(
-    required=False,
-    widget=forms.ClearableFileInput(attrs={
-        "multiple": True,
-        "class": "form-control"
-    })
+    required=False
 )
     class Meta:
         model = Producto
