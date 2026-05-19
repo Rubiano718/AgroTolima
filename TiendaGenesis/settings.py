@@ -245,10 +245,7 @@ elif GMAIL_EMAIL_HOST_USER and GMAIL_EMAIL_HOST_PASSWORD:
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-DEFAULT_FROM_EMAIL = os.getenv(
-    "DEFAULT_FROM_EMAIL",
-    GMAIL_EMAIL_HOST_USER or "camilo.rubiano@estudiantesunibague.edu.co"
-)
+DEFAULT_FROM_EMAIL = "AgroTolima <camilo.rubiano@estudiantesunibague.edu.co>"
 
 CONTACT_EMAIL = os.getenv(
     "CONTACT_EMAIL",
@@ -270,6 +267,12 @@ LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGIN_METHODS = {'email'}
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "https"
+
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "AgroTolima | "
+
+ACCOUNT_EMAIL_UNKNOWN_ACCOUNTS = False
 
 
 ACCOUNT_SIGNUP_FIELDS = ['email*', 'password1*', 'password2*']
