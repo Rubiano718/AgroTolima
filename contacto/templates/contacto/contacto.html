@@ -67,6 +67,23 @@
                 Cada consulta llega al productor correspondiente. Esto evita que una duda
                 sobre arroz, cafe o frutas termine en manos de otro vendedor.
             </p>
+            <div class="mb-4 mt-4">
+
+    <div class="input-group">
+
+        <span class="input-group-text">
+            <i class="bi bi-search"></i>
+        </span>
+
+        <input
+            type="text"
+            id="buscar-productor"
+            class="form-control"
+            placeholder="Buscar productor o municipio...">
+
+    </div>
+
+</div>
         </div>
 
         <div class="producer-directory">
@@ -134,5 +151,33 @@
         </form>
     </div>
 </section>
+<script>
 
+const buscador = document.getElementById("buscar-productor");
+
+const productores = document.querySelectorAll(".producer-card");
+
+buscador.addEventListener("keyup", () => {
+
+    const texto = buscador.value.toLowerCase();
+
+    productores.forEach((card) => {
+
+        const contenido = card.textContent.toLowerCase();
+
+        if(contenido.includes(texto)){
+
+            card.style.display = "flex";
+
+        } else {
+
+            card.style.display = "none";
+
+        }
+
+    });
+
+});
+
+</script>
 {% endblock %}
