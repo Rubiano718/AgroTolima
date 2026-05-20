@@ -87,6 +87,12 @@
         </div>
 
         <div class="producer-directory">
+            <p id="no-results"
+   style="display:none;text-align:center;font-weight:600;">
+
+    No se encontraron productores.
+
+</p>
             {% for productor in productores %}
                 <article class="producer-card">
                     <div>
@@ -157,9 +163,13 @@ const buscador = document.getElementById("buscar-productor");
 
 const productores = document.querySelectorAll(".producer-card");
 
+const noResults = document.getElementById("no-results");
+
 buscador.addEventListener("keyup", () => {
 
     const texto = buscador.value.toLowerCase();
+
+    let encontrados = 0;
 
     productores.forEach((card) => {
 
@@ -169,6 +179,8 @@ buscador.addEventListener("keyup", () => {
 
             card.style.display = "flex";
 
+            encontrados++;
+
         } else {
 
             card.style.display = "none";
@@ -176,6 +188,16 @@ buscador.addEventListener("keyup", () => {
         }
 
     });
+
+    if(encontrados === 0){
+
+        noResults.style.display = "block";
+
+    } else {
+
+        noResults.style.display = "none";
+
+    }
 
 });
 
